@@ -1,0 +1,35 @@
+﻿@using Przuchodnia_Medyczna_Inz.Models;
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "Zarządzanie kontem";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-3">
+            <h2>Zarządzanie kontem użytkownika: <strong>@User.Identity.GetUserName()</strong></h2>
+
+            <p class="text-success">@ViewBag.StatusMessage</p>
+            <div class="row">
+                <div class="col-md-12">
+                    @if (ViewBag.HasLocalPassword)
+                    {
+                        @Html.Partial("_ChangePasswordPartial")
+                    }
+                    else
+                    {
+                        @Html.Partial("_SetPasswordPartial")
+                    }
+
+                    @*<section id="externalLogins">
+                        @Html.Action("RemoveAccountList")
+                        @Html.Partial("_ExternalLoginsListPartial", new { Action = "LinkLogin", ReturnUrl = ViewBag.ReturnUrl })
+                    </section>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

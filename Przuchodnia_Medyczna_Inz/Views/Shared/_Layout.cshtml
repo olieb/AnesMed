@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Przychodnia Medyczna</title>
+    <meta name="keywords" content="Play-Offs Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+    <script type="application/x-javascript"> addEventListener("load", function() {setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!--fonts-->
+    <link href='http://fonts.googleapis.com/css?family=Monda:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,300,100,700' rel='stylesheet' type='text/css'>
+    <!--fonts-->
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/navi")
+    @Scripts.Render("~/bundles/modernizr")
+    <!-- Include Date Range Picker -->
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+</head>
+<body>
+    <div class="header_nav" id="home">
+        <nav class="navbar navbar-default chn-gd">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("AnesMed", "Index", "Home", null, new { @class = "navbar-brand logo-st" })
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right" style="position:relative">
+                        @if (Request.IsAuthenticated && HttpContext.Current.User.IsInRole("Klient")) { 
+                            <li>
+                                <a href="@Url.Action("Home", "PacjentHome", new{ @class="scroll"})">
+                                    <span class="glyphicon glyphicon-home icn_pos hm" aria-hidden="true"></span><br>
+                                    Home
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Wizyta", new{ @class="scroll"})">
+                                    <span class="glyphicon glyphicon-calendar icn_pos hm" aria-hidden="true"></span><br>
+                                    Wizyty
+                                </a>
+                            </li>
+                           
+                        }
+                        @if (Request.IsAuthenticated && HttpContext.Current.User.IsInRole("Recepcja"))
+                        {
+                            <li>
+                                <a href="@Url.Action("Index", "Pacjent", new { @class = "scroll" })">
+                                    <span class="glyphicon glyphicon-user icn_pos" aria-hidden="true"></span><br>
+                                    Pacjenci
+                                </a>
+                            </li>
+                            
+                        }
+                        <!---->
+                        <li>
+                            <a href="#features" class="scroll">
+                                <span class="glyphicon glyphicon-cog icn_pos" aria-hidden="true"></span><br>
+                                Usługi
+                            </a>
+                        </li>
+                        <!---->
+                        <li>
+                            <a href="#doc" class="scroll">
+                                <span class="glyphicon glyphicon-briefcase icn_pos" aria-hidden="true"></span><br>
+                                Lekarze
+                            </a>
+                        </li>
+                        <!---->
+                        @*<li>
+                            <a href="#acheive" class="scroll">
+                                <span class="glyphicon glyphicon-thumbs-up icn_pos hm2" aria-hidden="true"></span><br>
+                                Achivements
+                            </a>
+                        </li>*@
+                        <!---->
+                        <li>
+                            <a href="#contact" class="scroll">
+                                <span class="glyphicon glyphicon-envelope icn_pos" aria-hidden="true"></span><br>
+                                Kontakt
+                            </a>
+                        </li>
+                        @Html.Partial("_LoginPartial")                      
+                       
+                        <!--script-->
+                        <script type="text/javascript">
+                            jQuery(document).ready(function ($) {
+                                $(".scroll").click(function (event) {
+                                    event.preventDefault();
+                                    $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 900);
+                                });
+                            });
+                        </script>
+                        <!--script-->
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+                <div class="clearfix"></div>
+            </div><!-- /.container-fluid -->
+        </nav>
+    </div>
+    @*<div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Start", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Pacjent", "Index", "Pacjent")</li>
+                    <li>@Html.ActionLink("Wizyty", "Index", "Wizyta")</li>
+                    <li>@Html.ActionLink("Autor", "About", "Home")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>*@
+    <div class="container body-content">
+        @RenderBody()
+        <footer>
+            <div class="footer" style="margin-top: 100px;">
+                <div class="container-fluid">
+                    <div class="footer-text">
+                        <h3><a href="index.html">Przychodnia AnesMed</a></h3>
+                        <p>&#169;AnesMed Design by Julia Majewska</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,134 @@
+﻿@model IEnumerable<Przuchodnia_Medyczna_Inz.Models.Wizyta>
+
+@{
+    ViewBag.Title = "Dodaj wizyte";
+}
+<br />
+@*<h2>Wizyty</h2>*@
+@using(Html.BeginForm("Index", "Wizyta", FormMethod.Post)){
+<div class="container" style="background-color: #309BBE; color: white; border-radius: 15px;">
+    <div class="row">
+        <div class="form-group">
+            <div class="col-md-3">
+                <br /><br />
+                <h4>Data od</h4>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-calendar fa fa-calendar text-info"></i>
+                    </span>
+                    <input type="text" name="startDate" value="@TempData["startDate"]" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <br /><br />
+                <h4>Data do</h4>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar fa fa-calendar text-info"></span>
+                    </span>
+                    <input type="text" name="endDate" value="@TempData["endDate"]" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-offset-3">
+                <br />
+                &nbsp;<input class="btn btn-default btn-md" type="submit" value="Szukaj" style="margin-top: 37px;" />
+            </div>
+            <br /><br />
+        </div>
+    </div>
+</div>
+}
+<br />
+<p>
+    @Html.ActionLink("Zarezerwuj", "Create")
+</p>
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        <strong>@TempData["Success"]</strong>
+    </div>
+}
+@if (@ViewBag.Wizyty > 0) { 
+<table class="table">
+    <tr>
+        <th>Pacjent</th>
+        <th>Pesel</th>
+        <th>Diagnoza</th>
+        <th>Uwagi</th>
+        <th>Data</th>
+        <th>Godzina</th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Pacjent.ImieNazwisko)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Pacjent.PESEL)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Diagnoza)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Uwagi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Godzina)
+        </td>
+        <td>
+            @Html.ActionLink("Edytuj", "Edit", new { id=item.WizytaID }) |
+            @Html.ActionLink("Anuluj", "Delete", new { id=item.WizytaID })
+        </td>
+    </tr>
+    
+    }
+
+</table>
+}
+else
+{
+    <div class="col-md-6 col-md-offset-3">
+        <h3>Nie masz zarezerwowanych wizyt.</h3>
+    </div>
+}
+<script type="text/javascript">
+    $(function(){
+        $('.input-group input[name="startDate"]').daterangepicker(
+       {
+           //startDate: moment().subtract(29, 'days'),
+           locale: {
+               format: 'DD/MM/YYYY'
+           },
+           showDropdowns: true,
+           singleDatePicker: true
+       })
+        $('.input-group input[name="endDate"]').daterangepicker(
+       {
+           //endDate: moment().subtract(-7, 'days'),
+           locale: {
+               format: 'DD/MM/YYYY'
+           },
+           showDropdowns: true,
+           singleDatePicker: true
+       })
+
+        var startDate = $(".input-group input[name='startDate']").val();
+        var endDate = $(".input-group input[name='endDate']").val();
+
+        start = startDate.split('/');
+        end = endDate.split('/');
+
+        var st = Number(start[2] + start[1] + start[0])
+        var nd = Number(end[2] + end[1] + end[0])
+
+        if (st > nd) {
+            $('.input-group input[name="endDate"]').css("border-color","red");
+            alert("Data Od("+startDate+") nie może byc późniejsza od daty Do("+endDate+").");
+        }
+    });
+</script>

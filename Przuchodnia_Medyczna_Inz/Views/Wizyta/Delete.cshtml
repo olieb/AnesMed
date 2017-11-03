@@ -1,0 +1,61 @@
+﻿@model Przuchodnia_Medyczna_Inz.Models.Wizyta
+
+@{
+    ViewBag.Title = "Anulacja";
+}
+
+<h2>Anulacja</h2>
+
+<h3>Czy napewno chcesz anulować wizytę? Wizyta nie bedzie juz dostepna na liscie.</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Diagnoza)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Diagnoza)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Uwagi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Uwagi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Data)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Data)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Godzina)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Godzina)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Pacjent.ImieNazwisko)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Pacjent.ImieNazwisko)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color col-md-offset-2">
+             <input type="submit" value="Usuń" class="btn btn-danger" /> 
+        </div>
+        @Html.ActionLink("Powrót", "Index")
+    }
+</div>

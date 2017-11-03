@@ -1,0 +1,79 @@
+﻿@model Przuchodnia_Medyczna_Inz.Models.Pacjent
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Usuwanie Pacjenta z bazy</h2>
+
+<h3>Napewno chces usunąć tego pacjenta?</h3>
+<div>
+    <div class="container">
+        <div class="row">
+            <h4>Dane Pacjenta:</h4>
+            <hr />
+            <div class="col-md-4">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ImieNazwisko)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.ImieNazwisko)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Telefon)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Telefon)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PESEL)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.PESEL)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.NIP)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.NIP)
+                    </dd>
+
+                </dl>
+            </div>
+            <div class="col-md-4 dl-horizontal">
+                <dl>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Adres.Ulica)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Adres.Ulica) @Html.DisplayFor(model => model.Adres.NrBudynku)/@Html.DisplayFor(model => model.Adres.NrMieszkania)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Adres.KodPocztowy)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Adres.KodPocztowy) @Html.DisplayFor(model => model.Adres.Miejscowosc)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Usuń" class="btn btn-default" /> |
+            @Html.ActionLink("Powrót", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,90 @@
+﻿@modelPrzuchodnia_Medyczna_Inz.Models.Pacjent
+
+@{
+    ViewBag.Title = "Edycja danych";
+}
+
+<h2>Edycja danych pacjenta</h2>
+<br />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.OsobaID)
+
+        <div class="container">
+            <hr />
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Dane osobowe:</h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>Dane adresowe:</h4>
+                    <button class="btn btn-info btn-sm" onclick="location.href='@Url.Action("Edit", "Adres", new { id = @Model.Adres.AdresID}, null)'; return false">
+                        Edytuj                   
+                    </button>                     
+                </div>
+                <br/>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Imie, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.Imie, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Imie)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Nazwisko, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.Nazwisko, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Nazwisko)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Telefon, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.Telefon, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Telefon)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PESEL, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.PESEL, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.PESEL)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.NIP, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.NIP, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.NIP)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-6 col-md-6">
+                            <input type="submit" value="Zapisz" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>     
+                <br/>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Powrót", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

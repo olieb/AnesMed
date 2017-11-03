@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Przuchodnia_Medyczna_Inz.Models.Adres>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PlacowkaMedyczna.Nazwa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Miejscowosc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ulica)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NrBudynku)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NrMieszkania)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KodPocztowy)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlacowkaMedyczna.Nazwa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Miejscowosc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ulica)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NrBudynku)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NrMieszkania)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KodPocztowy)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.AdresID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.AdresID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.AdresID })
+        </td>
+    </tr>
+}
+
+</table>

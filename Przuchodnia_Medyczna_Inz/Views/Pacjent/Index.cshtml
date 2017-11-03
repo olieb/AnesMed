@@ -1,0 +1,74 @@
+﻿@model Przuchodnia_Medyczna_Inz.ViewModel.AdresyOsobVM
+
+@{
+    ViewBag.Title = "Pacjenci";
+}
+
+<h2 class="header">Lista Pacjentów</h2>
+
+<p>
+    @Html.ActionLink("Dodaj Pacjenta", "Create")
+</p>
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">
+        <strong>@TempData["Message"]</strong> 
+    </div>
+}
+@using (Html.BeginForm()) { 
+<div class="container" style="background-color: #309BBE; color: white; border-radius: 15px;">
+    <div class="row">
+        <div class="col-md-3">
+            <br />
+            <h4>Imie Nazwisko: @Html.TextBox("imieNazwisko", null, new { @class = "form-control" })</h4>           
+        </div>
+        <div class="col-md-offset-3">
+            <br />
+            &nbsp;<input class="btn btn-success btn-sm" type="submit" value="Szukaj" style="margin-top: 30px; position:relative" />
+        </div>
+        <br /><br />
+    </div>
+</div>
+}
+<table class="table">
+    <tr>
+        <th>Imie Nazwisko</th>
+        <th>PESEL</th>
+        <th>Telefon</th>
+        <th>NIP</th>
+        <th>Adres</th>
+        <th></th>
+    </tr>
+
+ 
+   @for(int i = 0; i < Model.Pacjenci.Count(); i++ )
+   {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => Model.Pacjenci.ElementAt(i).ImieNazwisko)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => Model.Pacjenci.ElementAt(i).PESEL)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => Model.Pacjenci.ElementAt(i).Telefon)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => Model.Pacjenci.ElementAt(i).NIP)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => Model.Adresy.ElementAt(i).FullAdres)
+
+        </td>
+        <td>
+          
+            @Html.ActionLink("Wizyty", "Wizyty", new { id = Model.Pacjenci.ElementAt(i).OsobaID }) |
+            @Html.ActionLink("Edytuj", "Edit", new { id = Model.Pacjenci.ElementAt(i).OsobaID }) |
+            @Html.ActionLink("Usuń", "Delete", new { id = Model.Pacjenci.ElementAt(i).OsobaID })
+        </td>
+    </tr>
+   }
+    
+
+
+</table>

@@ -1,0 +1,72 @@
+﻿@model Przuchodnia_Medyczna_Inz.Models.Adres
+
+@{
+    ViewBag.Title = "Edycja";
+}
+
+<h2>Edycja danych adresowych:</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Adres</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.AdresID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Miejscowosc, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Miejscowosc, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Miejscowosc)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Ulica, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Ulica, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Ulica)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NrBudynku, new { @class = "control-label col-md-2" })
+            <div class="col-md-1">
+                @Html.TextBoxFor(model => model.NrBudynku, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.NrBudynku)
+            </div>
+       
+            @Html.LabelFor(model => model.NrMieszkania, new { @class = "control-label col-md-1" })
+            <div class="col-md-1">
+                @Html.TextBoxFor(model => model.NrMieszkania, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.NrMieszkania)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.KodPocztowy, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.KodPocztowy, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.KodPocztowy)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-9">
+                <input type="submit" value="Zapisz" class="btn btn-success"/>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Powrót", "Edit", "Pacjent", new { id = Model.AdresID}, null)
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
