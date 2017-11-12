@@ -10,7 +10,8 @@ namespace Przuchodnia_Medyczna_Inz
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-1.10.2.js",
-                        "~/Scripts/jquery.swipebox.min.js"));
+                        "~/Scripts/jquery.swipebox.min.js",
+                         "~/Scripts/jquery-ui.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -34,6 +35,7 @@ namespace Przuchodnia_Medyczna_Inz
                       "~/Content/css/owl.carousel.css",
                       "~/Content/css/swipebox.css",
                       "~/Content/css/datepicker.css",
+                      "~/Content/css/jquery-ui.css",
                       "~/Content/css/Site.css"));
         }
     }

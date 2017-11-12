@@ -68,9 +68,19 @@ input[type="checkbox"].input-validation-error {
     color: white;
     text-shadow: black 0.3em 0.3em 0.3em;
     background: transparent;
-
 }
-
+.add-check .active:before {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    content: "\e013";
+}
 /*/////////////////////////////////////////////////////////////////////////////////////////////*/
 
 /*
@@ -1200,4 +1210,71 @@ input.nuber {
 		min-height: 119px !important;
 		min-width: 75% !important;
 	}
+}
+
+/*Drop down on menu bar*/
+/* Dropdown Button */
+.dropbtn {
+    background-color: white;
+    padding: 4px 12px;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 500;
+    text-decoration: none;
+    color: #309BBE;
+}
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: block;
+    margin-left: 2px;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,1.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: #309BBE;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 500;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+    color: #0A0B0E;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    color: #0A0B0E !important;
+    border-radius: 2px;
+    transition: 0.6s all;
+    text-decoration: none;
+}
+
+.title{
+    color: #309BBE;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 500;
+    display: block;
+    font-size: 14px;
 }

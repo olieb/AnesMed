@@ -17,42 +17,42 @@
         <hr />
         @Html.ValidationSummary(true)
         <div class="form-group">
-            @Html.LabelFor(model => model.Imie, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Pacjent.Imie, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Imie, new { @class = "form-control", @placeholder = "Imie" })
-                @Html.ValidationMessageFor(model => model.Imie)
+                @Html.TextBoxFor(model => model.Pacjent.Imie, new { @class = "form-control", @placeholder = "Imie" })
+                @Html.ValidationMessageFor(model => model.Pacjent.Imie)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Nazwisko, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Pacjent.Nazwisko, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Nazwisko, new { @class = "form-control", @placeholder = "Nazwisko" })
-                @Html.ValidationMessageFor(model => model.Nazwisko)
+                @Html.TextBoxFor(model => model.Pacjent.Nazwisko, new { @class = "form-control", @placeholder = "Nazwisko" })
+                @Html.ValidationMessageFor(model => model.Pacjent.Nazwisko)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Telefon, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Pacjent.Telefon, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Telefon, new { @class = "form-control", @placeholder = "Numer telefonu" })
-                @Html.ValidationMessageFor(model => model.Telefon)
+                @Html.TextBoxFor(model => model.Pacjent.Telefon, new { @class = "form-control", @placeholder = "Numer telefonu" })
+                @Html.ValidationMessageFor(model => model.Pacjent.Telefon)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PESEL, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Pacjent.PESEL, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.PESEL, new { @class = "form-control", @placeholder = "Numer PESEL" })
-                @Html.ValidationMessageFor(model => model.PESEL)
+                @Html.TextBoxFor(model => model.Pacjent.PESEL, new { @class = "form-control", @placeholder = "Numer PESEL" })
+                @Html.ValidationMessageFor(model => model.Pacjent.PESEL)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.NIP, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Pacjent.NIP, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.NIP, new { @class = "form-control", @placeholder="np. 123-132-32-12" })
-                @Html.ValidationMessageFor(model => model.NIP)
+                @Html.TextBoxFor(model => model.Pacjent.NIP, new { @class = "form-control", @placeholder="np. 123-132-32-12" })
+                @Html.ValidationMessageFor(model => model.Pacjent.NIP)
             </div>
         </div><br/>
     
@@ -61,34 +61,34 @@
         <hr />
        
         <div class="form-group">
-            @Html.LabelFor(model => model.Ulica, "Ulica", new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Adres.Ulica, "Ulica", new { @class = "control-label col-md-2" })
             <div class="col-md-3">
-                @Html.TextBoxFor(m => m.Ulica, new { @class = "form-control", @placeholder= "Ulica"})
-                @Html.ValidationMessageFor(model => model.Ulica)
+                @Html.TextBoxFor(m => m.Adres.Ulica, new { @class = "form-control", @placeholder= "Ulica"})
+                @Html.ValidationMessageFor(model => model.Adres.Ulica)
             </div>
         
-            @Html.LabelFor(model => model.NrBudynku, "Nr Bud.", new { @class = "control-label col-md-1" })
+            @Html.LabelFor(model => model.Adres.NrBudynku, "Nr Bud.", new { @class = "control-label col-md-1" })
             <div class="col-md-1">
-                @Html.TextBoxFor(m => m.NrBudynku, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.NrBudynku)
+                @Html.TextBoxFor(m => m.Adres.NrBudynku, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Adres.NrBudynku)
             </div>        
         
-            @Html.LabelFor(model => model.NrMieszkania, "Nr Lokalu", new { @class = "control-label col-md-1" })
+            @Html.LabelFor(model => model.Adres.NrMieszkania, "Nr Lokalu", new { @class = "control-label col-md-1" })
             <div class="col-md-1">
-                @Html.TextBoxFor(m => m.NrMieszkania, new { @class = "form-control", @placeholder = "nr lokalu" })
-                @Html.ValidationMessageFor(model => model.NrBudynku)
+                @Html.TextBoxFor(m => m.Adres.NrMieszkania, new { @class = "form-control", @placeholder = "nr lokalu" })
+                @Html.ValidationMessageFor(model => model.Adres.NrMieszkania)
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.KodPocztowy, "Kod Pocztowy", new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Adres.KodPocztowy, "Kod Pocztowy", new { @class = "control-label col-md-2" })
             <div class="col-md-3">
-                @Html.TextBoxFor(m => m.KodPocztowy, new { @class = "form-control", @placeholder = "Kod Pocztowy" })
-                @Html.ValidationMessageFor(model => model.KodPocztowy)
+                @Html.TextBoxFor(m => m.Adres.KodPocztowy, new { @class = "form-control", @placeholder = "Kod Pocztowy" })
+                @Html.ValidationMessageFor(model => model.Adres.KodPocztowy)
             </div>
-            @Html.LabelFor(model => model.Miejscowosc, "Miejscowość", new { @class = "control-label col-md-1" })
+            @Html.LabelFor(model => model.Adres.Miejscowosc, "Miejscowość", new { @class = "control-label col-md-1" })
             <div class="col-md-3">
-                @Html.TextBoxFor(m => m.Miejscowosc, new { @class = "form-control", @placeholder ="Miejscowość" })
-                @Html.ValidationMessageFor(model => model.Miejscowosc)
+                @Html.TextBoxFor(m => m.Adres.Miejscowosc, new { @class = "form-control", @placeholder ="Miejscowość" })
+                @Html.ValidationMessageFor(model => model.Adres.Miejscowosc)
             </div>
         </div>
 

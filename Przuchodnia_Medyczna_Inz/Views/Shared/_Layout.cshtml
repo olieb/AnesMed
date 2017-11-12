@@ -36,7 +36,7 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right" style="position:relative">
-                        @if (Request.IsAuthenticated && HttpContext.Current.User.IsInRole("Klient")) { 
+                        @if (Request.IsAuthenticated && HttpContext.Current.User.IsInRole("Pacjent")) { 
                             <li>
                                 <a href="@Url.Action("Home", "PacjentHome", new{ @class="scroll"})">
                                     <span class="glyphicon glyphicon-home icn_pos hm" aria-hidden="true"></span><br>
@@ -75,6 +75,35 @@
                                 Lekarze
                             </a>
                         </li>
+                        @*@if (Request.IsAuthenticated && HttpContext.Current.User.IsInRole("Admin"))
+                        {*@
+                            <li>
+                                <div class="dropdown" style="margin-top: 2px">
+                                    <a href="#doc" class="dropbtn">
+                                        <span class="glyphicon glyphicon-user icn_pos" aria-hidden="true"></span><br>
+                                        Pracownicy
+                                    </a>
+                                    <div class="dropdown-content">
+                                        @Html.ActionLink("Lekarze", "Lekarz", "Pracownik")
+                                        @Html.ActionLink("Recepcja", "Index", "Cukierniczy")
+                                        @Html.ActionLink("Serwis", "Index", "Cukierniczy")
+                                    </div>
+                                </div>
+                            </li>  
+                        <li>
+                            <div class="dropdown" style="margin-top: 2px">
+                                <a href="#doc" class="dropbtn">
+                                    <span class="glyphicon glyphicon-paperclip icn_pos" aria-hidden="true"></span><br>
+                                    Zarzadzanie
+                                </a>
+                                <div class="dropdown-content">
+                                    @Html.ActionLink("Specjalizacja", "Index", "Specjalizacja")
+                                    @Html.ActionLink("Grafik", "Index", "Grafik")
+                                </div>
+                            </div>
+                        </li>                   
+                            
+                        @*}*@
                         <!---->
                         @*<li>
                             <a href="#acheive" class="scroll">
@@ -133,7 +162,6 @@
             </div>
         </footer>
     </div>
-
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>

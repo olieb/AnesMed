@@ -11,9 +11,12 @@ namespace Przuchodnia_Medyczna_Inz.Models
     {
         Administrator,
         Lekarz,
-        Pielęgniarka,
+        Pielegniarka,
         Sanitariusz,
-        Recepcja
+        Recepcja,
+        Konserwator,
+        Serwis_Sprzatajacy
+        
     };
     public class Stanowisko
     {

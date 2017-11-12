@@ -1,0 +1,28 @@
+﻿@model Przuchodnia_Medyczna_Inz.Models.Specjalizacja
+
+@{
+    ViewBag.Title = "Details";
+}
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h3 class="modal-title title" style="font-size: 26px;">
+                    Specjalizacja @Html.DisplayFor(model => model.Nazwa)
+                </h3>
+            </div>
+            <div class="modal-body">
+                <h4><b>Opis Specjalizacji:</b></h4>
+                <br />
+                @Html.DisplayFor(model => model.Opis)
+            </div>
+        </div>
+        <div class="modal-footer" style="margin-top: 60px;">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+        </div>
+    </div>
+</div>
+

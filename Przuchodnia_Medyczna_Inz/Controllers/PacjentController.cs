@@ -76,17 +76,17 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                     Adres adres = new Adres();
                     Pacjent pacjent = new Pacjent();
 
-                    pacjent.Imie = model.Imie;
-                    pacjent.Nazwisko = model.Nazwisko;
-                    pacjent.PESEL = model.PESEL;
-                    pacjent.NIP = model.NIP;
-                    pacjent.Telefon = model.Telefon;
+                    pacjent.Imie = model.Pacjent.Imie;
+                    pacjent.Nazwisko = model.Pacjent.Nazwisko;
+                    pacjent.PESEL = model.Pacjent.PESEL;
+                    pacjent.NIP = model.Pacjent.NIP;
+                    pacjent.Telefon = model.Pacjent.Telefon;
 
-                    adres.Ulica = model.Ulica;
-                    adres.NrBudynku = model.NrBudynku;
-                    adres.NrMieszkania = model.NrMieszkania;
-                    adres.KodPocztowy = model.KodPocztowy;
-                    adres.Miejscowosc = model.Miejscowosc;
+                    adres.Ulica = model.Adres.Ulica;
+                    adres.NrBudynku = model.Adres.NrBudynku;
+                    adres.NrMieszkania = model.Adres.NrMieszkania;
+                    adres.KodPocztowy = model.Adres.KodPocztowy;
+                    adres.Miejscowosc = model.Adres.Miejscowosc;
 
                     pacjent.Adres = adres;
 

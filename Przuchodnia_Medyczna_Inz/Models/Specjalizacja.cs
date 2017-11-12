@@ -14,7 +14,10 @@ namespace Przuchodnia_Medyczna_Inz.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int SpecjalizacjaID { get; set; }
         public string PracownikID { get; set; }
+        [Required]
+        [StringLength(20, ErrorMessage="Nazwa musi mieć dlugość, między {2} a {1} znaków.", MinimumLength = 5)]
         public string Nazwa { get; set; }
+        public string Opis { get; set; }
         [ForeignKey("PracownikID")]
         public virtual Pracownik Pracownik { get; set; }//foreignkey Pracownika
         [InverseProperty("Specjalizacja")]

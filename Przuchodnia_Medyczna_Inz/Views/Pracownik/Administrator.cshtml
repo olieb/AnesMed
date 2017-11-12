@@ -1,0 +1,51 @@
+﻿@model Przuchodnia_Medyczna_Inz.ViewModel.PracownikVM
+
+@{
+    ViewBag.Title = "Administracja";
+}
+
+<h2>Lista Administratorów</h2>
+
+<p>
+    @Html.ActionLink("Dodaj Administratora", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>Imie Nazwisko</th>
+        <th>PESEL</th>
+        <th>Telefon</th>
+        <th>Specjalizacja</th>
+        <th>Adres</th>
+        <th></th>
+    </tr>
+    @for (int i = 0; i < Model.Pracownicy.Count(); i++)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => Model.Pracownicy.ElementAt(i).ImieNazwisko)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.Pracownicy.ElementAt(i).PESEL)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.Pracownicy.ElementAt(i).Telefon)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.Pracownicy.ElementAt(i).Specjalizacja)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.Pracownicy.ElementAt(i))
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.Adresy.ElementAt(i).FullAdres)
+
+            </td>
+            <td>
+
+                @Html.ActionLink("Wizyty", "Wizyty", new { id = Model.Pracownicy.ElementAt(i).OsobaID }) |
+                @Html.ActionLink("Edytuj", "Edit", new { id = Model.Pracownicy.ElementAt(i).OsobaID }) |
+                @Html.ActionLink("Usuń", "Delete", new { id = Model.Pracownicy.ElementAt(i).OsobaID })
+            </td>
+        </tr>
+    }
+</table>

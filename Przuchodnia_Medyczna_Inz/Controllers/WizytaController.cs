@@ -61,15 +61,23 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             return View(wizyta);
         }
 
+        public ActionResult SearchLekarz(string startDate, string endDate)
+        {
+            ViewBag.Lekarz = new SelectList(db.Osoba.OfType<Pracownik>().Where(x => x.StanowiskoID == 1), "OsobaID", "ImieNazwisko");
+            ViewBag.Specjalizacja = new SelectList(db.Specjalizacja.OrderBy(x => x.Nazwa), "SpecjalizacjaID", "Nazwa");
+
+            return View();
+        }
+
         // GET: /Wizyta/Create
-        public ActionResult Create()
+        public ActionResult Create(string selectedValue )
         {
             var userId = User.Identity.GetUserId();
             var pacjent = db.Osoba.OfType<Pacjent>().Where(x => x.OsobaID.Equals(userId));
            
-            ViewBag.PacjentID = pacjent.First().OsobaID;
-            ViewBag.OsobaID = new SelectList(db.Osoba.OfType<Pacjent>(), "OsobaID", "ImieNazwisko");
-           
+            ViewBag.PacjentImie = pacjent.First().Imie;
+            ViewBag.PacjentNazwisko = pacjent.First().Nazwisko;
+            ViewBag.OsobaID = new SelectList(db.Osoba.OfType<Pacjent>(), "OsobaID", "ImieNazwisko");           
             return View();
         }
 
@@ -78,7 +86,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "WizytaID,Diagnoza,Uwagi,Data,Godzina,OsobaID,PacjentID")] Wizyta wizyta, string OsobaID, string PacjentID)
+        public ActionResult Create([Bind(Include = "WizytaID,Diagnoza,Uwagi,Data,Godzina,OsobaID,PacjentID")] Wizyta wizyta, string OsobaID, string PacjentImie, string PacjentNazwisko)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +94,8 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                 {
                     if (OsobaID == null)
                     {
-                        wizyta.PacjentID = PacjentID;
+                        wizyta.Pacjent.Imie = PacjentImie;
+                        wizyta.Pacjent.Nazwisko = PacjentNazwisko;
                     }
                     else
                     {

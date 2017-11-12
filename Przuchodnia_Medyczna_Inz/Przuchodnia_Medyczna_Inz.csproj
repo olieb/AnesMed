@@ -162,6 +162,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PacjentController.cs" />
     <Compile Include="Controllers\PacjentHomeController.cs" />
+    <Compile Include="Controllers\PracownikController.cs" />
+    <Compile Include="Controllers\SpecjalizacjaController.cs" />
     <Compile Include="Controllers\WizytaController.cs" />
     <Compile Include="DAL\PrzychodniaContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -185,11 +187,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\AdresyOsobVM.cs" />
+    <Compile Include="ViewModel\PracownikVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\datepicker.css" />
+    <Content Include="Content\css\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\css\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\css\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\css\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\css\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\css\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\css\jquery-ui.css" />
     <Content Include="Content\css\owl.carousel.css" />
     <Content Include="Content\css\swipebox.css" />
     <Content Include="Content\img\183930_195691380459720_6542824_n.jpg" />
@@ -206,8 +216,8 @@
     <Content Include="Content\img\przychodnia.jpg" />
     <Content Include="Content\img\scroll-top.png" />
     <Content Include="Content\img\top1.jpg" />
-    <Content Include="favicon.ico" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\css\Site.css" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
@@ -218,6 +228,7 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.swipebox.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -268,7 +279,19 @@
     <Content Include="Views\Wizyta\Edit.cshtml" />
     <Content Include="Views\Wizyta\Index.cshtml" />
     <Content Include="Views\Account\ProfilPacjenta.cshtml" />
-    <Content Include="Views\PacjentHome\Home.cshtml" />
+    <Content Include="Views\Pracownik\NowyLekarz.cshtml" />
+    <Content Include="Views\Pracownik\Delete.cshtml" />
+    <Content Include="Views\Pracownik\Details.cshtml" />
+    <Content Include="Views\Pracownik\Edit.cshtml" />
+    <Content Include="Views\Pracownik\Lekarz.cshtml" />
+    <Content Include="Views\Specjalizacja\Index.cshtml" />
+    <Content Include="Views\Pracownik\Recepcja.cshtml" />
+    <Content Include="Views\Pracownik\Administrator.cshtml" />
+    <Content Include="Views\Pracownik\NowyAdministrator.cshtml" />
+    <Content Include="Views\Pracownik\NowyRecepcja.cshtml" />
+    <Content Include="Views\Specjalizacja\_Create.cshtml" />
+    <Content Include="Views\Specjalizacja\_Details.cshtml" />
+    <Content Include="Views\Specjalizacja\_Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -113,29 +113,30 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
               PrzychodniaContext db = new PrzychodniaContext();
+
             if (ModelState.IsValid)
             {
-                 var person = new Pacjent();
+                 var pacjent = new Pacjent();
                  var user = new ApplicationUser() { UserName = model.UserName };
                  var address = new Adres()
                 {
-                    Ulica = model.AdresyOsob.Ulica,
-                    NrBudynku = model.AdresyOsob.NrBudynku,
-                    NrMieszkania = model.AdresyOsob.NrMieszkania,
-                    KodPocztowy = model.AdresyOsob.KodPocztowy,
-                    Miejscowosc = model.AdresyOsob.Miejscowosc,
+                    Ulica = model.AdresyOsob.Adres.Ulica,
+                    NrBudynku = model.AdresyOsob.Adres.NrBudynku,
+                    NrMieszkania = model.AdresyOsob.Adres.NrMieszkania,
+                    KodPocztowy = model.AdresyOsob.Adres.KodPocztowy,
+                    Miejscowosc = model.AdresyOsob.Adres.Miejscowosc,
                 };
-                    person.OsobaID = user.Id;
-                    person.Imie = model.AdresyOsob.Imie;
-                    person.Nazwisko = model.AdresyOsob.Nazwisko;
-                    person.PESEL = model.AdresyOsob.PESEL;
-                    person.NIP = model.AdresyOsob.NIP;
-                    person.Telefon = model.AdresyOsob.Telefon;
-                    person.Adres = address;               
+                 pacjent.OsobaID = user.Id;
+                 pacjent.Imie = model.AdresyOsob.Pacjent.Imie;
+                 pacjent.Nazwisko = model.AdresyOsob.Pacjent.Nazwisko;
+                 pacjent.PESEL = model.AdresyOsob.Pacjent.PESEL;
+                 pacjent.NIP = model.AdresyOsob.Pacjent.NIP;
+                 pacjent.Telefon = model.AdresyOsob.Pacjent.Telefon;
+                 pacjent.Adres = address;               
 
                 var result = await UserManager.CreateAsync(user, model.Password);
 
-                db.Osoba.Add(person);
+                db.Osoba.Add(pacjent);
                 db.SaveChanges();   
 
                 if (result.Succeeded)
@@ -149,7 +150,6 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                     AddErrors(result);
                 }
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
         }

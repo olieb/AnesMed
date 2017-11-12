@@ -1,0 +1,90 @@
+﻿@model IEnumerable<Przuchodnia_Medyczna_Inz.Models.Specjalizacja>
+@{
+    ViewBag.Title = "Specjalizacje";
+}
+<br />
+<div class="container">
+    <div class="col-md-8 col-md-offset-4 title">
+        <h2>Lista specjalizacji lekarskich</h2>
+    </div>
+    <div class="col-md-2 col-md-offset-9">
+        <a href="#" data-target="#specjalizacja-add" data-toggle="modal" class="btn btn-success anchorDetails" type="button">
+            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+            Dodaj nową specjalizacje
+        </a>
+        <div class="col-md-12">
+            <br />
+        </div>
+    </div>
+    <div class="col-md-5 col-md-offset-4">
+        <table class="table" id="table" style="border: double 2px; border-color: #309BBE">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <b>@Html.DisplayFor(modelItem => item.Nazwa)</b>
+                    </td>
+                    <td>
+                        @*@Html.ActionLink("Edytuj", "Edit", new { id = item.SpecjalizacjaID }) |*@
+                        @Html.ActionLink("Szczegóły", "_Details", new { id = item.SpecjalizacjaID },
+                        new { @data_toggle = "modal", @data_target = "#specjalizacja-details", @onlick = "emptyModalContent()" }) |
+                        @Html.ActionLink("Usuń", "Delete", new { id = item.SpecjalizacjaID },
+                     new { @data_toggle = "modal", @data_target = "#specjalizacja-delete" })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="col-md-12">
+        <br />
+    </div>
+</div>
+<div id="specjalizacja-add" class="modal fade hidden-print" tabindex="-1" role="dialog">
+    @Html.Partial("_Create", new Przuchodnia_Medyczna_Inz.Models.Specjalizacja())
+</div>
+<div id="specjalizacja-details" class="modal fade hidden-print" tabindex="-1" role="dialog">
+</div>
+<div id="specjalizacja-delete" class="modal fade hidden-print" tabindex="-1" role="dialog">
+</div>
+<script>
+    $(document).ready(function () {
+        $('#error-message').hide();
+    });  
+    
+    function SpecjalizacjaAdd()
+    {
+        var nazwa = document.getElementById("Nazwa").value;
+        var opis = document.getElementById("Opis").value;
+
+        if (nazwa.length < 5 || nazwa.length > 20) {
+            // Add errors highlight
+            $('#nazwak').addClass('has-error');
+            $('#error-message').show();
+        } else {
+            // Remove the errors highlight
+            $('#nazwak').removeClass('has-error').addClass('has-success');
+            $('#error-message').hide();
+            $.ajax({
+                url: '@Url.Action("Create", "Specjalizacja", null)',
+                data: { "nazwa": nazwa, "opis": opis },
+                type: 'Post',
+            }).success(function (result) {
+                $('#specjalizacja-add').modal('toggle');
+                $('body').load('Specjalizacja/Index');
+            });
+        }
+    }
+
+    var emptyModalContent = function () {
+        $('#specjalizacja-details').removeData('bs.modal').find('.modal-content').empty();
+        $('#specjalizacja-delete').removeData('bs.modal').find('.modal-content').empty();
+    };
+
+    $('#specjalizacja-details').on('hidden.bs.modal', function () {
+        emptyModalContent();
+    });
+    $('#specjalizacja-delete').on('hidden.bs.modal', function () {
+        emptyModalContent();
+    });
+
+</script>

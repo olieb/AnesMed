@@ -4,63 +4,185 @@
     ViewBag.Title = "Rezrwacja";
 }
 
-<h2>Rezerwacja Wizyty</h2>
-
 @using (Html.BeginForm()) 
 {
+<br />
+<h2>Rezerwacja wizyty lub badania</h2>
+<br />
     @Html.AntiForgeryToken()
-    @*@Html.HiddenFor(model => model.Pacjent.OsobaID, new { OsobaID = ViewBag.OsobaID })*@
     <div class="form-horizontal">
-        
-        <hr />
         @Html.ValidationSummary(true)
-        <div class="form-group">
-            @Html.LabelFor(model => model.PacjentID, "Pacjent", new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @if (User.Identity.IsAuthenticated && User.IsInRole("Klient"))
-                {
-                    @*@Html.HiddenFor("PacjentID", (string)ViewBag.PacjentID)*@
-                    <input name="PacjentID" id="PacjentID" value="@ViewBag.PacjentID" />
-                }
-                else{
-                     @Html.DropDownList("OsobaID", (SelectList)ViewBag.OsobaID,  new { @class="form-control"})
-                }
-               
-                @Html.ValidationMessageFor(model => model.PacjentID)
+        <div style="margin-left: 140px;">
+            <div class="btn-group add-check" data-toggle="buttons">
+                <label class="btn btn-lg btn-primary active">
+                    <input type="radio" name="Lekarz" id="Internista" onchange="radioBtnChanged(this)" autocomplete="off" checked>Lekarz Internista
+                </label>
+                <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="Lekarz" id="Kardiolog" onchange="radioBtnChanged(this)" autocomplete="off"> Lekarz Kardiolog
+                </label>
+                <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="Lekarz" id="Ortopeda" onchange="radioBtnChanged(this)" autocomplete="off"> Lekarz Ortopeda
+                </label>
+                <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="Lekarz" id="Laryngolog" onchange="radioBtnChanged(this)" autocomplete="off"> Lekarz Laryngolog
+                </label>
+                <label class="btn btn-lg btn-primary">
+                    <input type="radio" name="Lekarz" id="Psychiatra" onchange="radioBtnChanged(this)" autocomplete="off"> Lekarz Psychiatra
+                </label>
             </div>
         </div>
+        <hr />
+        <div class="container" style="background-color: #309BBE; color: white; border-radius: 15px;">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3" style="margin-left: 30px;">
+                        <div class="col-md-offset-4">
+                            <p>Wybierz termin</p>
+                        </div>
+                        <h4>Data od</h4>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-calendar fa fa-calendar text-info"></i>
+                            </span>
+                            <input type="text" name="startDate" value="@TempData["startDate"]" class="form-control" />
+                        </div>
+                        <h4>Data do</h4>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar fa fa-calendar text-info"></span>
+                            </span>
+                            <input type="text" name="endDate" value="@TempData["endDate"]" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Uwagi, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Uwagi, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Uwagi)
+                    </div>
+                    <div class="col-md-offset-3">
+                        &nbsp;<input class="btn btn-default btn-md" type="submit" value="Szukaj" style="margin-top: 37px;" />
+                    </div>
+                    <br /><br />
+                </div>
             </div>
         </div>
+        <br /><br />
+        @*<div class="form-group">
+        @Html.LabelFor(model => model.PacjentID, "Pacjent", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @if (User.Identity.IsAuthenticated && User.IsInRole("Pacjent"))
+            {
+                <input class="form-control" readonly name="PacjentID" id="PacjentID" value="@ViewBag.PacjentID" />
+            }
+            else{
+                 @Html.DropDownList("OsobaID", (SelectList)ViewBag.OsobaID,  new { @class="form-control"})
+            }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Data, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Data, new { @class = "form-control datecontrol" })
-                @Html.ValidationMessageFor(model => model.Data)
-            </div>
+            @Html.ValidationMessageFor(model => model.Pacjent.ImieNazwisko)
         </div>
+    </div>
 
-        <div class="form-group">
+    <div class="form-group">
+        @Html.LabelFor(model => model.Uwagi, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.Uwagi, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Uwagi)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Data, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Data, new { @class = "form-control datepicker", @id ="DP", @placeholder="Wybierz date wizyty"})
+            @Html.ValidationMessageFor(model => model.Data)
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
             @Html.LabelFor(model => model.Godzina, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Godzina, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Godzina)
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="input-group date" id="dateTimePicker">
+                        <input type='text' class="form-control" style="margin-left: 5px;" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-time"></span>
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Zapisz" class="btn btn-success" />
-            </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Zapisz" class="btn btn-success" />
         </div>
+    </div>*@
     </div>
 }
 
 <div>
     @Html.ActionLink("Powrót", "Index")
 </div>
+
+<script type="text/javascript">
+     $(function(){
+         $('.input-group input[name="startDate"]').daterangepicker(
+        {
+            //startDate: moment().subtract(29, 'days'),
+            locale: {
+                format: 'DD/MM/YYYY H:mm'
+            },
+            timePicker: true,
+            timePicker24Hour: true,
+            timePickerIncrement: 30,
+            showDropdowns: true,
+            daysOfWeekDisabled: [0, 6],
+            singleDatePicker: true
+
+        })
+         $('.input-group input[name="endDate"]').daterangepicker(
+        {
+            //endDate: moment().subtract(-7, 'days'),
+            locale: {
+                format: 'DD/MM/YYYY H:mm'
+            },
+            timePicker: true,
+            timePicker24Hour: true,
+            timePickerIncrement: 30,
+            showDropdowns: true,
+            daysOfWeekDisabled: [0, 6],
+            singleDatePicker: true
+        })
+         var startDate = $(".input-group input[name='startDate']").val();
+         var endDate = $(".input-group input[name='endDate']").val();
+         start = startDate.split('/');
+         end = endDate.split('/');
+         var st = Number(start[2] + start[1] + start[0])
+         var nd = Number(end[2] + end[1] + end[0])
+
+         if (st > nd) {
+             $('.input-group input[name="endDate"]').css("border-color","red");
+             alert("Data Od("+startDate+") nie może byc późniejsza od daty Do("+endDate+").");
+         }
+     });
+
+     function radioBtnChanged(control) {
+         debugger;
+         var checkedValue = "";
+         if(control.checked)
+             if (control.id == "Kardiolog") {
+                 checkedValue = control.id;
+             }
+             else if (control.id == "") {
+
+             }
+
+         $.ajax({
+             url: '@Url.Action("Create", "Wizyta")',
+             data: { "selectedValue": checkedValue },
+             type: 'GET',
+         }).success(function (result) {
+             
+         });
+     }
+    </script>

@@ -13,9 +13,6 @@ namespace Przuchodnia_Medyczna_Inz.Models
             this.Wizyty = new HashSet<Wizyta>();
             this.ChorobyPacjenta = new HashSet<PacjentChorobaPrzewlekla>();
         }
-
-        [Required]
-        public long PESEL { get; set; }
         [Required]
         [RegularExpression(@"^((\d{3}[-]\d{3}[-]\d{2}[-]\d{2})|(\d{3}[-]\d{2}[-]\d{2}[-]\d{3}))$", ErrorMessage = "Niepoprawny format numeru NIP!")]
         public string NIP { get; set; }
