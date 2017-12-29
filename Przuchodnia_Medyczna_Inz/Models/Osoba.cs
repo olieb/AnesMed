@@ -11,7 +11,7 @@ namespace Przuchodnia_Medyczna_Inz.Models
     {
         [Key, Required]
         public string OsobaID { get; set; }
-        public string AdresID { get; set; }
+        public int AdresID { get; set; }
         public string Imie { get; set; }
         public string Nazwisko { get; set; }
         public string Telefon { get; set; }

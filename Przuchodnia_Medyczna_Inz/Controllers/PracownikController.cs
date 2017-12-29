@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using Przuchodnia_Medyczna_Inz.Models;
 using Przuchodnia_Medyczna_Inz.DAL;
 using Przuchodnia_Medyczna_Inz.ViewModel;
+using Microsoft.AspNet.Identity;
+using System.Threading.Tasks;
 
 namespace Przuchodnia_Medyczna_Inz.Controllers
 {
@@ -16,41 +18,30 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
     {
         private PrzychodniaContext db = new PrzychodniaContext();
 
-        // GET: /Pracownik/Lekarz
-        public ActionResult Lekarz()
+        // GET: /Pracownik/Index
+        public ActionResult Index(string stanowisko, string imieNazwisko)
         {
-            var model = new PracownikVM();
-            model.Pracownicy = db.Pracownik.Where(x => x.Stanowisko.Nazwa == StanowiskoNazwa.Lekarz);
-            ViewBag.Selected = StanowiskoNazwa.Lekarz;
-      
+            var model = new PracownikIndexVM();
+
+            model.Adresy = db.Adres;
+            model.Specjalizacje = db.Specjalizacja;
+            model.Zatrudnienia = db.Zatrudnienie;
+
+            if (!String.IsNullOrEmpty(stanowisko))
+            {
+                model.Pracownicy = db.Pracownik.Where(x => x.Stanowisko.Nazwa.Equals(stanowisko)).OrderBy(p => p.Nazwisko).ToList();
+
+                ViewBag.Stanowisko = stanowisko;
+            }
+
+            if (!String.IsNullOrEmpty(imieNazwisko))
+            {
+                model.Pracownicy = model.Pracownicy.Where(s => s.ImieNazwisko.Contains(imieNazwisko)).ToList();
+            }
+                  
             return View(model);
         }
 
-        // GET: /Pracownik/Recepcja
-        public ActionResult Recepcja()
-        {
-            var model = new PracownikVM();
-            model.Pracownicy = db.Pracownik.Where(x => x.Stanowisko.Nazwa == StanowiskoNazwa.Recepcja);
-            ViewBag.Selected = StanowiskoNazwa.Recepcja;
-            return View(model);
-        }
-
-        // GET: /Pracownik/Administrator
-        public ActionResult Administrator()
-        {
-            var model = new PracownikVM();
-            model.Pracownicy = db.Pracownik.Where(x => x.Stanowisko.Nazwa == StanowiskoNazwa.Administrator);
-            ViewBag.Selected = StanowiskoNazwa.Administrator;
-            return View(model);
-        }
-        // GET: /Pracownik/Pielegniarka
-        public ActionResult Pielegniarka()
-        {
-            var model = new PracownikVM();
-            model.Pracownicy = db.Pracownik.Where(x => x.Stanowisko.Nazwa == StanowiskoNazwa.Pielegniarka);
-            ViewBag.Selected = StanowiskoNazwa.Pielegniarka;
-            return View(model);
-        }
 
         // GET: /Pracownik/Details/5
         public ActionResult Details(string id)
@@ -67,63 +58,19 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             return View(pracownik);
         }
 
-        // GET: /Pracownik/NowyAdministrator
-        public ActionResult NowyAdministrator()
+        // GET: /Pracownik/Create
+        public ActionResult Create(string stanowisko)
         {
-            var stanowiska  = from StanowiskoNazwa s in Enum.GetValues(typeof(StanowiskoNazwa)) select new {Id = s, Name = s.ToString()};
-            ViewData["stanowiska"] = new SelectList(stanowiska, "Id", "Name", StanowiskoNazwa.Administrator.ToString());
-            return View();
-        }
-        // GET: /Pracownik/NowyLekarz
-        public ActionResult NowyLekarz()
-        {
-            var stanowiska = from StanowiskoNazwa s in Enum.GetValues(typeof(StanowiskoNazwa)) select new { Id = s, Name = s.ToString() };
-            var specjalizacje = db.Specjalizacja.ToList();
-            ViewData["stanowiska"] = new SelectList(stanowiska, "Id", "Name", StanowiskoNazwa.Lekarz.ToString());
-            ViewData["specjalizacja"] = new SelectList(specjalizacje, "Id", "Name", null);
-            return View();
-
-        }
-
-        // GET: /Pracownik/NowaPielegniarka
-        public ActionResult NowaPielegniarka()
-        {
-            var stanowiska = from StanowiskoNazwa s in Enum.GetValues(typeof(StanowiskoNazwa)) select new { Id = s, Name = s.ToString() };
-            ViewData["stanowiska"] = new SelectList(stanowiska, "Id", "Name", StanowiskoNazwa.Pielegniarka.ToString());
-            return View();
-
-        }
-
-        // GET: /Pracownik/NowyRecepcja
-        public ActionResult NowyRecepcja()
-        {
-            var stanowiska = from StanowiskoNazwa s in Enum.GetValues(typeof(StanowiskoNazwa)) select new { Id = s, Name = s.ToString() };
-            ViewData["stanowiska"] = new SelectList(stanowiska, "Id", "Name", StanowiskoNazwa.Recepcja.ToString());
-            return View();
-
-        }
-
-        // POST: /Pracownik/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="OsobaID,AdresID,Imie,Nazwisko,Telefon,DataZatrudnienia,Pensja,StanowiskoID,SpecjalizacjaID,ZatrudnienieID,GrafikID")] PracownikVM pracownik)
-        {
-            if (ModelState.IsValid)
+            if (!String.IsNullOrEmpty(stanowisko))
             {
-                //db.Osoba.Add(pracownik);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                ViewBag.StanowiskoNazwa = stanowisko;
             }
+            ViewBag.StanowiskoID = new SelectList(db.Stanowisko, "StanowiskoID", "Nazwa", db.Stanowisko.Where(x => x.Nazwa.Equals(stanowisko)));
+            ViewBag.SpecjalizacjaID = new SelectList(db.Specjalizacja, "SpecjalizacjaID", "Nazwa");
+            return View();
 
-            //ViewBag.GrafikID = new SelectList(db.Grafik, "GrafikID", "GrafikID", pracownik.GrafikID);
-            //ViewBag.SpecjalizacjaID = new SelectList(db.Specjalizacja, "SpecjalizacjaID", "PracownikID", pracownik.SpecjalizacjaID);
-            //ViewBag.StanowiskoID = new SelectList(db.Stanowisko, "StanowiskoID", "PracownikID", pracownik.StanowiskoID);
-            //ViewBag.ZatrudnienieID = new SelectList(db.Zatrudnienie, "ZatrudnienieID", "Uwagi", pracownik.ZatrudnienieID);
-            return View(pracownik);
         }
-
+     
         // GET: /Pracownik/Edit/5
         public ActionResult Edit(string id)
         {
@@ -136,10 +83,9 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.GrafikID = new SelectList(db.Grafik, "GrafikID", "GrafikID", pracownik.GrafikID);
+           // ViewBag.GrafikID = new SelectList(db.Grafik, "GrafikID", "GrafikID", pracownik.GrafikID);
             ViewBag.SpecjalizacjaID = new SelectList(db.Specjalizacja, "SpecjalizacjaID", "PracownikID", pracownik.SpecjalizacjaID);
-            ViewBag.StanowiskoID = new SelectList(db.Stanowisko, "StanowiskoID", "PracownikID", pracownik.StanowiskoID);
-            ViewBag.ZatrudnienieID = new SelectList(db.Zatrudnienie, "ZatrudnienieID", "Uwagi", pracownik.ZatrudnienieID);
+           // ViewBag.ZatrudnienieID = new SelectList(db.Zatrudnienie, "ZatrudnienieID", "Uwagi", pracownik.ZatrudnienieID);
             return View(pracownik);
         }
 
@@ -156,10 +102,10 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.GrafikID = new SelectList(db.Grafik, "GrafikID", "GrafikID", pracownik.GrafikID);
-            ViewBag.SpecjalizacjaID = new SelectList(db.Specjalizacja, "SpecjalizacjaID", "PracownikID", pracownik.SpecjalizacjaID);
-            ViewBag.StanowiskoID = new SelectList(db.Stanowisko, "StanowiskoID", "PracownikID", pracownik.StanowiskoID);
-            ViewBag.ZatrudnienieID = new SelectList(db.Zatrudnienie, "ZatrudnienieID", "Uwagi", pracownik.ZatrudnienieID);
+            //ViewBag.GrafikID = new SelectList(db.Grafik, "GrafikID", "GrafikID", pracownik.GrafikID);
+            //ViewBag.SpecjalizacjaID = new SelectList(db.Specjalizacja, "SpecjalizacjaID", "PracownikID", pracownik.SpecjalizacjaID);
+            //ViewBag.StanowiskoID = new SelectList(db.Stanowisko, "StanowiskoID", "PracownikID", pracownik.StanowiskoID);
+            //ViewBag.ZatrudnienieID = new SelectList(db.Zatrudnienie, "ZatrudnienieID", "Uwagi", pracownik.ZatrudnienieID);
             return View(pracownik);
         }
 

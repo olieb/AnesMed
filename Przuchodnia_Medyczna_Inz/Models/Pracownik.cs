@@ -12,23 +12,17 @@ namespace Przuchodnia_Medyczna_Inz.Models
         public Pracownik()
         {
             this.Wizyty = new HashSet<Wizyta>();
+            this.Zatrudnienie = new HashSet<Zatrudnienie>();
         }
-        [Display(Name = "Data zatrudnienia")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime DataZatrudnienia { get; set; }
         public double Pensja { get; set; }
-        public virtual ICollection<Wizyta> Wizyty { get; set; }
-        public int StanowiskoID { get; set; }
-        [ForeignKey("StanowiskoID")]
-        public virtual Stanowisko Stanowisko { get; set; } // foreignkey Stanowiska
         public int SpecjalizacjaID { get; set; }
+        public int StanowiskoID { get; set; }
+        public virtual ICollection<Wizyta> Wizyty { get; set; }
+        [ForeignKey("StanowiskoID")]
+        public Stanowisko Stanowisko { get; set; }
         [ForeignKey("SpecjalizacjaID")]
         public virtual Specjalizacja Specjalizacja { get; set; } //foreignkey Specjalizacji     
-        public int ZatrudnienieID { get; set; }
-        [ForeignKey("ZatrudnienieID")]
-        public virtual Zatrudnienie Zatrudnienie { get; set; }      //foreignkey Zatrudnienia      
-        public int GrafikID { get; set; }
-        [ForeignKey("GrafikID")]
-        public virtual Grafik Grafik { get; set; }         //foreignkey Grafiku
+        public virtual ICollection<Zatrudnienie> Zatrudnienie { get; set; }      //foreignkey Zatrudnienia      
+        public virtual ICollection<Grafik> Grafik { get; set; }         //foreignkey Grafiku
     }
 }

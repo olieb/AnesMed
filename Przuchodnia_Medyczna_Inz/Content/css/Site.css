@@ -1254,7 +1254,7 @@ input.nuber {
 
 /* Change color of dropdown links on hover */
 .dropdown-content a:hover {
-    background-color: #f1f1f1;
+    background-color: #787B7C;
     color: #0A0B0E;
 }
 
@@ -1274,7 +1274,22 @@ input.nuber {
 .title{
     color: #309BBE;
     font-family: 'Roboto Slab', serif;
+    font-weight: 600;
+    display: block;
+    font-size: 28px;
+}
+
+.sub-title{
+    color: #309BBE;
+    font-family: 'Roboto Slab', serif;
     font-weight: 500;
     display: block;
-    font-size: 14px;
+    font-size: 19px;
+}
+
+.head-table{
+    color: #309BBE;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 400;
+    font-size: 16px;
 }

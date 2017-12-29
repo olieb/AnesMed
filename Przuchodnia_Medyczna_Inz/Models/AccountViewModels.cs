@@ -17,7 +17,7 @@ namespace Przuchodnia_Medyczna_Inz.Models
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Powtwierdź hasło")]
+        [Display(Name = "Powtórz hasło")]
         [Compare("NewPassword", ErrorMessage = "Hasło i potwierdzenie hasła nie są takie same.")]
         public string ConfirmPassword { get; set; }
     }
@@ -53,7 +53,25 @@ namespace Przuchodnia_Medyczna_Inz.Models
         [Display(Name = "Potwierdź hasło")]
         [Compare("Password", ErrorMessage = "Hasło i potwierdzenie hasła nie są takie same.")]
         public string ConfirmPassword { get; set; }
-
         public AdresyOsobVM AdresyOsob { get; set; }
+    }
+
+    public class RegisterPracownikViewModel
+    {
+        [Required]
+        [Display(Name = "Login")]
+        public string UserName { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "{0} musi mieć przynajmniej {2} znaków.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Hasło")]
+        public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Potwierdź hasło")]
+        [Compare("Password", ErrorMessage = "Hasło i potwierdzenie hasła nie są takie same.")]
+        public string ConfirmPassword { get; set; }
+        public PracownikCreateVM Pracownicy { get; set; }
     }
 }

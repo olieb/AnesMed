@@ -159,11 +159,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PacjentController.cs" />
     <Compile Include="Controllers\PacjentHomeController.cs" />
+    <Compile Include="Controllers\PlacowkaController.cs" />
     <Compile Include="Controllers\PracownikController.cs" />
     <Compile Include="Controllers\SpecjalizacjaController.cs" />
+    <Compile Include="Controllers\StanowiskoController.cs" />
     <Compile Include="Controllers\WizytaController.cs" />
     <Compile Include="DAL\PrzychodniaContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -187,7 +190,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\AdresyOsobVM.cs" />
-    <Compile Include="ViewModel\PracownikVM.cs" />
+    <Compile Include="ViewModel\PracownikIndexVM.cs" />
+    <Compile Include="ViewModel\PracownikCreateVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\bootstrap.css" />
@@ -269,7 +273,6 @@
     <Content Include="Views\Adres\Edit.cshtml" />
     <Content Include="Views\Adres\Index.cshtml" />
     <Content Include="Views\Pacjent\Create.cshtml" />
-    <Content Include="Views\Pacjent\Delete.cshtml" />
     <Content Include="Views\Pacjent\Edit.cshtml" />
     <Content Include="Views\Pacjent\Index.cshtml" />
     <Content Include="Views\Pacjent\Wizyty.cshtml" />
@@ -279,19 +282,25 @@
     <Content Include="Views\Wizyta\Edit.cshtml" />
     <Content Include="Views\Wizyta\Index.cshtml" />
     <Content Include="Views\Account\ProfilPacjenta.cshtml" />
-    <Content Include="Views\Pracownik\NowyLekarz.cshtml" />
+    <Content Include="Views\Pracownik\Create.cshtml" />
     <Content Include="Views\Pracownik\Delete.cshtml" />
     <Content Include="Views\Pracownik\Details.cshtml" />
     <Content Include="Views\Pracownik\Edit.cshtml" />
-    <Content Include="Views\Pracownik\Lekarz.cshtml" />
     <Content Include="Views\Specjalizacja\Index.cshtml" />
-    <Content Include="Views\Pracownik\Recepcja.cshtml" />
-    <Content Include="Views\Pracownik\Administrator.cshtml" />
-    <Content Include="Views\Pracownik\NowyAdministrator.cshtml" />
-    <Content Include="Views\Pracownik\NowyRecepcja.cshtml" />
+    <Content Include="Views\Pracownik\Index.cshtml" />
     <Content Include="Views\Specjalizacja\_Create.cshtml" />
     <Content Include="Views\Specjalizacja\_Details.cshtml" />
     <Content Include="Views\Specjalizacja\_Delete.cshtml" />
+    <Content Include="Views\Pacjent\_Delete.cshtml" />
+    <Content Include="Views\Stanowisko\Edit.cshtml" />
+    <Content Include="Views\Stanowisko\Index.cshtml" />
+    <Content Include="Views\Stanowisko\_Details.cshtml" />
+    <Content Include="Views\Stanowisko\_Create.cshtml" />
+    <Content Include="Views\Stanowisko\_Delete.cshtml" />
+    <Content Include="Views\Placowka\Index.cshtml" />
+    <Content Include="Views\Placowka\_Create.cshtml" />
+    <Content Include="Views\Placowka\_Delete.cshtml" />
+    <Content Include="Views\Placowka\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

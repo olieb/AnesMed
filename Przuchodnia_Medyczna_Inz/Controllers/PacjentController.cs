@@ -18,7 +18,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         private PrzychodniaContext db = new PrzychodniaContext();
 
         // GET: /Pacjent/
-        public ActionResult Index(string imieNazwisko, long? pesel)
+        public ActionResult Index(string imieNazwisko, string pesel)
         {
             var model = new AdresyOsobVM();
 
@@ -29,18 +29,18 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             {
                 model.Pacjenci = model.Pacjenci.Where(s => s.ImieNazwisko.Contains(imieNazwisko));
             }
-            if (pesel != null)
+            if (!String.IsNullOrEmpty(pesel))
             {
-                model.Pacjenci = model.Pacjenci.Where(p => p.PESEL == pesel);
+                model.Pacjenci = model.Pacjenci.Where(p => p.PESEL.ToString().Contains(pesel));
             }
 
             return View(model);
         }
 
         // GET: /Pacjent/Details/5
-        public ActionResult Wizyty(int? id)
+        public ActionResult Wizyty(string id)
         {
-            if (id == null)
+            if (String.IsNullOrWhiteSpace(id))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -114,9 +114,9 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         }
 
         // GET: /Pacjent/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(string id)
         {
-            if (id == null)
+            if (String.IsNullOrWhiteSpace(id))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -151,9 +151,9 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         }
 
         // GET: /Pacjent/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(string id)
         {
-            if (id == null)
+            if (String.IsNullOrWhiteSpace(id))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -162,13 +162,13 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             {
                 return HttpNotFound();
             }
-            return View(pacjent);
+            return PartialView("_Delete",pacjent);
         }
 
         // POST: /Pacjent/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("_Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(string id)
         {
             Pacjent pacjent = db.Pacjent.Find(id);
             db.Osoba.Remove(pacjent);

@@ -113,11 +113,15 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
               PrzychodniaContext db = new PrzychodniaContext();
+              
+                var user = new ApplicationUser() { UserName = model.UserName };
+
+              model.AdresyOsob.Pacjent.OsobaID = user.Id;
+              ModelState["AdresyOsob.Pacjent.OsobaID"].Errors.Clear();
 
             if (ModelState.IsValid)
             {
                  var pacjent = new Pacjent();
-                 var user = new ApplicationUser() { UserName = model.UserName };
                  var address = new Adres()
                 {
                     Ulica = model.AdresyOsob.Adres.Ulica,
@@ -136,12 +140,74 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
 
                 var result = await UserManager.CreateAsync(user, model.Password);
 
+               // db.Adres.Add(address);
                 db.Osoba.Add(pacjent);
                 db.SaveChanges();   
 
                 if (result.Succeeded)
                 {
-                    //result = UserManager.AddToRole(user.Id, "User");
+                    result = UserManager.AddToRole(user.Id, "Pacjent");
+                    await SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    AddErrors(result);
+                }
+            }
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        // POST: /Account/Register
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterPracownik(RegisterPracownikViewModel model, int specjalizacjaId, int stanowiskoId)
+        {
+            PrzychodniaContext db = new PrzychodniaContext();
+            var user = new ApplicationUser() { UserName = model.UserName };
+
+            model.Pracownicy.Pracownik.OsobaID = user.Id;
+            ModelState["Pracownicy.Pracownik.OsobaID"].Errors.Clear();
+            if (ModelState.IsValid)
+            {
+                var pracownik = new Pracownik();
+                var address = new Adres()
+                {
+                    Ulica = model.Pracownicy.Adres.Ulica,
+                    NrBudynku = model.Pracownicy.Adres.NrBudynku,
+                    NrMieszkania = model.Pracownicy.Adres.NrMieszkania,
+                    KodPocztowy = model.Pracownicy.Adres.KodPocztowy,
+                    Miejscowosc = model.Pracownicy.Adres.Miejscowosc,
+                };
+
+                pracownik.OsobaID = user.Id;
+                pracownik.Imie = model.Pracownicy.Pracownik.Imie;
+                pracownik.Nazwisko = model.Pracownicy.Pracownik.Nazwisko;
+                pracownik.PESEL = model.Pracownicy.Pracownik.PESEL;
+                pracownik.Pensja = model.Pracownicy.Pracownik.Pensja;
+                pracownik.Telefon = model.Pracownicy.Pracownik.Telefon;
+                pracownik.Adres = address;
+                pracownik.SpecjalizacjaID = specjalizacjaId;
+                pracownik.StanowiskoID = stanowiskoId;
+
+                var zatrudnienie = new Zatrudnienie(){
+                    DataZatrudnienia = model.Pracownicy.Zatrudnienie.DataZatrudnienia,
+                    DodatkoweInformacje = model.Pracownicy.Zatrudnienie.DodatkoweInformacje,
+                    OsobaID = pracownik.OsobaID
+                };
+                
+                var result = await UserManager.CreateAsync(user, model.Password);
+
+                db.Zatrudnienie.Add(zatrudnienie);
+                db.Osoba.Add(pracownik);
+
+                db.SaveChanges();
+
+                if (result.Succeeded)
+                {
+                    result = UserManager.AddToRole(user.Id, "Pracownik");
                     await SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }

@@ -16,16 +16,15 @@ namespace Przuchodnia_Medyczna_Inz.Models
         [Key, Required]
         [Column(Order = 0)]
         public int PlacowkaMedycznaID { get; set; }
-        public string AdresID { get; set; }
+        [Required]
         public string Nazwa { get; set; }
-        [Display(Name = "Numer telefonu:")]
+        [Display(Name = "Kom.")]
+        public string Komorka { get; set; }
+        [Display(Name="Tel. ")]
         public string Telefon { get; set; }
-        [Display(Name = "Godziny otwarcia:")]
+        [Display(Name = "Godziny otwarcia")]
         public string GodzinyOtwarcia { get; set; }
-        [ForeignKey("AdresID")]
         public virtual Adres Adres { get; set; } //foreignkey Adresu
-        [InverseProperty("PlacowkaMedyczna")]
-        public virtual ICollection<Adres> Adresy { get; set; }
         public virtual ICollection<Zatrudnienie> Zatrudnienia { get; set; }
     }
 }

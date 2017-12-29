@@ -7,28 +7,14 @@ using System.Text;
 
 namespace Przuchodnia_Medyczna_Inz.Models
 {
-    public enum StanowiskoNazwa
-    {
-        Administrator,
-        Lekarz,
-        Pielegniarka,
-        Sanitariusz,
-        Recepcja,
-        Konserwator,
-        Serwis_Sprzatajacy
-        
-    };
     public class Stanowisko
     {
-        [Key]
-        [Column(Order = 0)]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Required, Key]
         public int StanowiskoID { get; set; }
-        public string PracownikID { get; set; }
-        public StanowiskoNazwa Nazwa { get; set; }
-        [ForeignKey("PracownikID")]
-        public virtual Pracownik Pracownik { get; set; }
-        [InverseProperty("Stanowisko")]
-        public virtual ICollection<Pracownik> Pracownicy { get; set; }
+        [StringLength(20, ErrorMessage = "Nazwa musi mieć dlugość, między {2} a {1} znaków.", MinimumLength = 5)]
+        public string Nazwa { get; set; }
+        public string Obowiazki { get; set; }
+        public ICollection<Pracownik> Pracownicy { get; set; }
+
     }
 }

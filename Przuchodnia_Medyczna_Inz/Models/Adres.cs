@@ -9,9 +9,8 @@ namespace Przuchodnia_Medyczna_Inz.Models
 {
     public class Adres
     {
-        [ForeignKey("Osoba")]
-        public string AdresID { get; set; }
-        public int? PlacowkaID { get; set; }
+        [Key, Required]
+        public int AdresID { get; set; }
         public string Miejscowosc { get; set; }
         public string Ulica { get; set; }
         [Display(Name = "Budynek nr.")]
@@ -20,15 +19,21 @@ namespace Przuchodnia_Medyczna_Inz.Models
         public int? NrMieszkania { get; set; }
         [RegularExpression(@"^\d{2}-\d{3}$", ErrorMessage = "Kod pocztowy ma niepoprawny format!")]
         public string KodPocztowy { get; set; }
-        [ForeignKey("PlacowkaID")]
         public virtual PlacowkaMedyczna PlacowkaMedyczna { get; set; }
-        public virtual Osoba Osoba { get; set; }
+        public ICollection<Osoba> Osoby { get; set; }
 
         public string FullAdres
         {
             get
             {
-                return Ulica + ' ' + NrBudynku + '/' + NrMieszkania + ", " + KodPocztowy + ' ' + Miejscowosc;
+                if (NrMieszkania.HasValue)
+                {
+                    return Ulica+' '+NrBudynku+'/'+NrMieszkania+ ", "+KodPocztowy+' '+Miejscowosc;
+                }
+                else
+                {
+                    return Ulica+ ' '+NrBudynku+", "+KodPocztowy+' '+Miejscowosc;
+                }
             }
         }
     }

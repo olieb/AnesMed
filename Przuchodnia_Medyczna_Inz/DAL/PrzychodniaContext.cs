@@ -2,6 +2,7 @@
 using Przuchodnia_Medyczna_Inz.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
@@ -19,11 +20,11 @@ namespace Przuchodnia_Medyczna_Inz.DAL
         public DbSet<Osoba> Osoba { get; set; }
         public DbSet<Adres> Adres { get; set; }
         public DbSet<Wizyta> Wizyta { get; set; }
+        public DbSet<Stanowisko> Stanowisko { get; set; }
         public DbSet<PacjentChorobaPrzewlekla> ChorobaPacjenta { get; set; }
         public DbSet<ChorobaPrzewlekla> ChorobaPrzewlekla { get; set; }
         public DbSet<Specjalizacja> Specjalizacja { get; set; }
         public DbSet<Zatrudnienie> Zatrudnienie { get; set; }
-        public DbSet<Stanowisko> Stanowisko { get; set; }
         public DbSet<Grafik> Grafik { get; set; }
         public DbSet<PlacowkaMedyczna> PlacowkaMedyczna { get; set; }
         public DbSet<Pracownik> Pracownik { get; set; }
@@ -43,17 +44,16 @@ namespace Przuchodnia_Medyczna_Inz.DAL
             modelBuilder.Entity<Pacjent>().ToTable("Pacjent");
             modelBuilder.Entity<Pracownik>().ToTable("Pracownik");
 
+            modelBuilder.Entity<Adres>().HasKey(x => x.AdresID).Property(x => x.AdresID)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Adres>().HasOptional(x => x.PlacowkaMedyczna).WithOptionalDependent(a => a.Adres);
+
+            modelBuilder.Entity<PlacowkaMedyczna>().HasKey(x => x.PlacowkaMedycznaID).Property(x => x.PlacowkaMedycznaID)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
-
-            modelBuilder.Entity<Osoba>()
-                .HasRequired(x => x.Adres)
-                .WithRequiredPrincipal(x => x.Osoba)
-                .WillCascadeOnDelete(true);
-
-            //modelBuilder.Entity<Wizyta>()
-            //    .HasRequired(w => w.Pacjent)
-            //    .WithMany(w => w.Wizyty);
+               
         }
     }
 }

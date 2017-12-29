@@ -51,16 +51,15 @@
                             </li>
                            
                         }
-                        @if (Request.IsAuthenticated && HttpContext.Current.User.IsInRole("Recepcja"))
-                        {
+                        @*@if (Request.IsAuthenticated && HttpContext.Current.User.IsInRole("Recepcja"))
+                        {*@
                             <li>
                                 <a href="@Url.Action("Index", "Pacjent", new { @class = "scroll" })">
                                     <span class="glyphicon glyphicon-user icn_pos" aria-hidden="true"></span><br>
                                     Pacjenci
                                 </a>
-                            </li>
-                            
-                        }
+                            </li>                            
+                        @*}*@
                         <!---->
                         <li>
                             <a href="#features" class="scroll">
@@ -84,9 +83,12 @@
                                         Pracownicy
                                     </a>
                                     <div class="dropdown-content">
-                                        @Html.ActionLink("Lekarze", "Lekarz", "Pracownik")
-                                        @Html.ActionLink("Recepcja", "Index", "Cukierniczy")
-                                        @Html.ActionLink("Serwis", "Index", "Cukierniczy")
+                                        @Html.ActionLink("Lekarze", "Index", "Pracownik" ,new { stanowisko = "Lekarz"}, null)
+                                        @Html.ActionLink("Recepcja", "Index", "Pracownik", new { stanowisko = "Recepcja" }, null)
+                                        @Html.ActionLink("Konserwacja", "Index", "Pracownik", new { stanowisko = "Konserwator" }, null)
+                                        @Html.ActionLink("Serwis Sprzątający", "Index", "Pracownik", new { stanowisko = "Serwis_Sprzatajacy" }, null)
+                                        @Html.ActionLink("Pielęgniarki", "Index", "Pracownik", new { stanowisko = "Pielegniarka" }, null)
+                                        @Html.ActionLink("Administratorzy", "Index", "Pracownik",new { stanowisko = "Administrator" }, null)
                                     </div>
                                 </div>
                             </li>  
@@ -97,12 +99,13 @@
                                     Zarzadzanie
                                 </a>
                                 <div class="dropdown-content">
-                                    @Html.ActionLink("Specjalizacja", "Index", "Specjalizacja")
                                     @Html.ActionLink("Grafik", "Index", "Grafik")
+                                    @Html.ActionLink("Specjalizacje", "Index", "Specjalizacja")
+                                    @Html.ActionLink("Stanowiska", "Index", "Stanowisko")
+                                    @Html.ActionLink("Placówki", "Index", "Placowka")
                                 </div>
                             </div>
-                        </li>                   
-                            
+                        </li>                                 
                         @*}*@
                         <!---->
                         @*<li>

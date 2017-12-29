@@ -3,44 +3,57 @@
 @{
     ViewBag.Title = "Pacjenci";
 }
-
-<h2 class="header">Lista Pacjentów</h2>
-
-<p>
-    @Html.ActionLink("Dodaj Pacjenta", "Create")
-</p>
-@if (TempData["Message"] != null)
+<br />
+@if (TempData["succes-message"] != null)
 {
     <div class="alert alert-success">
-        <strong>@TempData["Message"]</strong> 
+        <strong>@TempData["succes-message"]</strong> 
+    </div>
+}
+else if (TempData["failure-message"] != null)
+{
+    <div class="alert alert-danger">
+        <strong>@TempData["failure-message"]</strong> 
     </div>
 }
 @using (Html.BeginForm()) { 
-<div class="container" style="background-color: #309BBE; color: white; border-radius: 15px;">
+<div class="container" style="background-color: #309BBE; color: white; border-radius: 15px; height: 120px;">
     <div class="row">
         <div class="col-md-3">
             <br />
-            <h4>Imie Nazwisko: @Html.TextBox("imieNazwisko", null, new { @class = "form-control" })</h4>           
+            <h4>Imie Nazwisko: @Html.TextBox("imieNazwisko", null, new { @class = "form-control", @placeholder = "Imie Nazwisko" })</h4>           
+        </div>
+        <div class="col-md-3">
+            <br />
+            <h4>Pesel: @Html.TextBox("Pesel", null, new { @class = "form-control", @placeholder="nr. PESEL" })</h4>
         </div>
         <div class="col-md-offset-3">
-            <br />
-            &nbsp;<input class="btn btn-success btn-sm" type="submit" value="Szukaj" style="margin-top: 30px; position:relative" />
+            &nbsp;<input class="btn btn-default btn-md box-shadow"  type="submit" value="Szukaj" style="margin-top: 38px;" />
         </div>
-        <br /><br />
     </div>
 </div>
 }
+<br />
+<div class="container">
+    <div class="row" style="margin-right: 20px;">
+        <div class="col-md-3 col-md-offset-10">
+            <a href="@Url.Action("Create", "Pacjent")" class="btn btn-success">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                Dodaj Pacjenta
+            </a>
+        </div>
+    </div>
+</div>
+<br />
 <table class="table">
-    <tr>
+    <tr class="head-table">
         <th>Imie Nazwisko</th>
         <th>PESEL</th>
         <th>Telefon</th>
         <th>NIP</th>
         <th>Adres</th>
         <th></th>
-    </tr>
-
- 
+    </tr> 
    @for(int i = 0; i < Model.Pacjenci.Count(); i++ )
    {
     <tr>
@@ -64,11 +77,21 @@
           
             @Html.ActionLink("Wizyty", "Wizyty", new { id = Model.Pacjenci.ElementAt(i).OsobaID }) |
             @Html.ActionLink("Edytuj", "Edit", new { id = Model.Pacjenci.ElementAt(i).OsobaID }) |
-            @Html.ActionLink("Usuń", "Delete", new { id = Model.Pacjenci.ElementAt(i).OsobaID })
+            @Html.ActionLink("Usuń", "Delete", new { id = Model.Pacjenci.ElementAt(i).OsobaID },
+                     new { @data_toggle = "modal", @data_target = "#pacjent-delete" })
         </td>
     </tr>
    }
-    
-
-
 </table>
+
+<div id="pacjent-delete" class="modal fade hidden-print" tabindex="-1" role="dialog">
+</div>
+
+<script>
+    var emptyModalContent = function () {
+        $('#pacjent-delete').removeData('bs.modal').find('.modal-content').empty();
+    };
+    $('#pacjent-delete').on('hidden.bs.modal', function () {
+        emptyModalContent();
+    });
+</script>

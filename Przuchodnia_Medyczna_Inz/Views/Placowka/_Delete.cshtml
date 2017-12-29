@@ -1,4 +1,4 @@
-﻿@model Przuchodnia_Medyczna_Inz.Models.Specjalizacja
+﻿@model Przuchodnia_Medyczna_Inz.Models.PlacowkaMedyczna
 
 <div class="modal-dialog">
     <div class="modal-content">
@@ -7,10 +7,10 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h3 class="title" style="font-size: 25px;">Usuń specjalizacje</h3>
+                <h3 class="title" style="font-size: 25px;">Usuń Placówkę</h3>
             </div>
             <div class="modal-body">
-                <h4 class="sub-title">Czy napewno chcesz usunać specjalizacje <b>@Html.DisplayFor(model => model.Nazwa)</b>?</h4>
+                <h4 class="sub-title">Czy napewno chcesz usunać placówkę <b>@Html.DisplayFor(model => model.Nazwa)</b>?</h4>
             </div>
 
             <div class="modal-footer">
@@ -23,4 +23,5 @@
         </div>
     </div>
 </div>
+
 

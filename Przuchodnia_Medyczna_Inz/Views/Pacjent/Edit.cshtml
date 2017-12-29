@@ -1,12 +1,13 @@
-﻿@modelPrzuchodnia_Medyczna_Inz.Models.Pacjent
+﻿@model Przuchodnia_Medyczna_Inz.Models.Pacjent
 
 @{
     ViewBag.Title = "Edycja danych";
 }
-
-<h2>Edycja danych pacjenta</h2>
-<br />
-
+<div class="col-md-8 col-md-offset-4">
+    <br />
+    <h2 class="title">Edycja danych pacjenta</h2>
+    <br />
+</div>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -19,10 +20,10 @@
             <hr />
             <div class="row">
                 <div class="col-md-6">
-                    <h4>Dane osobowe:</h4>
+                    <h4 class="sub-title">Dane osobowe:</h4>
                 </div>
                 <div class="col-md-6">
-                    <h4>Dane adresowe:</h4>
+                    <h4 class="sub-title">Dane adresowe:</h4>
                     <button class="btn btn-info btn-sm" onclick="location.href='@Url.Action("Edit", "Adres", new { id = @Model.Adres.AdresID}, null)'; return false">
                         Edytuj                   
                     </button>                     

@@ -63,21 +63,24 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
 
         public ActionResult SearchLekarz(string startDate, string endDate)
         {
-            ViewBag.Lekarz = new SelectList(db.Osoba.OfType<Pracownik>().Where(x => x.StanowiskoID == 1), "OsobaID", "ImieNazwisko");
+            ViewBag.Lekarz = new SelectList(db.Osoba.OfType<Pracownik>().Where(x => x.Stanowisko.Nazwa.Equals("Lekarz")), "OsobaID", "ImieNazwisko");
             ViewBag.Specjalizacja = new SelectList(db.Specjalizacja.OrderBy(x => x.Nazwa), "SpecjalizacjaID", "Nazwa");
 
             return View();
         }
 
         // GET: /Wizyta/Create
-        public ActionResult Create(string selectedValue )
+        public ActionResult Create(string lekarz)
         {
             var userId = User.Identity.GetUserId();
             var pacjent = db.Osoba.OfType<Pacjent>().Where(x => x.OsobaID.Equals(userId));
-           
+            var lekarze = db.Osoba.OfType<Pracownik>().Where(x => x.Stanowisko.Nazwa.Equals("Lekarz") && x.Specjalizacja.Equals(lekarz));
+
+            ViewBag.Lekarze = new SelectList(lekarze, "OsobaID", "ImieNazwisko");
             ViewBag.PacjentImie = pacjent.First().Imie;
             ViewBag.PacjentNazwisko = pacjent.First().Nazwisko;
             ViewBag.OsobaID = new SelectList(db.Osoba.OfType<Pacjent>(), "OsobaID", "ImieNazwisko");           
+            
             return View();
         }
 
