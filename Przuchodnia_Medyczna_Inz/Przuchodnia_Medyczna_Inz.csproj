@@ -186,7 +186,6 @@
     <Compile Include="Models\Specjalizacja.cs" />
     <Compile Include="Models\Stanowisko.cs" />
     <Compile Include="Models\Wizyta.cs" />
-    <Compile Include="Models\Zatrudnienie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\AdresyOsobVM.cs" />
@@ -194,6 +193,10 @@
     <Compile Include="ViewModel\PracownikCreateVM.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Przychodnia_Medyczna_Inz.mdf" />
+    <Content Include="App_Data\Przychodnia_Medyczna_Inz_log.ldf">
+      <DependentUpon>Przychodnia_Medyczna_Inz.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\datepicker.css" />
@@ -302,9 +305,7 @@
     <Content Include="Views\Placowka\_Delete.cshtml" />
     <Content Include="Views\Placowka\_Edit.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />

@@ -16,7 +16,7 @@ namespace Przuchodnia_Medyczna_Inz.Models
         public string Nazwisko { get; set; }
         public string Telefon { get; set; }
         [Required]
-        public long PESEL { get; set; }
+        public long Pesel { get; set; }
         [ForeignKey("AdresID")]
         public virtual Adres Adres { get; set; }
         public string ImieNazwisko

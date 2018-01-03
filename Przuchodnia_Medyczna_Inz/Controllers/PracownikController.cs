@@ -19,26 +19,33 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         private PrzychodniaContext db = new PrzychodniaContext();
 
         // GET: /Pracownik/Index
-        public ActionResult Index(string stanowisko, string imieNazwisko)
+        public ActionResult Index(string stanowisko, string imieNazwisko = null, int? specjalizacjaId = null, string pesel = null)
         {
             var model = new PracownikIndexVM();
 
             model.Adresy = db.Adres;
             model.Specjalizacje = db.Specjalizacja;
-            model.Zatrudnienia = db.Zatrudnienie;
 
             if (!String.IsNullOrEmpty(stanowisko))
             {
                 model.Pracownicy = db.Pracownik.Where(x => x.Stanowisko.Nazwa.Equals(stanowisko)).OrderBy(p => p.Nazwisko).ToList();
-
-                ViewBag.Stanowisko = stanowisko;
             }
 
             if (!String.IsNullOrEmpty(imieNazwisko))
             {
                 model.Pracownicy = model.Pracownicy.Where(s => s.ImieNazwisko.Contains(imieNazwisko)).ToList();
             }
-                  
+            if(specjalizacjaId != null)
+            {
+                model.Pracownicy = model.Pracownicy.Where(s => s.Specjalizacja.SpecjalizacjaID == specjalizacjaId);
+            }
+            if (pesel != null)
+            {
+                model.Pracownicy = model.Pracownicy.Where(s => s.Pesel.ToString().Contains(pesel));
+            }
+            ViewBag.SpecjalizacjaID = new SelectList(db.Specjalizacja, "SpecjalizacjaID", "Nazwa");
+            ViewBag.StanowiskoNazwa = stanowisko;
+      
             return View(model);
         }
 
@@ -67,6 +74,8 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             }
             ViewBag.StanowiskoID = new SelectList(db.Stanowisko, "StanowiskoID", "Nazwa", db.Stanowisko.Where(x => x.Nazwa.Equals(stanowisko)));
             ViewBag.SpecjalizacjaID = new SelectList(db.Specjalizacja, "SpecjalizacjaID", "Nazwa");
+            ViewBag.PlacowkaMedycznaID = new SelectList(db.PlacowkaMedyczna, "PlacowkaMedycznaID", "Nazwa");
+
             return View();
 
         }
@@ -110,13 +119,14 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         }
 
         // GET: /Pracownik/Delete/5
-        public ActionResult Delete(string id)
+        public ActionResult Delete(string id, string stanowisko)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Pracownik pracownik = db.Pracownik.Find(id);
+            ViewBag.StanowiskoNazwa = stanowisko;
             if (pracownik == null)
             {
                 return HttpNotFound();
@@ -127,12 +137,13 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         // POST: /Pracownik/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(string id, string stanowisko)
         {
             Pracownik pracownik = db.Pracownik.Find(id);
             db.Osoba.Remove(pracownik);
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            return RedirectToAction("Index", "Pracownik", new { stanowisko});
         }
 
         protected override void Dispose(bool disposing)

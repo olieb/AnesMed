@@ -11,7 +11,7 @@ namespace Przuchodnia_Medyczna_Inz.Models
     {
         public PlacowkaMedyczna()
         {
-            this.Zatrudnienia = new HashSet<Zatrudnienie>();
+            this.Pracownicy = new HashSet<Pracownik>();
         }
         [Key, Required]
         [Column(Order = 0)]
@@ -25,6 +25,6 @@ namespace Przuchodnia_Medyczna_Inz.Models
         [Display(Name = "Godziny otwarcia")]
         public string GodzinyOtwarcia { get; set; }
         public virtual Adres Adres { get; set; } //foreignkey Adresu
-        public virtual ICollection<Zatrudnienie> Zatrudnienia { get; set; }
+        public virtual ICollection<Pracownik> Pracownicy { get; set; }
     }
 }

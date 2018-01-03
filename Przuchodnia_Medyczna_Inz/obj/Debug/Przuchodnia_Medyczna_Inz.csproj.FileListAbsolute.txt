@@ -161,4 +161,3 @@ C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodni
 C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\obj\Debug\Przuchodnia_Medyczna_Inz.dll
 C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\obj\Debug\Przuchodnia_Medyczna_Inz.pdb
-C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\obj\Debug\Przuchodnia_Medyczna_Inz.csprojResolveAssemblyReference.cache

@@ -31,7 +31,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             }
             if (!String.IsNullOrEmpty(pesel))
             {
-                model.Pacjenci = model.Pacjenci.Where(p => p.PESEL.ToString().Contains(pesel));
+                model.Pacjenci = model.Pacjenci.Where(p => p.Pesel.ToString().Contains(pesel));
             }
 
             return View(model);
@@ -78,7 +78,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
 
                     pacjent.Imie = model.Pacjent.Imie;
                     pacjent.Nazwisko = model.Pacjent.Nazwisko;
-                    pacjent.PESEL = model.Pacjent.PESEL;
+                    pacjent.Pesel = model.Pacjent.Pesel;
                     pacjent.NIP = model.Pacjent.NIP;
                     pacjent.Telefon = model.Pacjent.Telefon;
 
@@ -137,7 +137,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "OsobaID,AdresID,Imie,Nazwisko,Telefon,PESEL,NIP")] Pacjent pacjent)
+        public ActionResult Edit([Bind(Include = "OsobaID,AdresID,Imie,Nazwisko,Telefon,Pesel,NIP")] Pacjent pacjent)
         {
             if (ModelState.IsValid)
             {

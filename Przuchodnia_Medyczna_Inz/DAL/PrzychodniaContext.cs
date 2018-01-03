@@ -24,7 +24,6 @@ namespace Przuchodnia_Medyczna_Inz.DAL
         public DbSet<PacjentChorobaPrzewlekla> ChorobaPacjenta { get; set; }
         public DbSet<ChorobaPrzewlekla> ChorobaPrzewlekla { get; set; }
         public DbSet<Specjalizacja> Specjalizacja { get; set; }
-        public DbSet<Zatrudnienie> Zatrudnienie { get; set; }
         public DbSet<Grafik> Grafik { get; set; }
         public DbSet<PlacowkaMedyczna> PlacowkaMedyczna { get; set; }
         public DbSet<Pracownik> Pracownik { get; set; }

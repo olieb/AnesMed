@@ -133,7 +133,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                  pacjent.OsobaID = user.Id;
                  pacjent.Imie = model.AdresyOsob.Pacjent.Imie;
                  pacjent.Nazwisko = model.AdresyOsob.Pacjent.Nazwisko;
-                 pacjent.PESEL = model.AdresyOsob.Pacjent.PESEL;
+                 pacjent.Pesel = model.AdresyOsob.Pacjent.Pesel;
                  pacjent.NIP = model.AdresyOsob.Pacjent.NIP;
                  pacjent.Telefon = model.AdresyOsob.Pacjent.Telefon;
                  pacjent.Adres = address;               
@@ -163,13 +163,14 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RegisterPracownik(RegisterPracownikViewModel model, int specjalizacjaId, int stanowiskoId)
+        public async Task<ActionResult> RegisterPracownik(RegisterPracownikViewModel model, int placowkaMedycznaId, int? specjalizacjaId, int stanowiskoId)
         {
             PrzychodniaContext db = new PrzychodniaContext();
             var user = new ApplicationUser() { UserName = model.UserName };
 
             model.Pracownicy.Pracownik.OsobaID = user.Id;
             ModelState["Pracownicy.Pracownik.OsobaID"].Errors.Clear();
+
             if (ModelState.IsValid)
             {
                 var pracownik = new Pracownik();
@@ -185,22 +186,19 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                 pracownik.OsobaID = user.Id;
                 pracownik.Imie = model.Pracownicy.Pracownik.Imie;
                 pracownik.Nazwisko = model.Pracownicy.Pracownik.Nazwisko;
-                pracownik.PESEL = model.Pracownicy.Pracownik.PESEL;
+                pracownik.Pesel = model.Pracownicy.Pracownik.Pesel;
                 pracownik.Pensja = model.Pracownicy.Pracownik.Pensja;
                 pracownik.Telefon = model.Pracownicy.Pracownik.Telefon;
+                pracownik.DataZatrudnienia = model.Pracownicy.Pracownik.DataZatrudnienia;
+                pracownik.DataZwolnienia = model.Pracownicy.Pracownik.DataZwolnienia;
+
                 pracownik.Adres = address;
                 pracownik.SpecjalizacjaID = specjalizacjaId;
                 pracownik.StanowiskoID = stanowiskoId;
-
-                var zatrudnienie = new Zatrudnienie(){
-                    DataZatrudnienia = model.Pracownicy.Zatrudnienie.DataZatrudnienia,
-                    DodatkoweInformacje = model.Pracownicy.Zatrudnienie.DodatkoweInformacje,
-                    OsobaID = pracownik.OsobaID
-                };
-                
+                pracownik.PlacowkaID = placowkaMedycznaId;
+               
                 var result = await UserManager.CreateAsync(user, model.Password);
 
-                db.Zatrudnienie.Add(zatrudnienie);
                 db.Osoba.Add(pracownik);
 
                 db.SaveChanges();
@@ -208,8 +206,10 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                 if (result.Succeeded)
                 {
                     result = UserManager.AddToRole(user.Id, "Pracownik");
-                    await SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    var stanowisko = db.Stanowisko.Where(x => x.StanowiskoID == stanowiskoId).First();
+                    ViewBag.StanowiskoNazwa = stanowisko.Nazwa;
+                    //await SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Index", "Pracownik", new { stanowisko = @ViewBag.StanowiskoNazwa });
                 }
                 else
                 {
