@@ -1,17 +1,19 @@
 ﻿@model Przuchodnia_Medyczna_Inz.Models.Wizyta
 
 @{
-    ViewBag.Title = "Rezrwacja";
+    ViewBag.Title = "Rezerwacja";
 }
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
-<br />
-<h2>Rezerwacja wizyty lub badania</h2>
-<br />
-    @Html.AntiForgeryToken()
+    <br />
+    <div class="col-md-offset-4 col-md-4 title" style="text-align:left;">
+        <h2>Rezerwacja wizyty</h2>
+        <br />
+    </div>
+    <br />
+
     <div class="form-horizontal">
-        @Html.ValidationSummary(true)
         <div style="margin-left: 140px;">
             <div class="btn-group add-check" data-toggle="buttons">
                 <label class="btn btn-lg btn-primary active">
@@ -21,7 +23,7 @@
                     <input type="radio" name="Lekarz" id="Kardiolog" onchange="radioBtnChanged(this)" autocomplete="off"> Lekarz Kardiolog
                 </label>
                 <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="Lekarz" id="Ortopeda" onchange="radioBtnChanged(this)" autocomplete="off"> Lekarz Ortopeda
+                    <input type="radio" name="Lekarz" id="Ortopedia" onchange="radioBtnChanged(this)" autocomplete="off"> Lekarz Ortopeda
                 </label>
                 <label class="btn btn-lg btn-primary">
                     <input type="radio" name="Lekarz" id="Laryngolog" onchange="radioBtnChanged(this)" autocomplete="off"> Lekarz Laryngolog
@@ -44,21 +46,26 @@
                             <span class="input-group-addon">
                                 <i class="glyphicon glyphicon-calendar fa fa-calendar text-info"></i>
                             </span>
-                            <input type="text" name="startDate" value="@TempData["startDate"]" class="form-control" />
+                            <input type="text" id="startDate" name="startDate" value="@TempData["startDate"]" class="form-control" />
                         </div>
                         <h4>Data do</h4>
                         <div class="input-group">
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar fa fa-calendar text-info"></span>
                             </span>
-                            <input type="text" name="endDate" value="@TempData["endDate"]" class="form-control" />
+                            <input type="text" id="endDate" name="endDate" value="@TempData["endDate"]" class="form-control" />
                         </div>
                     </div>
-                    <div class="col-md-3">
-
+                    @Html.LabelFor(model => model.Pracownik.OsobaID, "Lekarz", new { @class = "control-label col-md-2", @style = "margin-left: -70px;" })
+                    <br /><br />
+                    <div class="col-md-2">
+                        @Html.DropDownList("OsobaID", new SelectList(Enumerable.Empty<SelectListItem>(), "OsobaID", "ImieNazwisko"), "Wybierz Lekarza", new { @class = "form-control", @id = "OsobaID" })
+                        @Html.ValidationMessageFor(model => model.Pracownik.OsobaID)
                     </div>
-                    <div class="col-md-offset-3">
-                        &nbsp;<input class="btn btn-default btn-md" type="submit" value="Szukaj" style="margin-top: 37px;" />
+                    <div class="col-md-offset-3 btn btn-default pull-left" id="button">
+                        <span class=" glyphicon glyphicon-search" aria-hidden="true">
+                        </span>
+                        Szukaj
                     </div>
                     <br /><br />
                 </div>
@@ -67,22 +74,35 @@
         <br /><br />
     </div>
 }
-
-<div>
+<div id="partial">
+    @Html.Partial("_VisitList")
+</div>
+<div class="col-md-12">
     @Html.ActionLink("Powrót", "Index")
 </div>
 
 <script type="text/javascript">
+    $("#button").click(function () {
+        var start = $("#startDate").val();
+        var end = $("#endDate").val();
+        $.ajax({
+            url:'@Url.Action("VisitList", "Wizyta")',
+            type: "get",
+            data: { id: OsobaID.value, startDate: start, endDate: end },
+            //data: $("form").serialize(), //if post data needed, use this
+            success: function (result) {
+                $("#partial").html(result);
+            }
+        });
+    });
+
      $(function(){
          $('.input-group input[name="startDate"]').daterangepicker(
         {
             //startDate: moment().subtract(29, 'days'),
             locale: {
-                format: 'DD/MM/YYYY H:mm'
+                format: 'DD/MM/YYYY'
             },
-            timePicker: true,
-            timePicker24Hour: true,
-            timePickerIncrement: 30,
             showDropdowns: true,
             daysOfWeekDisabled: [0, 6],
             singleDatePicker: true
@@ -92,12 +112,8 @@
         {
             //endDate: moment().subtract(-7, 'days'),
             locale: {
-                format: 'DD/MM/YYYY H:mm'
+                format: 'DD/MM/YYYY'
             },
-            timePicker: true,
-            timePicker24Hour: true,
-            timePickerIncrement: 30,
-            showDropdowns: true,
             daysOfWeekDisabled: [0, 6],
             singleDatePicker: true
         })
@@ -114,19 +130,28 @@
          }
      });
 
-     function radioBtnChanged(control) {
-         debugger;
-         var checkedValue = "";
-          if(control.checked) {
-                 checkedValue = control.id;    
-         }
+    function radioBtnChanged(control) {
+        debugger;
+        var checkedValue = "";
+        if(control.checked) {
+            checkedValue = control.id;
+        }
+        $.ajax({
+            url: '@Url.Action("GetLekarz", "Wizyta")',
+            data: { lekarz: checkedValue },
+            type: 'Get',
+            datatype: 'JSON',
+        }).success(function (data) {
+            var lekarz = "<select id='OsobaID'>";
+            lekarz = lekarz + '<option value="">Wybierz Lekarza</option>'
+            for (var x = 0; x < data.length; x++) {
+                lekarz+= "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+            }
+            lekarz = lekarz + '</select>';
+            $("#OsobaID").html(lekarz);
+        }).error(function (xhr, er, status) {
+            alert(xhr.status + " : " + er + " : " + status);
+        });
+    }
+</script>
 
-         $.ajax({
-             url: '@Url.Action("Create", "Wizyta")',
-             data: { "lekarz": checkedValue },
-             type: 'GET',
-         }).success(function (result) {
-             
-         });
-     }
-    </script>

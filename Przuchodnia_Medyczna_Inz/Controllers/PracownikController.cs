@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using Przuchodnia_Medyczna_Inz.Models;
 using Przuchodnia_Medyczna_Inz.DAL;
 using Przuchodnia_Medyczna_Inz.ViewModel;
@@ -19,35 +20,62 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         private PrzychodniaContext db = new PrzychodniaContext();
 
         // GET: /Pracownik/Index
-        public ActionResult Index(string stanowisko, string imieNazwisko = null, int? specjalizacjaId = null, string pesel = null)
+        public ActionResult Index(string stanowisko, string imieNazwisko, int? specjalizacjaId, string pesel, int page = 1)
         {
-            var model = new PracownikIndexVM();
-
-            model.Adresy = db.Adres;
-            model.Specjalizacje = db.Specjalizacja;
+            List<Pracownik> pracownicy = db.Pracownik.ToList();
 
             if (!String.IsNullOrEmpty(stanowisko))
             {
-                model.Pracownicy = db.Pracownik.Where(x => x.Stanowisko.Nazwa.Equals(stanowisko)).OrderBy(p => p.Nazwisko).ToList();
+                pracownicy = db.Pracownik.Where(x => x.Stanowisko.Nazwa.Equals(stanowisko)).OrderBy(p => p.Nazwisko).ToList();
             }
 
             if (!String.IsNullOrEmpty(imieNazwisko))
             {
-                model.Pracownicy = model.Pracownicy.Where(s => s.ImieNazwisko.Contains(imieNazwisko)).ToList();
+                pracownicy = db.Pracownik.Where(s => s.ImieNazwisko.Contains(imieNazwisko)).ToList();
             }
+
             if(specjalizacjaId != null)
             {
-                model.Pracownicy = model.Pracownicy.Where(s => s.Specjalizacja.SpecjalizacjaID == specjalizacjaId);
+                pracownicy = db.Pracownik.Where(s => s.Specjalizacja.SpecjalizacjaID == specjalizacjaId).ToList();
             }
-            if (pesel != null)
+
+            if (!String.IsNullOrEmpty(pesel))
             {
-                model.Pracownicy = model.Pracownicy.Where(s => s.Pesel.ToString().Contains(pesel));
+                pracownicy = db.Pracownik.Where(s => s.Pesel.ToString().Contains(pesel)).ToList();
             }
+
             ViewBag.SpecjalizacjaID = new SelectList(db.Specjalizacja, "SpecjalizacjaID", "Nazwa");
-            ViewBag.StanowiskoNazwa = stanowisko;
-      
+            ViewBag.StanowiskoNazwa = stanowisko;  
+           
+            int pageSize = 1;
+            int pageNumber = 1;
+            
+            PagedList<Pracownik> model = new PagedList<Pracownik>(pracownicy.OrderBy(x => x.Nazwisko), page, pageSize);
+
             return View(model);
         }
+
+        // GET: /Pracownik/Terminy/5
+        public ActionResult Terminy(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Pracownik pracownik = db.Pracownik.Find(id);
+            pracownik.Wizyty = db.Wizyta.Where(x => x.Pracownik.OsobaID.Equals(id) && x.Status == Status.Wolna).ToList();
+
+
+            ViewBag.StanowiskoNazwa = db.Stanowisko.Where(x => x.StanowiskoID == pracownik.StanowiskoID).FirstOrDefault().Nazwa;
+            
+            if (pracownik == null)
+            {
+                return HttpNotFound();
+            }
+            return View(pracownik);
+        }
+
+
 
 
         // GET: /Pracownik/Details/5
@@ -77,7 +105,6 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             ViewBag.PlacowkaMedycznaID = new SelectList(db.PlacowkaMedyczna, "PlacowkaMedycznaID", "Nazwa");
 
             return View();
-
         }
      
         // GET: /Pracownik/Edit/5
@@ -92,9 +119,8 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             {
                 return HttpNotFound();
             }
-           // ViewBag.GrafikID = new SelectList(db.Grafik, "GrafikID", "GrafikID", pracownik.GrafikID);
+
             ViewBag.SpecjalizacjaID = new SelectList(db.Specjalizacja, "SpecjalizacjaID", "PracownikID", pracownik.SpecjalizacjaID);
-           // ViewBag.ZatrudnienieID = new SelectList(db.Zatrudnienie, "ZatrudnienieID", "Uwagi", pracownik.ZatrudnienieID);
             return View(pracownik);
         }
 
@@ -111,10 +137,10 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            //ViewBag.GrafikID = new SelectList(db.Grafik, "GrafikID", "GrafikID", pracownik.GrafikID);
+
             //ViewBag.SpecjalizacjaID = new SelectList(db.Specjalizacja, "SpecjalizacjaID", "PracownikID", pracownik.SpecjalizacjaID);
             //ViewBag.StanowiskoID = new SelectList(db.Stanowisko, "StanowiskoID", "PracownikID", pracownik.StanowiskoID);
-            //ViewBag.ZatrudnienieID = new SelectList(db.Zatrudnienie, "ZatrudnienieID", "Uwagi", pracownik.ZatrudnienieID);
+
             return View(pracownik);
         }
 
@@ -145,7 +171,6 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
 
             return RedirectToAction("Index", "Pracownik", new { stanowisko});
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

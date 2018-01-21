@@ -58,7 +58,7 @@
 }
 
 <div>
-    @Html.ActionLink("Powrót", "Edit", "Pacjent", new { id = Model.AdresID}, null)
+    @Html.ActionLink("Powrót", "Edit", "Pacjent", new { id = @ViewBag.OsobaID }, null)
 </div>
 
 @section Scripts {

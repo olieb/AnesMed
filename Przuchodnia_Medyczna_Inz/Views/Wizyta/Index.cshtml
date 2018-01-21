@@ -15,7 +15,7 @@
     <div class="row">
         <div class="form-group">
             <div class="col-md-3">
-                <br /><br />
+                <br />
                 <h4>Data od</h4>
                 <div class="input-group">
                     <span class="input-group-addon">
@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <br /><br />
+                <br />
                 <h4>Data do</h4>
                 <div class="input-group">
                     <span class="input-group-addon">
@@ -35,8 +35,10 @@
                 </div>
             </div>
             <div class="col-md-offset-3">
-                <br />
-                &nbsp;<input class="btn btn-default btn-md" type="submit" value="Szukaj" style="margin-top: 37px;" />
+                <button style="margin-top: 4.3%;" class=" btn btn-default" type="submit">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    Szukaj
+                </button>
             </div>
             <br /><br />
         </div>
@@ -58,29 +60,16 @@
 @if (@ViewBag.Wizyty > 0) { 
     <table class="table">
         <tr class="head-table">
-            <th>Pacjent</th>
-            <th>Pesel</th>
-            <th>Diagnoza</th>
-            <th>Uwagi</th>
             <th>Data</th>
             <th>Godzina</th>
+            <th>Lekarz</th>
+            <th>Specjalizacja</th>
+            <th>Adres</th>
             <th></th>
         </tr>
     
     @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Pacjent.ImieNazwisko)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Pacjent.Pesel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Diagnoza)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Uwagi)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Data)
             </td>
@@ -88,7 +77,16 @@
                 @Html.DisplayFor(modelItem => item.Godzina)
             </td>
             <td>
-                @Html.ActionLink("Edytuj", "Edit", new { id=item.WizytaID }) |
+                @Html.DisplayFor(modelItem => item.Pracownik.ImieNazwisko)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pracownik.Specjalizacja.Nazwa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pracownik.Placowka.Adres.FullAdres)
+            </td>
+            <td>
+                @*@Html.ActionLink("Edytuj", "Edit", new { id=item.WizytaID }) |*@
                 @Html.ActionLink("Anuluj", "Delete", new { id=item.WizytaID })
             </td>
         </tr>

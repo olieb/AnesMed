@@ -28,7 +28,10 @@ else if (TempData["failure-message"] != null)
             <h4>Pesel: @Html.TextBox("Pesel", null, new { @class = "form-control", @placeholder="nr. Pesel" })</h4>
         </div>
         <div class="col-md-offset-3">
-            &nbsp;<input class="btn btn-default btn-md box-shadow"  type="submit" value="Szukaj" style="margin-top: 38px;" />
+            <button style="margin-top: 4.3%;" class=" btn btn-default" type="submit">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                Szukaj
+            </button>        
         </div>
     </div>
 </div>

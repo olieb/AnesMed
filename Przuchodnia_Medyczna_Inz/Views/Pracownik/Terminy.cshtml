@@ -1,0 +1,109 @@
+﻿@model Przuchodnia_Medyczna_Inz.Models.Pracownik
+
+
+@{
+    ViewBag.Title = "Terminy";
+}
+<div class="col-md-8 col-md-offset-4">
+    <br />
+    <h2 class="title">Terminy</h2>
+</div>
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.OsobaID)
+<div class="container">
+    <div class="row">
+        <h4 class="sub-title">Pracownik:</h4>
+        <hr />
+        <div class="col-md-2 col-md-offset-10">
+            <a href="@Url.Action("CreateTermin", "Wizyta", new { id = Model.OsobaID })" class="btn btn-success">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                Dodaj Termin
+            </a>
+        </div>
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt>
+                    <b>Imie Nazwisko</b>
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ImieNazwisko)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Telefon)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Telefon)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Pesel)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Pesel)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Specjalizacja)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Specjalizacja.Nazwa)
+                </dd>
+                <br />
+                <b class="sub-title">Adres</b>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Adres.Ulica)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Adres.Ulica) @Html.DisplayFor(model => model.Adres.NrBudynku)/@Html.DisplayFor(model => model.Adres.NrMieszkania)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Adres.KodPocztowy)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Adres.KodPocztowy) @Html.DisplayFor(model => model.Adres.Miejscowosc)
+                </dd>
+            </dl>
+        </div>
+
+        <div class="col-md-6">
+            <h4 class="sub-title"> Terminy wizyt :</h4>
+            <br />
+            <table class="table">
+                <tr>
+                    <th>Data</th>
+                    <th>Godzina</th>
+                    <th>Uwagi</th>
+
+                </tr>
+                @foreach (var item in Model.Wizyty)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Data)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Godzina)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Uwagi)
+                        </td>
+                        @if(User.Identity.IsAuthenticated && User.IsInRole("Administrator")){
+                        <td>
+                            @Html.ActionLink("Anuluj", "Delete", "Wizyta", new { id = item.WizytaID }, null)
+                        </td>
+                        }
+                    </tr>
+                }
+            </table>
+
+        </div>
+    </div>
+</div>
+<a href="@Url.Action("Index", "Pracownik", new { stanowisko = @ViewBag.StanowiskoNazwa })" title="Powrót">
+    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" style="font-size: 25px;"></span>
+</a>

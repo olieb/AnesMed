@@ -128,6 +128,8 @@ C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodni
 C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\Microsoft.Web.Infrastructure.dll
 C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\Newtonsoft.Json.dll
 C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\Owin.dll
+C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\PagedList.dll
+C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\PagedList.Mvc.dll
 C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\System.Web.Helpers.dll
 C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\System.Web.Mvc.dll
 C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\System.Web.Optimization.dll
@@ -136,6 +138,9 @@ C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodni
 C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\System.Web.WebPages.dll
 C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\System.Web.WebPages.Razor.dll
 C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\WebGrease.dll
+C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\Newtonsoft.Json.xml
+C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\PagedList.xml
+C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\PagedList.Mvc.xml
 C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\System.Web.Helpers.xml
 C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\System.Web.Mvc.xml
 C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\System.Web.Optimization.xml
@@ -143,7 +148,6 @@ C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodni
 C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\System.Web.WebPages.xml
 C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\System.Web.WebPages.Deployment.xml
 C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\System.Web.WebPages.Razor.xml
-C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\Newtonsoft.Json.xml
 C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\Antlr3.Runtime.pdb
 C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\EntityFramework.xml
 C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\EntityFramework.SqlServer.xml
@@ -161,3 +165,4 @@ C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodni
 C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\obj\Debug\Przuchodnia_Medyczna_Inz.dll
 C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\obj\Debug\Przuchodnia_Medyczna_Inz.pdb
+C:\Users\Mtk\Desktop\Projekty\ProjektyStudentów\Inzynier_Przychodnia\Przuchodnia_Medyczna_Inz\Przuchodnia_Medyczna_Inz\obj\Debug\Przuchodnia_Medyczna_Inz.csprojResolveAssemblyReference.cache

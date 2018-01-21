@@ -36,6 +36,5 @@ namespace Przuchodnia_Medyczna_Inz.Models
         public int PlacowkaID { get; set; }
         [ForeignKey("PlacowkaID")]
         public virtual PlacowkaMedyczna Placowka { get; set; }
-        public virtual ICollection<Grafik> Grafik { get; set; }         //foreignkey Grafiku
     }
 }
