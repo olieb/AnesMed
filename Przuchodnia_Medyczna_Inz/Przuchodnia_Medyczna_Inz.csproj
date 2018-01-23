@@ -168,7 +168,6 @@
     <Compile Include="Controllers\AdresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PacjentController.cs" />
-    <Compile Include="Controllers\PacjentHomeController.cs" />
     <Compile Include="Controllers\PlacowkaController.cs" />
     <Compile Include="Controllers\PracownikController.cs" />
     <Compile Include="Controllers\SpecjalizacjaController.cs" />
@@ -311,8 +310,8 @@
     <Content Include="Views\Placowka\_Delete.cshtml" />
     <Content Include="Views\Placowka\_Edit.cshtml" />
     <Content Include="Views\Pracownik\Terminy.cshtml" />
-    <Content Include="Views\Wizyta\TerminCreate.cshtml" />
     <Content Include="Views\Wizyta\_VisitList.cshtml" />
+    <Content Include="Views\Pracownik\_TerminCreate.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

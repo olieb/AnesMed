@@ -1,0 +1,57 @@
+﻿@model Przuchodnia_Medyczna_Inz.Models.Wizyta
+
+@Html.ValidationSummary(true)
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title title" style="font-size:25px;">Nowy Termin</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Data, new { @class = "control-label col-md-3" })
+                    <div class="col-md-5 col-md-pull-1">
+                        @Html.TextBoxFor(model => model.Data, new { @class="form-control", @type="date" })
+                        @Html.ValidationMessageFor(model => model.Data)
+                    </div>
+                </div>
+                <br /><br />
+                <div class="form-group bootstrap-timepicker timepicker" id="Godzina">
+                    @Html.LabelFor(model => model.Godzina, new { @class = "control-label col-md-3" })
+                    <div class="col-md-4 col-md-pull-1">
+                        @Html.TextBoxFor(model => model.Godzina, new { @class = "form-control", @type = "time", @id ="timepicker1" })
+                        @Html.ValidationMessageFor(model => model.Godzina)
+                    </div>
+                </div>
+                <br /><br />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Uwagi, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Uwagi, new { @class = "form-control", @cols = 20, @rows = 10 })
+                        @Html.ValidationMessageFor(model => model.Uwagi)
+                    </div>
+                    @{Model.PracownikID = @ViewBag.LekarzID;}
+                    @Html.HiddenFor(model => model.PracownikID, new { @id = "Id"})
+                </div>
+            </div>
+            <br />
+            <div class="modal-footer" style="margin-top: 160px;">
+                <button onclick="TerminAdd()" class="btn btn-success" type="submit">Zapisz</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*<script>
+    $(document).ready(function () {
+        $(function () {
+            $('#timepicker1').timepicker({
+                showSeconds: false,
+                template: 'dropdown'
+            });
+        });;
+    });
+</script>*@

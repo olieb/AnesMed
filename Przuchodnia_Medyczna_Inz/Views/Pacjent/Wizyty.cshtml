@@ -4,6 +4,11 @@
 @{
     ViewBag.Title = "Wizyty";
 }
+<style>
+    tr:nth-child(even) {
+        background-color: #rgba(163, 226, 254, 0.24);
+    }
+</style>
 <div class="col-md-8 col-md-offset-4">
     <br />
     <h2 class="title">Dane Pacjenta</h2>
@@ -67,7 +72,7 @@
             <div class="col-md-6">
                 <h4 class="sub-title"> Umówione wizyty pacjenta :</h4>                 
                 <br />                  
-                <table class="table">
+                <table class="table" style="border: 2px solid rgba(163, 226, 254, 0.24); 177, 246, 0.44px); box-shadow: 9px 7px 20px rgba(72, 177, 246, 0.44);">
                     <tr>
                         <th>Data</th>
                         <th>Godzina</th>
@@ -89,7 +94,7 @@
                             <td>
                                 @Html.ActionLink("Anuluj", "Delete", "Wizyta", new { id = item.WizytaID }, null)
                             </td>
-                        </tr>                       
+                        </tr>
                     }
                 </table>
 

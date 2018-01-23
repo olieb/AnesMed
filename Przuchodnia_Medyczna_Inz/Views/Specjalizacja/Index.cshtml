@@ -28,8 +28,10 @@
                         @*@Html.ActionLink("Edytuj", "Edit", new { id = item.SpecjalizacjaID }) |*@
                         @Html.ActionLink("Szczegóły", "_Details", new { id = item.SpecjalizacjaID },
                         new { @data_toggle = "modal", @data_target = "#specjalizacja-details", @onlick = "emptyModalContent()" }) |
-                        @Html.ActionLink("Usuń", "Delete", new { id = item.SpecjalizacjaID },
-                     new { @data_toggle = "modal", @data_target = "#specjalizacja-delete" })
+                        <a href="@Url.Action("Delete", new { id = item.SpecjalizacjaID })" data-toggle="modal" data-target="#specjalizacja-delete" title="Usuń">
+                            <span class="glyphicon glyphicon-trash icon" aria-hidden="true"></span>
+                        </a>
+
                     </td>
                 </tr>
             }

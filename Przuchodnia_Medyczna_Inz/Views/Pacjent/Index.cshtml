@@ -1,4 +1,5 @@
-﻿@model Przuchodnia_Medyczna_Inz.ViewModel.AdresyOsobVM
+﻿@model PagedList.IPagedList<Przuchodnia_Medyczna_Inz.Models.Pacjent>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Pacjenci";
@@ -28,7 +29,7 @@ else if (TempData["failure-message"] != null)
             <h4>Pesel: @Html.TextBox("Pesel", null, new { @class = "form-control", @placeholder="nr. Pesel" })</h4>
         </div>
         <div class="col-md-offset-3">
-            <button style="margin-top: 4.3%;" class=" btn btn-default" type="submit">
+            <button style="margin-top: 4.4%;" class=" btn btn-default" type="submit">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                 Szukaj
             </button>        
@@ -57,37 +58,47 @@ else if (TempData["failure-message"] != null)
         <th>Adres</th>
         <th></th>
     </tr> 
-   @for(int i = 0; i < Model.Pacjenci.Count(); i++ )
+   @foreach(var item in Model)
    {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => Model.Pacjenci.ElementAt(i).ImieNazwisko)
+            @Html.DisplayFor(modelItem => item.ImieNazwisko)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => Model.Pacjenci.ElementAt(i).Pesel)
+            @Html.DisplayFor(modelItem => item.Pesel)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => Model.Pacjenci.ElementAt(i).Telefon)
+            @Html.DisplayFor(modelItem => item.Telefon)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => Model.Pacjenci.ElementAt(i).NIP)
+            @Html.DisplayFor(modelItem => item.NIP)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => Model.Adresy.ElementAt(i).FullAdres)
+            @Html.DisplayFor(modelItem => item.Adres.FullAdres)
 
         </td>
         <td>
-          
-            @Html.ActionLink("Wizyty", "Wizyty", new { id = Model.Pacjenci.ElementAt(i).OsobaID }) |
-            @Html.ActionLink("Edytuj", "Edit", new { id = Model.Pacjenci.ElementAt(i).OsobaID }) |
-            @Html.ActionLink("Usuń", "Delete", new { id = Model.Pacjenci.ElementAt(i).OsobaID },
-                     new { @data_toggle = "modal", @data_target = "#pacjent-delete" })
+            <a class="btn btn-xs btn-default buttons-xs" href="@Url.Action("Wizyty", new { id = item.OsobaID })" title="Wizyty pacjenta">
+                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Wizyty
+            </a>    
+            <a class="btn btn-xs btn-info buttons-xs" href="@Url.Action("Edit", new { id = item.OsobaID })" title="Edycja danych">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edutuj
+            </a>
+            <a href="@Url.Action("Delete", new { id = item.OsobaID })" data-toggle="modal" data-target="#pacjent-delete" title="Usuń">
+                <span class="glyphicon glyphicon-trash icon" aria-hidden="true"></span>
+            </a>
         </td>
     </tr>
    }
 </table>
 
 <div id="pacjent-delete" class="modal fade hidden-print" tabindex="-1" role="dialog">
+</div>
+
+<div class="col-md-offset-5" style="margin-top: 10em; margin-bottom: -20px;">
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { stanowisko = @ViewBag.StanowiskoNazwa, page }))
 </div>
 
 <script>

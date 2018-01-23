@@ -1,9 +1,13 @@
 ﻿@model Przuchodnia_Medyczna_Inz.Models.Pracownik
 
-
 @{
     ViewBag.Title = "Terminy";
 }
+<style>
+    tr:nth-child(even) {
+        background-color: rgba(163, 226, 254, 0.24);
+    }
+</style>
 <div class="col-md-8 col-md-offset-4">
     <br />
     <h2 class="title">Terminy</h2>
@@ -15,7 +19,7 @@
         <h4 class="sub-title">Pracownik:</h4>
         <hr />
         <div class="col-md-2 col-md-offset-10">
-            <a href="@Url.Action("CreateTermin", "Wizyta", new { id = Model.OsobaID })" class="btn btn-success">
+            <a href="#" data-target="#termin-add" data-toggle="modal" class="btn btn-success">
                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                 Dodaj Termin
             </a>
@@ -73,7 +77,8 @@
         <div class="col-md-6">
             <h4 class="sub-title"> Terminy wizyt :</h4>
             <br />
-            <table class="table">
+            <table class="table" id="terminy"
+                    style="border: 2px solid rgba(163, 226, 254, 0.24); 177, 246, 0.44px); box-shadow: 9px 7px 20px rgba(72, 177, 246, 0.44);">
                 <tr>
                     <th>Data</th>
                     <th>Godzina</th>
@@ -92,10 +97,11 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Uwagi)
                         </td>
-                        @if(User.Identity.IsAuthenticated && User.IsInRole("Administrator")){
-                        <td>
-                            @Html.ActionLink("Anuluj", "Delete", "Wizyta", new { id = item.WizytaID }, null)
-                        </td>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
+                        {
+                            <td>
+                                @Html.ActionLink("Anuluj", "Delete", "Wizyta", new { id = item.WizytaID }, null)
+                            </td>
                         }
                     </tr>
                 }
@@ -107,3 +113,25 @@
 <a href="@Url.Action("Index", "Pracownik", new { stanowisko = @ViewBag.StanowiskoNazwa })" title="Powrót">
     <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" style="font-size: 25px;"></span>
 </a>
+
+<div id="termin-add" class="modal fade hidden-print" tabindex="-1" role="dialog">
+    @Html.Partial("_TerminCreate", new Przuchodnia_Medyczna_Inz.Models.Wizyta())
+</div>
+
+<script>
+    function TerminAdd() {
+        var data = document.getElementById("Data").value;
+        var godzina = document.getElementById("timepicker1").value;
+        var uwagi = document.getElementById("Uwagi").value;
+        var idsd =  document.getElementById("Id").value;
+
+        $.ajax({
+            url: '@Url.Action("CreateTermin", "Wizyta")',
+            data: { "data": data, "godzina": godzina, "uwagi": uwagi, "Id": idsd},
+            type: 'Post',
+        }).success(function (result) {
+            $('#termin-add').modal('toggle');
+            $(document).ajaxStop(function () { location.reload(true); });
+        });
+    }
+</script>

@@ -1,4 +1,5 @@
-﻿using Przuchodnia_Medyczna_Inz.DAL;
+﻿using PagedList;
+using Przuchodnia_Medyczna_Inz.DAL;
 using Przuchodnia_Medyczna_Inz.Models;
 using Przuchodnia_Medyczna_Inz.ViewModel;
 using System;
@@ -18,21 +19,26 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         private PrzychodniaContext db = new PrzychodniaContext();
 
         // GET: /Pacjent/
-        public ActionResult Index(string imieNazwisko, string pesel)
+        public ActionResult Index(string imieNazwisko, string pesel, int page = 1)
         {
-            var model = new AdresyOsobVM();
+            var pacjenci= new AdresyOsobVM();
 
-            model.Pacjenci = (from p in db.Pacjent select p).OrderBy(p => p.Nazwisko);
-            model.Adresy = from a in db.Adres select a;
+            pacjenci.Pacjenci = (from p in db.Pacjent select p).OrderBy(p => p.Nazwisko).ToList();
+            pacjenci.Adresy = from a in db.Adres select a;
 
             if (!String.IsNullOrEmpty(imieNazwisko))
             {
-                model.Pacjenci = model.Pacjenci.Where(s => s.ImieNazwisko.Contains(imieNazwisko));
+                pacjenci.Pacjenci = pacjenci.Pacjenci.Where(s => s.ImieNazwisko.Contains(imieNazwisko)).ToList();
             }
             if (!String.IsNullOrEmpty(pesel))
             {
-                model.Pacjenci = model.Pacjenci.Where(p => p.Pesel.ToString().Contains(pesel));
+                pacjenci.Pacjenci = pacjenci.Pacjenci.Where(p => p.Pesel.ToString().Contains(pesel)).ToList();
             }
+
+            int pageSize = 10;
+            int pageNumber = 1;
+
+            PagedList<Pacjent> model = new PagedList<Pacjent>(pacjenci.Pacjenci.OrderBy(x => x.Nazwisko), page, pageSize);
 
             return View(model);
         }

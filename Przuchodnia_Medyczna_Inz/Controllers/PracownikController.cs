@@ -47,7 +47,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             ViewBag.SpecjalizacjaID = new SelectList(db.Specjalizacja, "SpecjalizacjaID", "Nazwa");
             ViewBag.StanowiskoNazwa = stanowisko;  
            
-            int pageSize = 1;
+            int pageSize = 10;
             int pageNumber = 1;
             
             PagedList<Pracownik> model = new PagedList<Pracownik>(pracownicy.OrderBy(x => x.Nazwisko), page, pageSize);
@@ -63,20 +63,17 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Pracownik pracownik = db.Pracownik.Find(id);
-            pracownik.Wizyty = db.Wizyta.Where(x => x.Pracownik.OsobaID.Equals(id) && x.Status == Status.Wolna).ToList();
+            pracownik.Wizyty = db.Wizyta.Where(x => x.Pracownik.OsobaID.Equals(id) && x.Status == Status.Wolna).OrderBy(x => x.Data).ToList();
 
 
             ViewBag.StanowiskoNazwa = db.Stanowisko.Where(x => x.StanowiskoID == pracownik.StanowiskoID).FirstOrDefault().Nazwa;
-            
+            ViewBag.LekarzID = id;
             if (pracownik == null)
             {
                 return HttpNotFound();
             }
             return View(pracownik);
         }
-
-
-
 
         // GET: /Pracownik/Details/5
         public ActionResult Details(string id)

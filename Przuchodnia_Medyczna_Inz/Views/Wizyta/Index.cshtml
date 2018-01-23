@@ -101,13 +101,19 @@ else
         <h3>Nie masz zarezerwowanych wizyt.</h3>
     </div>
 }
+
+<div id="termin-add" class="modal fade hidden-print" tabindex="-1" role="dialog">
+    @Html.Partial("_TerminCreate", new Przuchodnia_Medyczna_Inz.Models.Wizyta())
+</div>
+
+
 <script type="text/javascript">
     $(function(){
         $('.input-group input[name="startDate"]').daterangepicker(
        {
            //startDate: moment().subtract(29, 'days'),
            locale: {
-               format: 'DD/MM/YYYY'
+               format: 'DD/MM/YYYY',
            },
            showDropdowns: true,
            daysOfWeekDisabled: [0, 6],
@@ -118,7 +124,7 @@ else
        {
            //endDate: moment().subtract(-7, 'days'),
            locale: {
-               format: 'DD/MM/YYYY'
+               format: 'DD/MM/YYYY',
            },
            showDropdowns: true,
            daysOfWeekDisabled: [0, 6],

@@ -63,25 +63,26 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         }
 
         //GET: /Wityta/CreateTermin
-        public ActionResult CreateTermin(string id) 
+        public ActionResult CreateTermin(string id)
         {
             //var lekarz = db.Pracownik.Where(x => x.OsobaID.Equals(id));
 
-            return View("TerminCreate");
+            return View("_TerminCreate");
         }
 
         //POST
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CreateTermin(Wizyta wizyta, string Id)
+        public ActionResult CreateTermin(DateTime data, DateTime godzina, string uwagi, string Id)
         {
-           wizyta.PracownikID = Id; 
-       
-            if (ModelState.IsValid)
-            {
+            Wizyta wizyta = new Wizyta();
+
                 try
                 {
                     wizyta.Status = Status.Wolna;
+                    wizyta.PracownikID = Id;
+                    wizyta.Data = data;
+                    wizyta.Godzina = godzina;
+                    wizyta.Uwagi = uwagi;
                     db.Wizyta.Add(wizyta);
                     db.SaveChanges();
                     return RedirectToAction("Terminy", "Pracownik", new { id = Id });
@@ -100,8 +101,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                     }
                     throw;
                 }
-            }
-            return View("TerminCreate", wizyta);
+            return View("_TerminCreate", wizyta);
         }
         
         public ActionResult VisitList(string id, string startDate, string endDate)

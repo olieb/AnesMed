@@ -11,7 +11,8 @@ namespace Przuchodnia_Medyczna_Inz
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-1.10.2.js",
                         "~/Scripts/jquery.swipebox.min.js",
-                         "~/Scripts/jquery-ui.js"));
+                         "~/Scripts/jquery-ui.js"                        
+                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
