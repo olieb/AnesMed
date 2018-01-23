@@ -1,0 +1,124 @@
+﻿@model IEnumerable<Przuchodnia_Medyczna_Inz.Models.PlacowkaMedyczna>
+
+@{
+    ViewBag.Title = "Placówki";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-4 title">
+            <h2>Nasze placówki Medyczne</h2>
+        </div>
+        <div class="col-md-2 col-md-offset-9">
+            <a href="#" data-target="#placowka-add" data-toggle="modal" class="btn btn-success anchorDetails" type="button">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                Dodaj nową placówkę
+            </a>
+            <div class="col-md-12">
+                <br />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+                <tr class="head-table">
+                    <th>
+                        @Html.DisplayNameFor(model => model.Nazwa)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Adres)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Telefon)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GodzinyOtwarcia)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        
+                        <td>
+                            <b> @Html.DisplayFor(modelItem => item.Nazwa)</b>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Adres.FullAdres)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Telefon)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GodzinyOtwarcia)
+                        </td>
+                        <td>
+                            <a class="btn btn-xs btn-info" href="@Url.Action("Edit", new { id = item.PlacowkaMedycznaID })" data-toggle="modal" data-target="#placowka-edit" title="Edytuj">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edytuj
+                            </a>
+                            <a href="@Url.Action("Delete", new { id = item.PlacowkaMedycznaID })" data-toggle="modal" data-target="#placowka-delete" title="Usuń">
+                                <span class="glyphicon glyphicon-trash icon" aria-hidden="true"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div class="col-md-12">
+            <br />
+        </div>
+    </div>
+</div>
+
+<div id="placowka-add" class="modal fade hidden-print" tabindex="-1" role="dialog">
+    @Html.Partial("_Create", new Przuchodnia_Medyczna_Inz.Models.PlacowkaMedyczna())
+</div>
+<div id="placowka-edit" class="modal fade hidden-print" tabindex="-1" role="dialog">
+    @Html.Partial("_Edit", new Przuchodnia_Medyczna_Inz.Models.PlacowkaMedyczna())
+</div>
+<div id="placowka-delete" class="modal fade hidden-print" tabindex="-1" role="dialog">
+</div>
+<script>
+    $(document).ready(function () {
+        $('#error-message').hide();
+    });
+    function PlacowkaAdd()
+    {
+        var nazwa = document.getElementById("Nazwa").value;
+        var kom = document.getElementById("Komorka").value;
+        var tel = document.getElementById("Telefon").value;
+        var otwarte = document.getElementById("GodzinyOtwarcia").value;
+        var ulica = document.getElementById("Adres_Ulica").value;
+        var budynek = document.getElementById("Adres_NrBudynku").value;
+        var kod = document.getElementById("Adres_KodPocztowy").value;
+        var miejscowosc = document.getElementById("Adres_Miejscowosc").value;
+
+        if (nazwa.length < 5 || nazwa.length > 20) {
+            // Add errors highlight
+            $('#nazwak').addClass('has-error');
+            $('#error-message').show();
+        } else {
+            // Remove the errors highlight
+            $('#nazwak').removeClass('has-error').addClass('has-success');
+            $('#error-message').hide();
+            $.ajax({
+                url: '@Url.Action("Create", "Placowka", null)',
+                data: { "nazwa": nazwa, "kom": kom, "tel": tel, "otwarte": otwarte, "ulica": ulica, "budynek": budynek, "kod": kod, "miejscowosc": miejscowosc },
+                type: 'Post',
+            }).success(function (result) {
+                $('#placowka-edit').modal('toggle');
+                $('body').load('Placowka/Index');
+            });
+        }
+    }
+    var emptyModalContent = function () {
+        $('#placowka-delete').removeData('bs.modal').find('.modal-content').empty();
+    };
+    $('#placowka-delete').on('hidden.bs.modal', function () {
+        emptyModalContent();
+    });
+</script>

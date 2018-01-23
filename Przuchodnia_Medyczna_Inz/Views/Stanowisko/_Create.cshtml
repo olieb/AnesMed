@@ -1,0 +1,38 @@
+﻿@model Przuchodnia_Medyczna_Inz.Models.Stanowisko
+
+@Html.ValidationSummary(true)
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title title" style="font-size:25px;">Nowe Stanowisko</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" id="nazwak">
+                    @Html.LabelFor(model => model.Nazwa, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div id="error-message" class="has-error" style="color: red">Pole "Nazwa" jest wymagana i musi mieć od 5 do 20 znaków.</div>
+                        @Html.TextBoxFor(model => model.Nazwa, new { @class = "form-control" })
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Obowiazki, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Obowiazki, new { @class = "form-control", @cols = 20, @rows = 10 })
+                        @Html.ValidationMessageFor(model => model.Obowiazki)
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="modal-footer" style="margin-top: 160px;">
+                <button onclick="StanowiskoAdd()" class="btn btn-success" type="submit">Zapisz</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
+            </div>
+        </div>
+    </div>
+</div>

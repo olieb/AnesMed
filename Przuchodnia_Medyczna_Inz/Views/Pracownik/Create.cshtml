@@ -1,0 +1,178 @@
+﻿@model Przuchodnia_Medyczna_Inz.Models.RegisterPracownikViewModel
+
+@{
+    ViewBag.Title = "Dodaj Pracownika";
+ }
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-4 col-md-8">
+            <br />
+            <h2 class="title">Nowy pracownik: @ViewBag.StanowiskoNazwa</h2>
+            <br />
+        </div>
+    </div>
+</div>
+<hr />
+@using (Html.BeginForm("RegisterPracownik", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="col-md-6">
+        <h3 class="sub-title">Dane logowania:</h3>
+           <br />
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h3 class="sub-title">Dane Personalne:</h3>
+        <br />
+        <div class="form-group">
+            @Html.LabelFor(model => model.Pracownicy.Pracownik.Imie, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Pracownicy.Pracownik.Imie, new { @class = "form-control", @placeholder = "Imie" })
+                @Html.ValidationMessageFor(model => model.Pracownicy.Pracownik.Imie)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Pracownicy.Pracownik.Nazwisko, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Pracownicy.Pracownik.Nazwisko, new { @class = "form-control", @placeholder = "Nazwisko" })
+                @Html.ValidationMessageFor(model => model.Pracownicy.Pracownik.Nazwisko)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Pracownicy.Pracownik.Telefon, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Pracownicy.Pracownik.Telefon, new { @class = "form-control", @placeholder = "Numer telefonu" })
+                @Html.ValidationMessageFor(model => model.Pracownicy.Pracownik.Telefon)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Pracownicy.Pracownik.Pesel, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Pracownicy.Pracownik.Pesel, new { @class = "form-control", @placeholder = "Numer Pesel" })
+                @Html.ValidationMessageFor(model => model.Pracownicy.Pracownik.Pesel)
+            </div>
+        </div>
+        <br />
+    </div>
+    <h3 class="sub-title">Adres:</h3>
+    <hr />
+    <div class="form-group">
+        @Html.LabelFor(model => model.Pracownicy.Adres.Miejscowosc, "Miejscowość", new { @class = "control-label col-md-1" })
+        <div class="col-md-3">
+            @Html.TextBoxFor(m => m.Pracownicy.Adres.Miejscowosc, new { @class = "form-control", @placeholder = "Miejscowość" })
+            @Html.ValidationMessageFor(model => model.Pracownicy.Adres.Miejscowosc)
+        </div>
+        @Html.LabelFor(model => model.Pracownicy.Adres.KodPocztowy, "Kod Pocztowy", new { @class = "control-label col-md-2" })
+        <div class="col-md-3">
+            @Html.TextBoxFor(m => m.Pracownicy.Adres.KodPocztowy, new { @class = "form-control", @placeholder = "Kod Pocztowy" })
+            @Html.ValidationMessageFor(model => model.Pracownicy.Adres.KodPocztowy)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Pracownicy.Adres.Ulica, new { @class = "control-label col-md-1" })
+        <div class="col-md-3">
+            @Html.TextBoxFor(m => m.Pracownicy.Adres.Ulica, new { @class = "form-control", @placeholder = "Ulica" })
+            @Html.ValidationMessageFor(model => model.Pracownicy.Adres.Ulica)
+        </div>
+        <div class="col-md-2">
+            @Html.TextBoxFor(m => m.Pracownicy.Adres.NrBudynku, new { @class = "form-control", @placeholder = "nr budynku" })
+            @Html.ValidationMessageFor(model => model.Pracownicy.Adres.NrBudynku)
+        </div>
+        <div class="col-md-2">
+            @Html.TextBoxFor(m => m.Pracownicy.Adres.NrMieszkania, new { @class = "form-control", @placeholder = "nr lokalu" })
+            @Html.ValidationMessageFor(model => model.Pracownicy.Adres.NrMieszkania)
+        </div>
+    </div>
+    <br />
+    <br />
+        <h4 class="sub-title">Zatrudnienie: </h4>
+        <hr />
+        <br />
+        <div class="form-group">
+            @Html.LabelFor(model => model.Pracownicy.Pracownik.DataZatrudnienia, new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.Pracownicy.Pracownik.DataZatrudnienia, new { @class = "form-control", @Value = @DateTime.Now.ToShortDateString() })
+                @Html.ValidationMessageFor(model => model.Pracownicy.Pracownik.DataZatrudnienia)
+            </div>
+            @Html.LabelFor(model => model.Pracownicy.Pracownik.Stanowisko.StanowiskoID, "Stanowisko", new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.DropDownList("StanowiskoID", (SelectList)@ViewBag.StanowiskoID, new { @class = "form-control", @readonly = "readonly", @onsubmit = "SelectedStanowisko(this)" })
+                @Html.ValidationMessageFor(model => model.Pracownicy.Pracownik.Stanowisko.StanowiskoID)
+            </div>            
+           @if(@ViewBag.StanowiskoNazwa.Equals("Lekarz")){               
+                @Html.LabelFor(model => model.Pracownicy.Pracownik.Specjalizacja.SpecjalizacjaID, "Specjalizacja", new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.DropDownList("SpecjalizacjaID", (SelectList)@ViewBag.SpecjalizacjaID, String.Empty, new { @class = "form-control", @onchange="SelectedSpecjalization(this)"})
+                @Html.ValidationMessageFor(model => model.Pracownicy.Pracownik.Specjalizacja.SpecjalizacjaID)
+            </div>   
+           }        
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Pracownicy.Pracownik.Pensja, new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.Pracownicy.Pracownik.Pensja, new { @class = "form-control", @placeholder="kwota" })
+                @Html.ValidationMessageFor(model => model.Pracownicy.Pracownik.Pensja)
+            </div>
+            @Html.LabelFor(model => model.Pracownicy.Pracownik.PlacowkaID, "Placowka", new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.DropDownList("PlacowkaMedycznaID", (SelectList)@ViewBag.PlacowkaMedycznaID, String.Empty, new { @class = "form-control", @onsubmit = "SelectedPlacowka(this)" })
+                @Html.ValidationMessageFor(model => model.Pracownicy.Pracownik.PlacowkaID)
+            </div>
+        </div>
+  <br /> <br />
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-7">
+            <input type="submit" class="btn btn-success col-md-10" value="Zapisz" />
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Powrót", "Index", new { stanowisko = @ViewBag.StanowiskoNazwa })
+</div>
+
+<script type="text/javascript">
+    function SelectedSpecjalization(e) {
+      $.ajax({
+         type: 'POST',
+         dataType: 'text',
+         url: '@Url.Action("RegisterPracownik", "Account")',
+         data: ({ specjalizacjaId: e.innerHTML }),
+         success: function (result) { alert(result); }
+      });
+    }
+    function SelectedPlacowka(e) {
+        $.ajax({
+            type: 'POST',
+            dataType: 'text',
+            url: '@Url.Action("RegisterPracownik", "Account")',
+            data: ({ placowkaMedycznaId: e.innerHTML }),
+            success: function (result) { }
+        });
+    }
+   function SelectedStanowisko(e){
+        $.ajax({
+            type: 'POST',
+            dataType: 'text',
+            url: '@Url.Action("RegisterPracownik", "Account")',
+            data: ({ stanowiskoId: e.innerHTML}),
+            success: function (result) {}
+        });
+   }
+</script>

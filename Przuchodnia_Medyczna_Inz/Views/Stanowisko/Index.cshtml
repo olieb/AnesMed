@@ -1,0 +1,90 @@
+﻿@model IEnumerable<Przuchodnia_Medyczna_Inz.Models.Stanowisko>
+@{
+    ViewBag.Title = "Stanowiska";
+}
+<br />
+<div class="container">
+    <div class="col-md-9 col-md-offset-3 title">
+        <h2>Lista stanowisk pracy w AnesMed</h2>
+    </div>
+    <div class="col-md-2 col-md-offset-9">
+        <a href="#" data-target="#stanowisko-add" data-toggle="modal" class="btn btn-success anchorDetails" type="button">
+            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+            Dodaj nowe stanowisko
+        </a>
+        <div class="col-md-12">
+            <br />
+        </div>
+    </div>
+    <div class="col-md-5 col-md-offset-4">
+        <table class="table" id="table" style="border: double 2px; border-color: #309BBE">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <b>@Html.DisplayFor(modelItem => item.Nazwa)</b>
+                    </td>
+                    <td>
+                        @*@Html.ActionLink("Edytuj", "Edit", new { id = item.SpecjalizacjaID }) |*@
+                        @Html.ActionLink("Szczegóły", "Details", new { id = item.StanowiskoID },
+                        new { @data_toggle = "modal", @data_target = "#stanowisko-details", @onlick = "emptyModalContent()" }) |
+                        <a href="@Url.Action("Delete", new { id = item.StanowiskoID })" data-toggle="modal" data-target="#stanowisko-delete" title="Usuń">
+                            <span class="glyphicon glyphicon-trash icon" aria-hidden="true"></span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="col-md-12">
+        <br />
+    </div>
+</div>
+<div id="stanowisko-add" class="modal fade hidden-print" tabindex="-1" role="dialog">
+    @Html.Partial("_Create", new Przuchodnia_Medyczna_Inz.Models.Stanowisko())
+</div>
+<div id="stanowisko-details" class="modal fade hidden-print" tabindex="-1" role="dialog">
+</div>
+<div id="stanowisko-delete" class="modal fade hidden-print" tabindex="-1" role="dialog">
+</div>
+<script>
+    $(document).ready(function () {
+        $('#error-message').hide();
+    });
+
+    function StanowiskoAdd() {
+        var nazwa = document.getElementById("Nazwa").value;
+        var obowiazki = document.getElementById("Obowiazki").value;
+
+        if (nazwa.length < 5 || nazwa.length > 20) {
+            // Add errors highlight
+            $('#nazwak').addClass('has-error');
+            $('#error-message').show();
+        } else {
+            // Remove the errors highlight
+            $('#nazwak').removeClass('has-error').addClass('has-success');
+            $('#error-message').hide();
+            $.ajax({
+                url: '@Url.Action("Create", "Stanowisko", null)',
+                data: { "nazwa": nazwa, "obowiazki": obowiazki },
+                type: 'Post',
+            }).success(function (result) {
+                $('#stanowisko-add').modal('toggle');
+                $('body').load('Stanowisko/Index');
+            });
+        }
+    }
+
+    var emptyModalContent = function () {
+        $('#stanowisko-details').removeData('bs.modal').find('.modal-content').empty();
+        $('#stanowisko-delete').removeData('bs.modal').find('.modal-content').empty();
+    };
+
+    $('#stanowisko-details').on('hidden.bs.modal', function () {
+        emptyModalContent();
+    });
+    $('#stanowisko-delete').on('hidden.bs.modal', function () {
+        emptyModalContent();
+    });
+
+</script>

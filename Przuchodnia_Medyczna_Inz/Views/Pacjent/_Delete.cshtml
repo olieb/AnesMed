@@ -1,0 +1,27 @@
+﻿@model Przuchodnia_Medyczna_Inz.Models.Pacjent
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h3 class="title" style="font-size: 25px;">Usuń pacjenta</h3>
+            </div>
+            <div class="modal-body">
+                <h4 class="sub-title">Czy napewno chcesz usunać pacjenta <b>@Html.DisplayFor(model => model.ImieNazwisko)</b>?</h4>
+            </div>
+
+            <div class="modal-footer">
+                @using (Html.BeginForm())
+                {
+                    <input type="submit" value="Usuń" class="btn btn-danger" />
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,156 @@
+﻿@model PagedList.IPagedList<Przuchodnia_Medyczna_Inz.Models.Pracownik>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Pracownicy";
+}
+@if (@ViewBag.StanowiskoNazwa != null)
+{
+    <br />
+    if (@ViewBag.StanowiskoNazwa.Equals("Lekarz"))
+    {
+        <div class="col-md-offset-5">
+            <h2 class="title">Lista Lekarzy</h2>
+        </div>
+    }
+    else if (@ViewBag.StanowiskoNazwa.Equals("Recepcja"))
+    {
+        <div class="col-md-offset-5">
+            <h2 class="title">Lista Recepcjonistów</h2>
+        </div>
+    }
+    else if (@ViewBag.StanowiskoNazwa.Equals("Konserwator"))
+    {
+        <div class="col-md-offset-5">
+            <h2 class="title">Lista Konserwatorów sprzętu</h2>
+        </div>
+    }
+    else if (@ViewBag.StanowiskoNazwa.Equals("Serwis_Sprzatajacy"))
+    {
+        <div class="col-md-offset-5">
+            <h2 class="title">Lista pracowników Serwisu Sprzątajacego</h2>
+        </div>
+    }
+    else if (@ViewBag.StanowiskoNazwa.Equals("Pielegniarka"))
+    {
+        <div class="col-md-offset-5">
+            <h2 class="title">Lista Pielegniarek</h2>
+        </div>
+    }
+}
+<br />
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">
+        <strong>@TempData["Message"]</strong>
+    </div>
+}
+<br />
+<div class="container">
+    <div class="row" style="margin-right: 20px;">
+        <div class="col-md-2 col-md-offset-10">
+            <a href="@Url.Action("Create", "Pracownik", new { stanowisko = @ViewBag.StanowiskoNazwa })" class="btn btn-success">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                Dodaj Pracownika
+            </a>
+        </div>
+    </div>
+</div>
+<br />
+
+@using (Html.BeginForm())
+{
+    <div class="container" style="background-color: #309BBE; color: white; border-radius: 15px;">
+        <div class="row">
+            <div class="col-md-3">
+                <br />
+                <h4>Imie Nazwisko: @Html.TextBox("imieNazwisko", null, new { @class = "form-control", @placeholder = "Imie Nazwisko" })</h4>
+            </div>
+            <div class="col-md-2">
+                <br />
+                <h4>Pesel: @Html.TextBox("Pesel", null, new { @class = "form-control", @placeholder = "Pesel" })</h4>
+            </div>
+            @if (@ViewBag.StanowiskoNazwa.Equals("Lekarz"))
+            {
+                <div class="col-md-3">
+                    <br />
+                    <h4>Specjalizacja: @Html.DropDownList("SpecjalizacjaID", (SelectList)@ViewBag.SpecjalizacjaID, "-------  Wybierz Specjalizacje ------", new { @class = "form-control" })</h4>
+                </div>
+            }
+            <div class="col-md-offset-3" style="margin-top: 3.4%;">
+                <button class="btn btn-default" type="submit">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    Szukaj
+                </button>
+            </div>
+            <br /><br />
+        </div>
+    </div>
+}
+@if (Model.Count() >= 1)
+{
+    <table class="table">
+        <tr class="head-table">
+            <th>Imie Nazwisko</th>
+            <th>Pesel</th>
+            <th>Telefon</th>
+            @if (@ViewBag.StanowiskoNazwa.Equals("Lekarz"))
+            {
+                <th>Specjalizacja</th>
+            }
+            <th>Adres</th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImieNazwisko)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Pesel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telefon)
+                </td>
+                @if (@ViewBag.StanowiskoNazwa.Equals("Lekarz"))
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Specjalizacja.Nazwa)
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.Adres.FullAdres)
+
+                </td>
+                <td>
+                    @if (@ViewBag.StanowiskoNazwa.Equals("Lekarz"))
+                    {
+                        <a href="@Url.Action("Terminy", new { id = item.OsobaID})" class="btn btn-xs btn-default buttons-xs" title="Terminy lekarza">
+                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Terminy
+                        </a>
+
+                    }
+                    <a class="btn btn-xs btn-info buttons-xs" href="@Url.Action("Edit", new { id = item.OsobaID, stanowisko = @ViewBag.StanowiskoNazwa })" title="Edycja danych">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edytuj
+                    </a>
+                    <a href="@Url.Action("Usuń", "Delete", new { id = item.OsobaID, stanowisko = @ViewBag.StanowiskoNazwa })" title="Usuń">
+                        <span class="glyphicon glyphicon-trash icon" aria-hidden="true"></span>
+                    </a>
+
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <div class="col-md-8 col-md-offset-4">
+        <h3>Lista pracowników jest pusta.</h3>
+    </div>
+}
+<div class="col-md-offset-5" style="margin-top: 10em; margin-bottom: -20px;">
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { stanowisko = @ViewBag.StanowiskoNazwa, page }))
+</div>
