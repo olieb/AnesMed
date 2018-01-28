@@ -45,6 +45,12 @@
         <strong>@TempData["Message"]</strong>
     </div>
 }
+@if (TempData["Warn"] != null)
+{
+    <div class="alert alert-">
+        <strong>@TempData["Warn"]</strong>
+    </div>
+}
 <br />
 <div class="container">
     <div class="row" style="margin-right: 20px;">
@@ -134,7 +140,7 @@
                     <a class="btn btn-xs btn-info buttons-xs" href="@Url.Action("Edit", new { id = item.OsobaID, stanowisko = @ViewBag.StanowiskoNazwa })" title="Edycja danych">
                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edytuj
                     </a>
-                    <a href="@Url.Action("Usuń", "Delete", new { id = item.OsobaID, stanowisko = @ViewBag.StanowiskoNazwa })" title="Usuń">
+                    <a href="@Url.Action("Delete", new { id = item.OsobaID, stanowisko = @ViewBag.StanowiskoNazwa })" data-toggle="modal" data-target="#pracownik-delete" title="Usuń">
                         <span class="glyphicon glyphicon-trash icon" aria-hidden="true"></span>
                     </a>
 
@@ -154,3 +160,14 @@ else
 
     @Html.PagedListPager(Model, page => Url.Action("Index", new { stanowisko = @ViewBag.StanowiskoNazwa, page }))
 </div>
+
+<div id="pracownik-delete" class="modal fade hidden-print" tabindex="-1" role="dialog">
+</div>
+<script>
+    var emptyModalContent = function () {
+        $('#pracownik-delete').removeData('bs.modal').find('.modal-content').empty();
+    };
+    $('#pracownik-delete').on('hidden.bs.modal', function () {
+        emptyModalContent();
+    });
+</script>

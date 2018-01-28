@@ -12,6 +12,7 @@ using Przuchodnia_Medyczna_Inz.DAL;
 using Przuchodnia_Medyczna_Inz.ViewModel;
 using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
+using System.Web.Security;
 
 namespace Przuchodnia_Medyczna_Inz.Controllers
 {
@@ -22,8 +23,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         // GET: /Pracownik/Index
         public ActionResult Index(string stanowisko, string imieNazwisko, int? specjalizacjaId, string pesel, int page = 1)
         {
-            List<Pracownik> pracownicy = db.Pracownik.ToList();
-
+            List<Pracownik> pracownicy = db.Pracownik.ToList(); 
             if (!String.IsNullOrEmpty(stanowisko))
             {
                 pracownicy = db.Pracownik.Where(x => x.Stanowisko.Nazwa.Equals(stanowisko)).OrderBy(p => p.Nazwisko).ToList();
@@ -31,7 +31,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
 
             if (!String.IsNullOrEmpty(imieNazwisko))
             {
-                pracownicy = db.Pracownik.Where(s => s.ImieNazwisko.Contains(imieNazwisko)).ToList();
+                pracownicy = db.Pracownik.Where(s => s.Imie.Contains(imieNazwisko) || s.Nazwisko.Contains(imieNazwisko)).ToList();
             }
 
             if(specjalizacjaId != null)
@@ -63,26 +63,11 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Pracownik pracownik = db.Pracownik.Find(id);
-            pracownik.Wizyty = db.Wizyta.Where(x => x.Pracownik.OsobaID.Equals(id) && x.Status == Status.Wolna).OrderBy(x => x.Data).ToList();
+            pracownik.Wizyty = db.Wizyta.Where(x => x.Pracownik.OsobaID.Equals(id) && x.Status == Status.Wolna && x.Data >= DateTime.Now).OrderBy(x => x.Data).ToList();
 
 
             ViewBag.StanowiskoNazwa = db.Stanowisko.Where(x => x.StanowiskoID == pracownik.StanowiskoID).FirstOrDefault().Nazwa;
             ViewBag.LekarzID = id;
-            if (pracownik == null)
-            {
-                return HttpNotFound();
-            }
-            return View(pracownik);
-        }
-
-        // GET: /Pracownik/Details/5
-        public ActionResult Details(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Pracownik pracownik = db.Pracownik.Find(id);
             if (pracownik == null)
             {
                 return HttpNotFound();
@@ -154,17 +139,23 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             {
                 return HttpNotFound();
             }
-            return View(pracownik);
+            return PartialView("_Delete", pracownik);
         }
 
         // POST: /Pracownik/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id, string stanowisko)
         {
             Pracownik pracownik = db.Pracownik.Find(id);
-            db.Osoba.Remove(pracownik);
-            db.SaveChanges();
+            var wizyty = db.Wizyta.Where(x => x.PracownikID.Equals(id)).ToList();
+            //if (wizyty.Count() > 0)
+            //{
+            //    TempData["Warn"] = "Nie można zwolnić tego lekarza. Ma zaplanowane wizyty.";
+            //}
+            //else{
+                 db.Osoba.Remove(pracownik);
+                 db.SaveChanges();
+            //}          
 
             return RedirectToAction("Index", "Pracownik", new { stanowisko});
         }

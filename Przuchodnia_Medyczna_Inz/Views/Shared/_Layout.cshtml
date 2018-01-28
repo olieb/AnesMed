@@ -37,12 +37,12 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right" style="position:relative">
                         @if (Request.IsAuthenticated && HttpContext.Current.User.IsInRole("Pacjent")) { 
-                            <li>
+                            @*<li>
                                 <a href="@Url.Action("Home", "PacjentHome", new{ @class="scroll"})">
                                     <span class="glyphicon glyphicon-home icn_pos hm" aria-hidden="true"></span><br>
                                     Home
                                 </a>
-                            </li>
+                            </li>*@
                             <li>
                                 <a href="@Url.Action("Index", "Wizyta", new{ @class="scroll"})">
                                     <span class="glyphicon glyphicon-calendar icn_pos hm" aria-hidden="true"></span><br>
@@ -51,15 +51,15 @@
                             </li>
                            
                         }
-                        @*@if (Request.IsAuthenticated && HttpContext.Current.User.IsInRole("Recepcja"))
-                        {*@
+                        @if (Request.IsAuthenticated && HttpContext.Current.User.IsInRole("Recepcja"))
+                        {
                             <li>
                                 <a href="@Url.Action("Index", "Pacjent", new { @class = "scroll" })">
                                     <span class="glyphicon glyphicon-user icn_pos" aria-hidden="true"></span><br>
                                     Pacjenci
                                 </a>
                             </li>                            
-                        @*}*@
+                        }
                         <!---->
                         <li>
                             <a href="#features" class="scroll">
@@ -74,8 +74,8 @@
                                 Lekarze
                             </a>
                         </li>
-                        @*@if (Request.IsAuthenticated && HttpContext.Current.User.IsInRole("Admin"))
-                        {*@
+                        @if (Request.IsAuthenticated && HttpContext.Current.User.IsInRole("Admin"))
+                        {
                             <li>
                                 <div class="dropdown" style="margin-top: 2px">
                                     <a href="#doc" class="dropbtn">
@@ -105,15 +105,7 @@
                                 </div>
                             </div>
                         </li>                                 
-                        @*}*@
-                        <!---->
-                        @*<li>
-                            <a href="#acheive" class="scroll">
-                                <span class="glyphicon glyphicon-thumbs-up icn_pos hm2" aria-hidden="true"></span><br>
-                                Achivements
-                            </a>
-                        </li>*@
-                        <!---->
+                        }
                         <li>
                             <a href="#contact" class="scroll">
                                 <span class="glyphicon glyphicon-envelope icn_pos" aria-hidden="true"></span><br>
@@ -122,35 +114,12 @@
                         </li>
                         @Html.Partial("_LoginPartial")                      
                        
-                        <!--script-->
-                        <script type="text/javascript">
-                            jQuery(document).ready(function ($) {
-                                $(".scroll").click(function (event) {
-                                    event.preventDefault();
-                                    $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 900);
-                                });
-                            });
-                        </script>
-                        <!--script-->
                     </ul>
                 </div><!-- /.navbar-collapse -->
                 <div class="clearfix"></div>
             </div><!-- /.container-fluid -->
         </nav>
     </div>
-    @*<div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Start", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Pacjent", "Index", "Pacjent")</li>
-                    <li>@Html.ActionLink("Wizyty", "Index", "Wizyta")</li>
-                    <li>@Html.ActionLink("Autor", "About", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
-    </div>*@
     <div class="container body-content">
         @RenderBody()
         <footer>
@@ -158,7 +127,7 @@
                 <div class="container-fluid">
                     <div class="footer-text">
                         <h3><a href="index.html">Przychodnia AnesMed</a></h3>
-                        <p>&#169;AnesMed Design by Julia Majewska</p>
+                        <p>Projekt inżynierski - Julia Majewska</p>
                     </div>
                 </div>
             </div>
@@ -168,3 +137,13 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+   <!--script-->
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        $(".scroll").click(function (event) {
+            event.preventDefault();
+            $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 900);
+        });
+    });
+</script>
+<!--script-->

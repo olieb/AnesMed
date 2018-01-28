@@ -66,7 +66,6 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         public ActionResult CreateTermin(string id)
         {
             //var lekarz = db.Pracownik.Where(x => x.OsobaID.Equals(id));
-
             return View("_TerminCreate");
         }
 
@@ -101,7 +100,6 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                     }
                     throw;
                 }
-            return View("_TerminCreate", wizyta);
         }
         
         public ActionResult VisitList(string id, string startDate, string endDate)
@@ -135,50 +133,6 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         {
             return View();
         }
-
-        // POST: /Wizyta/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]        
-        //public ActionResult Create([Bind(Include = "WizytaID,Diagnoza,Uwagi,Data,Godzina,OsobaID,PacjentID")] Wizyta wizyta, string OsobaID, string PacjentImie, string PacjentNazwisko)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            if (OsobaID == null)
-        //            {
-        //                wizyta.Pacjent.Imie = PacjentImie;
-        //                wizyta.Pacjent.Nazwisko = PacjentNazwisko;
-        //            }
-        //            else
-        //            {
-        //                wizyta.PacjentID = OsobaID;
-        //            }
-
-        //            wizyta.Status = Status.Zaplanowana.ToString();
-        //            db.Wizyta.Add(wizyta);
-                    
-        //            db.SaveChanges();
-        //            TempData["Success"] = "Pomyślnie zarezerwowano wizytę.";
-
-        //            return RedirectToAction("Index");
-        //        }
-        //        catch (DbEntityValidationException dbEx)
-        //        {
-        //            foreach (var validationErrors in dbEx.EntityValidationErrors)
-        //            {
-        //                foreach (var validationError in validationErrors.ValidationErrors)
-        //                {
-        //                    Trace.TraceInformation("Property: {0} Error: {1}",
-        //                            validationError.PropertyName,
-        //                            validationError.ErrorMessage);
-        //                }
-        //            }
-        //        }
-        //    }
-        //    return View(wizyta);
-        //}
 
         public ActionResult Rezerwacja(int id)
         {

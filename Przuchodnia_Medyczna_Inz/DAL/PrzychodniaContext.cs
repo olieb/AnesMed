@@ -27,6 +27,7 @@ namespace Przuchodnia_Medyczna_Inz.DAL
         public DbSet<PlacowkaMedyczna> PlacowkaMedyczna { get; set; }
         public DbSet<Pracownik> Pracownik { get; set; }
         public DbSet<Pacjent> Pacjent { get; set; }
+        //public DbSet<IdentityUser> User { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -41,6 +42,7 @@ namespace Przuchodnia_Medyczna_Inz.DAL
 
             modelBuilder.Entity<Pacjent>().ToTable("Pacjent");
             modelBuilder.Entity<Pracownik>().ToTable("Pracownik");
+            modelBuilder.Entity<IdentityUser>().ToTable("Users");//to change the name of table.
 
             modelBuilder.Entity<Adres>().HasKey(x => x.AdresID).Property(x => x.AdresID)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
@@ -49,8 +51,8 @@ namespace Przuchodnia_Medyczna_Inz.DAL
             modelBuilder.Entity<PlacowkaMedyczna>().HasKey(x => x.PlacowkaMedycznaID).Property(x => x.PlacowkaMedycznaID)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
-            modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
-            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            modelBuilder.Conventions.Add<ManyToManyCascadeDeleteConvention>();
+            modelBuilder.Conventions.Add<OneToManyCascadeDeleteConvention>();
                
         }
     }

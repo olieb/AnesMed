@@ -291,7 +291,6 @@
     <Content Include="Views\Wizyta\Index.cshtml" />
     <Content Include="Views\Account\ProfilPacjenta.cshtml" />
     <Content Include="Views\Pracownik\Create.cshtml" />
-    <Content Include="Views\Pracownik\Delete.cshtml" />
     <Content Include="Views\Pracownik\Details.cshtml" />
     <Content Include="Views\Pracownik\Edit.cshtml" />
     <Content Include="Views\Specjalizacja\Index.cshtml" />
@@ -312,6 +311,7 @@
     <Content Include="Views\Pracownik\Terminy.cshtml" />
     <Content Include="Views\Wizyta\_VisitList.cshtml" />
     <Content Include="Views\Pracownik\_TerminCreate.cshtml" />
+    <Content Include="Views\Pracownik\_Delete.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
