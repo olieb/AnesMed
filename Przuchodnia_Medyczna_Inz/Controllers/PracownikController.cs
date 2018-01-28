@@ -111,7 +111,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="OsobaID,AdresID,Imie,Nazwisko,Telefon,DataZatrudnienia,Pensja,StanowiskoID,SpecjalizacjaID,ZatrudnienieID,GrafikID")] Pracownik pracownik)
+        public ActionResult Edit([Bind(Include="OsobaID,AdresID,Imie,Nazwisko,Telefon,DataZatrudnienia,Pensja,StanowiskoID,SpecjalizacjaID")] Pracownik pracownik)
         {
             if (ModelState.IsValid)
             {

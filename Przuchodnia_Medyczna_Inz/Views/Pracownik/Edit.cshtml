@@ -43,7 +43,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Telefon, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Telefon)
+                @Html.EditorFor(model => model.Telefon, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Telefon)
             </div>
         </div>
@@ -51,7 +51,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DataZatrudnienia, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DataZatrudnienia)
+                @Html.EditorFor(model => model.DataZatrudnienia, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.DataZatrudnienia)
             </div>
         </div>
@@ -59,7 +59,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Pensja, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Pensja)
+                @Html.EditorFor(model => model.Pensja, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Pensja)
             </div>
         </div>
@@ -79,23 +79,6 @@
                 @Html.ValidationMessageFor(model => model.SpecjalizacjaID)
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ZatrudnienieID, "ZatrudnienieID", new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("ZatrudnienieID", String.Empty)
-                @Html.ValidationMessageFor(model => model.ZatrudnienieID)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.GrafikID, "GrafikID", new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("GrafikID", String.Empty)
-                @Html.ValidationMessageFor(model => model.GrafikID)
-            </div>
-        </div>
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
@@ -105,5 +88,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Powrót", "Index")
 </div>
