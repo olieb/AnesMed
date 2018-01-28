@@ -86,7 +86,6 @@
                 @Html.DisplayFor(modelItem => item.Pracownik.Placowka.Adres.FullAdres)
             </td>
             <td>
-                @*@Html.ActionLink("Edytuj", "Edit", new { id=item.WizytaID }) |*@
                 @Html.ActionLink("Anuluj", "Delete", new { id=item.WizytaID })
             </td>
         </tr>
@@ -101,12 +100,13 @@ else
         <h3>Nie masz zarezerwowanych wizyt.</h3>
     </div>
 }
-
+@if (HttpContext.Current.User.IsInRole("Admin"))
+{
 <div id="termin-add" class="modal fade hidden-print" tabindex="-1" role="dialog">
     @Html.Partial("_TerminCreate", new Przuchodnia_Medyczna_Inz.Models.Wizyta())
 </div>
 
-
+}
 <script type="text/javascript">
     $(function(){
         $('.input-group input[name="startDate"]').daterangepicker(
