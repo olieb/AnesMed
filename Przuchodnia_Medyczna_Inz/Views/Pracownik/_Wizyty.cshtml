@@ -1,0 +1,57 @@
+﻿@model Przuchodnia_Medyczna_Inz.Models.Pracownik
+
+@if(Model != null){
+<div class="col-md-10 col-md-offset-1">
+    <br />
+    <h4 class="sub-title"> Twoje umówione wizyty:</h4>
+    <br />
+    <div class="wrapper">
+        <table class="table termin-table" id="terminy">
+            <tr>
+                <th>Data</th>
+                <th>Godzina</th>
+                <th>Pacjent</th>
+                <th>Pesel</th>
+                <th>Uwagi</th>
+                <th></th>
+                <th></th>
+                @*<th></th>*@
+            </tr>
+            @foreach (var item in Model.Wizyty.Where(x => x.PacjentID != null))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Data)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Godzina)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Pacjent.ImieNazwisko)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Pacjent.Pesel)
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.)
+                        </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Uwagi)
+                    </td>
+                    <td></td>
+                    <td>                      
+                        <a href="@Url.Action("Edit", "Wizyta", new { id = item.WizytaID })" data-toggle="modal" data-target="#diagnoza-add" title="Postaw diagnozę">
+                            <i class="fa fa-heartbeat" style="font-size:24px"></i>
+                        </a>
+                    </td>
+                    @*<td>
+                        <a href="@Url.Action("Edit", "Wizyta", new { id = item.WizytaID })" data-toggle="modal" data-target="#diagnoza-add" title="Historia chorób pacjenta">
+                            <i class="fa fa-id-card" style="font-size:22px"></i>
+                        </a>
+                    </td>*@
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+}

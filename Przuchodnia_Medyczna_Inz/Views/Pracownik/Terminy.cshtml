@@ -18,12 +18,15 @@
     <div class="row">
         <h4 class="sub-title">Pracownik:</h4>
         <hr />
-        <div class="col-md-2 col-md-offset-10">
-            <a href="#" data-target="#termin-add" data-toggle="modal" class="btn btn-success">
-                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                Dodaj Termin
-            </a>
-        </div>
+@*@if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
+{*@
+    <div class="col-md-2 col-md-offset-10">
+        <a data-target="#termin-add" data-toggle="modal" class="btn btn-success">
+            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+            Dodaj Termin
+        </a>
+    </div>
+@*}*@
         <div class="col-md-6">
             <dl class="dl-horizontal">
                 <dt>
@@ -73,41 +76,42 @@
                 </dd>
             </dl>
         </div>
-
         <div class="col-md-6">
-            <h4 class="sub-title"> Terminy wizyt :</h4>
+            <h4 class="sub-title"> Terminy wolnych wizyt :</h4>
             <br />
-            <table class="table" id="terminy"
-                    style="border: 2px solid rgba(163, 226, 254, 0.24); 177, 246, 0.44px); box-shadow: 9px 7px 20px rgba(72, 177, 246, 0.44);">
-                <tr>
-                    <th>Data</th>
-                    <th>Godzina</th>
-                    <th>Uwagi</th>
-
-                </tr>
-                @foreach (var item in Model.Wizyty)
-                {
+            <div class="wrapper">
+                <table class="table termin-table" id="terminy">
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Data)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Godzina)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Uwagi)
-                        </td>
-                        @if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
-                        {
-                            <td>
-                                @Html.ActionLink("Anuluj", "Delete", "Wizyta", new { id = item.WizytaID }, null)
-                            </td>
-                        }
+                        <th>Data</th>
+                        <th>Godzina</th>
+                        <th>Uwagi</th>
+                        <th></th>
                     </tr>
-                }
-            </table>
-
+                    @foreach (var item in Model.Wizyty.Where(x => x.PacjentID == null))
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Godzina)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Uwagi)
+                            </td>
+                            <td></td>
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
+                            {
+                                <td>
+                                    @Html.ActionLink("Usuń Termin", "Delete", "Wizyta", new { id = item.WizytaID }, null)
+                                </td>
+                            }
+                        </tr>
+                    }
+                </table>
+            </div>
         </div>
+        @Html.Partial("_Wizyty")
     </div>
 </div>
 <a href="@Url.Action("Index", "Pracownik", new { stanowisko = @ViewBag.StanowiskoNazwa })" title="Powrót">
@@ -116,6 +120,9 @@
 
 <div id="termin-add" class="modal fade hidden-print" tabindex="-1" role="dialog">
     @Html.Partial("_TerminCreate", new Przuchodnia_Medyczna_Inz.Models.Wizyta())
+</div>
+<div id="diagnoza-add" class="modal fade hidden-print" tabindex="-1" role="dialog">
+    @Html.Partial("_NewDiagnoza", new Przuchodnia_Medyczna_Inz.Models.Wizyta())
 </div>
 
 <script>

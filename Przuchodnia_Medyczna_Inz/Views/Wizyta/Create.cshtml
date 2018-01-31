@@ -20,16 +20,16 @@
                     <input type="radio" name="Lekarz" id="Internista" onchange="radioBtnChanged(this)" autocomplete="off" checked>Lekarz Internista
                 </label>
                 <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="Lekarz" id="Kardiolog" onchange="radioBtnChanged(this)" autocomplete="off"> Lekarz Kardiolog
+                    <input type="radio" name="Lekarz" id="Kardiologia" onchange="radioBtnChanged(this)" autocomplete="off"> Lekarz Kardiolog
                 </label>
                 <label class="btn btn-lg btn-primary">
                     <input type="radio" name="Lekarz" id="Ortopedia" onchange="radioBtnChanged(this)" autocomplete="off"> Lekarz Ortopeda
                 </label>
                 <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="Lekarz" id="Laryngolog" onchange="radioBtnChanged(this)" autocomplete="off"> Lekarz Laryngolog
+                    <input type="radio" name="Lekarz" id="Laryngologia" onchange="radioBtnChanged(this)" autocomplete="off"> Lekarz Laryngolog
                 </label>
                 <label class="btn btn-lg btn-primary">
-                    <input type="radio" name="Lekarz" id="Psychiatra" onchange="radioBtnChanged(this)" autocomplete="off"> Lekarz Psychiatra
+                    <input type="radio" name="Lekarz" id="Psychiatria" onchange="radioBtnChanged(this)" autocomplete="off"> Lekarz Psychiatra
                 </label>
             </div>
         </div>
@@ -38,9 +38,6 @@
             <div class="row">
                 <div class="form-group">
                     <div class="col-md-3" style="margin-left: 30px;">
-                        <div class="col-md-offset-4">
-                            <p>Wybierz termin</p>
-                        </div>
                         <h4>Data od</h4>
                         <div class="input-group">
                             <span class="input-group-addon">
@@ -48,6 +45,8 @@
                             </span>
                             <input type="text" id="startDate" name="startDate" value="@TempData["startDate"]" class="form-control" />
                         </div>
+                    </div>
+                    <div class="col-md-3">
                         <h4>Data do</h4>
                         <div class="input-group">
                             <span class="input-group-addon">
@@ -56,13 +55,12 @@
                             <input type="text" id="endDate" name="endDate" value="@TempData["endDate"]" class="form-control" />
                         </div>
                     </div>
-                    @Html.LabelFor(model => model.Pracownik.OsobaID, "Lekarz", new { @class = "control-label col-md-2", @style = "margin-left: -70px;" })
-                    <br /><br />
+                    <br />
                     <div class="col-md-2">
                         @Html.DropDownList("OsobaID", new SelectList(Enumerable.Empty<SelectListItem>(), "OsobaID", "ImieNazwisko"), "Wybierz Lekarza", new { @class = "form-control", @id = "OsobaID" })
                         @Html.ValidationMessageFor(model => model.Pracownik.OsobaID)
                     </div>
-                    <div class="col-md-offset-3 btn btn-default pull-left" id="button">
+                    <div class="col-md-offset-1 btn btn-default pull-left" id="button">
                         <span class=" glyphicon glyphicon-search" aria-hidden="true">
                         </span>
                         Szukaj
@@ -78,9 +76,10 @@
     @Html.Partial("_VisitList")
 </div>
 <div class="col-md-12">
-    @Html.ActionLink("Powrót", "Index")
+    <a href="@Url.Action("Index", "Wizyta", null)" title="Powrót">
+        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" style="font-size: 25px;"></span>
+    </a>
 </div>
-
 <script type="text/javascript">
     $("#button").click(function () {
         var start = $("#startDate").val();

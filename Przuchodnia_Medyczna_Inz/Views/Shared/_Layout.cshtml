@@ -15,6 +15,7 @@
     @Scripts.Render("~/bundles/navi")
     @Scripts.Render("~/bundles/modernizr")
     <!-- Include Date Range Picker -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
@@ -74,8 +75,8 @@
                                 Lekarze
                             </a>
                         </li>
-                        @if (Request.IsAuthenticated && HttpContext.Current.User.IsInRole("Admin"))
-                        {
+                        @*@if (Request.IsAuthenticated && HttpContext.Current.User.IsInRole("Admin"))
+                        {*@
                             <li>
                                 <div class="dropdown" style="margin-top: 2px">
                                     <a href="#doc" class="dropbtn">
@@ -105,7 +106,7 @@
                                 </div>
                             </div>
                         </li>                                 
-                        }
+                        @*}*@
                         <li>
                             <a href="#contact" class="scroll">
                                 <span class="glyphicon glyphicon-envelope icn_pos" aria-hidden="true"></span><br>

@@ -22,7 +22,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         private PrzychodniaContext db = new PrzychodniaContext();
 
         // Post: /Wizyta/
-        public ActionResult Index(string startDate, string endDate)
+        public ActionResult Index(string startDate, string endDate, string lekarz)
         {
             var userId = User.Identity.GetUserId();
             var wizyty = db.Wizyta.Where(x => x.Pacjent.OsobaID.Equals(userId));
@@ -101,32 +101,14 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                     throw;
                 }
         }
-        
+
         public ActionResult VisitList(string id, string startDate, string endDate)
         {
+            var start = DateTime.Parse(startDate);
+            var end = DateTime.Parse(endDate);
+            var wizyty = db.Wizyta.Where(x => x.Data >= start && x.Data <= end && x.PracownikID.Equals(id) && x.Status == Status.Wolna).ToList();
 
-            if (!String.IsNullOrEmpty(id))
-            {
-                var wizyty = db.Wizyta.Where(x => x.PracownikID.Equals(id) && x.Status == Status.Wolna).ToList();
-
-                if (!String.IsNullOrEmpty(startDate) || !String.IsNullOrEmpty(endDate))
-                {
-                    var start = DateTime.Parse(startDate);
-                    var end = DateTime.Parse(endDate);
-                    wizyty = db.Wizyta.Where(x => x.Data >= start && x.Data <= end).ToList();
-                }
-
-                //int pageSize = 1;
-                //int pageNumber = 1;
-
-                //PagedList<Wizyta> model = new PagedList<Wizyta>(wizyty.OrderBy(x => x.Godzina), page, pageSize);
-
-                return PartialView("_VisitList", wizyty.ToList());
-            }
-            else
-            {
-                return HttpNotFound();
-            }
+            return PartialView("_VisitList", wizyty.ToList());
         }
         // GET: /Wizyta/Create
         public ActionResult Create()
@@ -179,27 +161,27 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Wizyta wizyta = db.Wizyta.Find(id);
+
             if (wizyta == null)
             {
                 return HttpNotFound();
-            }
-            return View(wizyta);
+            }         
+           return PartialView("_NewDiagnoza", wizyta);
         }
 
         // POST: /Wizyta/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "WizytaID,Diagnoza,Uwagi,Data,Godzina")] Wizyta wizyta)
+        public ActionResult Edit(Wizyta wizyta)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(wizyta).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
-            return View(wizyta);
+            return RedirectToAction("Terminy", "Pracownik", null);
+
         }
 
         // GET: /Wizyta/Delete/5
@@ -210,6 +192,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Wizyta wizyta = db.Wizyta.Find(id);
+
             if (wizyta == null)
             {
                 return HttpNotFound();
@@ -223,7 +206,8 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Wizyta wizyta = db.Wizyta.Find(id);
-            db.Wizyta.Remove(wizyta);
+            wizyta.PacjentID = null;
+            wizyta.Status = Status.Wolna;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -22,6 +22,19 @@ textarea {
     margin-right:5px;
 }
 
+div.wrapper {
+  width: 100%;
+  height: 250px;
+  overflow: auto;
+}
+ 
+.termin-table{
+    white-space: nowrap;
+    border: 2px solid rgba(163, 226, 254, 0.24); 177, 246, 0.44px); 
+    box-shadow: 9px 7px 20px rgba(72, 177, 246, 0.44);
+
+}
+
 a:hover .icon{
     text-decoration: none;
     text-shadow: 2px 2px 2px #309BBE;

@@ -10,6 +10,17 @@
         <strong>@TempData["Success"]</strong>
     </div>
 }
+<div class="container">
+    <div class="row" style="margin-right: 20px;">
+        <div class="col-md-2 col-md-offset-10">
+            <a href="@Url.Action("Create", "Wizyta")" class="btn btn-success">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                Umów wizytę lub badanie
+            </a>
+        </div>
+    </div>
+</div>
+<br />
 @using(Html.BeginForm("Index", "Wizyta", FormMethod.Post)){
 <div class="container" style="background-color: #309BBE; color: white; border-radius: 15px;">
     <div class="row">
@@ -40,22 +51,12 @@
                     Szukaj
                 </button>
             </div>
-            <br /><br />
+            <br />
         </div>
     </div>
 </div>
 }
-<br />
-<div class="container">
-    <div class="row" style="margin-right: 20px;">
-        <div class="col-md-2 col-md-offset-10">
-            <a href="@Url.Action("Create", "Wizyta")" class="btn btn-success">
-                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                Umów wizytę lub badanie
-            </a>
-        </div>
-    </div>
-</div>
+
 <br />
 @if (@ViewBag.Wizyty > 0) { 
     <table class="table">
@@ -66,8 +67,7 @@
             <th>Specjalizacja</th>
             <th>Adres</th>
             <th></th>
-        </tr>
-    
+        </tr>    
     @foreach (var item in Model) {
         <tr>
             <td>
@@ -88,10 +88,8 @@
             <td>
                 @Html.ActionLink("Anuluj", "Delete", new { id=item.WizytaID })
             </td>
-        </tr>
-    
+        </tr>    
     }
-
 </table>
 }
 else
@@ -105,13 +103,12 @@ else
 <div id="termin-add" class="modal fade hidden-print" tabindex="-1" role="dialog">
     @Html.Partial("_TerminCreate", new Przuchodnia_Medyczna_Inz.Models.Wizyta())
 </div>
-
 }
 <script type="text/javascript">
     $(function(){
         $('.input-group input[name="startDate"]').daterangepicker(
        {
-           //startDate: moment().subtract(29, 'days'),
+           startDate: moment().subtract(2, 'days'),
            locale: {
                format: 'DD/MM/YYYY',
            },
@@ -122,7 +119,7 @@ else
        })
         $('.input-group input[name="endDate"]').daterangepicker(
        {
-           //endDate: moment().subtract(-7, 'days'),
+           endDate: moment().subtract(-7, 'days'),
            locale: {
                format: 'DD/MM/YYYY',
            },

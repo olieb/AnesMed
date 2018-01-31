@@ -7,6 +7,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-4 title">
+            <br />
             <h2>Nasze placówki Medyczne</h2>
         </div>
         <div class="col-md-2 col-md-offset-9">
@@ -43,7 +44,7 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        
+
                         <td>
                             <b> @Html.DisplayFor(modelItem => item.Nazwa)</b>
                         </td>
@@ -86,8 +87,7 @@
     $(document).ready(function () {
         $('#error-message').hide();
     });
-    function PlacowkaAdd()
-    {
+    function PlacowkaAdd() {
         var nazwa = document.getElementById("Nazwa").value;
         var kom = document.getElementById("Komorka").value;
         var tel = document.getElementById("Telefon").value;
@@ -110,7 +110,6 @@
                 data: { "nazwa": nazwa, "kom": kom, "tel": tel, "otwarte": otwarte, "ulica": ulica, "budynek": budynek, "kod": kod, "miejscowosc": miejscowosc },
                 type: 'Post',
             }).success(function (result) {
-                $('#placowka-edit').modal('toggle');
                 $('body').load('Placowka/Index');
             });
         }

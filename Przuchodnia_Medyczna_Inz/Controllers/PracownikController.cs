@@ -41,7 +41,8 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
 
             if (!String.IsNullOrEmpty(pesel))
             {
-                pracownicy = db.Pracownik.Where(s => s.Pesel.ToString().Contains(pesel)).ToList();
+                var longPesel = Convert.ToInt64(pesel);
+                pracownicy = db.Pracownik.Where(s => s.Pesel == longPesel).ToList();
             }
 
             ViewBag.SpecjalizacjaID = new SelectList(db.Specjalizacja, "SpecjalizacjaID", "Nazwa");
@@ -58,16 +59,15 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         // GET: /Pracownik/Terminy/5
         public ActionResult Terminy(string id)
         {
-            if (id == null)
+            if (String.IsNullOrEmpty(id))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Pracownik pracownik = db.Pracownik.Find(id);
-            pracownik.Wizyty = db.Wizyta.Where(x => x.Pracownik.OsobaID.Equals(id) && x.Status == Status.Wolna && x.Data >= DateTime.Now).OrderBy(x => x.Data).ToList();
-
-
             ViewBag.StanowiskoNazwa = db.Stanowisko.Where(x => x.StanowiskoID == pracownik.StanowiskoID).FirstOrDefault().Nazwa;
             ViewBag.LekarzID = id;
+
             if (pracownik == null)
             {
                 return HttpNotFound();
@@ -97,6 +97,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Pracownik pracownik = db.Pracownik.Find(id);
+
             if (pracownik == null)
             {
                 return HttpNotFound();
