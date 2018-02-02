@@ -16,17 +16,19 @@
 @Html.HiddenFor(model => model.OsobaID)
 <div class="container">
     <div class="row">
-        <h4 class="sub-title">Pracownik:</h4>
-        <hr />
-@*@if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
-{*@
+@if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
+{
     <div class="col-md-2 col-md-offset-10">
         <a data-target="#termin-add" data-toggle="modal" class="btn btn-success">
             <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
             Dodaj Termin
         </a>
     </div>
-@*}*@
+}
+@if(Request.IsAuthenticated && !(User.IsInRole("Administrator")))
+{
+     <h4 class="sub-title">Pracownik:</h4>
+        <hr />
         <div class="col-md-6">
             <dl class="dl-horizontal">
                 <dt>
@@ -76,14 +78,25 @@
                 </dd>
             </dl>
         </div>
+}
+else
+{
+      <div class="col-md-3">
+
+      </div>
+}
         <div class="col-md-6">
-            <h4 class="sub-title"> Terminy wolnych wizyt :</h4>
+            <h4 class="sub-title">Terminy wolnych wizyt :</h4>
             <br />
             <div class="wrapper">
                 <table class="table termin-table" id="terminy">
                     <tr>
                         <th>Data</th>
                         <th>Godzina</th>
+                        @if(Request.IsAuthenticated && User.IsInRole("Administrator"))
+                        {
+                        <th>Lekarz</th>
+                        }
                         <th>Uwagi</th>
                         <th></th>
                     </tr>
@@ -96,6 +109,12 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Godzina)
                             </td>
+                            @if (Request.IsAuthenticated && User.IsInRole("Administrator"))
+                            {
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Pracownik.ImieNazwisko)
+                                </td>
+                            }
                             <td>
                                 @Html.DisplayFor(modelItem => item.Uwagi)
                             </td>
@@ -103,8 +122,10 @@
                             @if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
                             {
                                 <td>
-                                    @Html.ActionLink("Usuń Termin", "Delete", "Wizyta", new { id = item.WizytaID }, null)
-                                </td>
+                               <a href="@Url.Action("Delete", "Wizyta",new { id = item.WizytaID })" title="Usuń termin">
+                                   <i class="fa fa-remove" aria-hidden="true" style="font-size: 25px; color:red;"></i>
+                               </a>
+                                    </td>
                             }
                         </tr>
                     }
@@ -114,15 +135,20 @@
         @Html.Partial("_Wizyty")
     </div>
 </div>
+@if (!(User.IsInRole("Lekarz")))
+{
 <a href="@Url.Action("Index", "Pracownik", new { stanowisko = @ViewBag.StanowiskoNazwa })" title="Powrót">
     <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" style="font-size: 25px;"></span>
 </a>
-
+}
+else
+{
+    <a href="@Url.Action("Index", "Home")" title="Powrót">
+    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" style="font-size: 25px;"></span>
+</a>
+}
 <div id="termin-add" class="modal fade hidden-print" tabindex="-1" role="dialog">
     @Html.Partial("_TerminCreate", new Przuchodnia_Medyczna_Inz.Models.Wizyta())
-</div>
-<div id="diagnoza-add" class="modal fade hidden-print" tabindex="-1" role="dialog">
-    @Html.Partial("_NewDiagnoza", new Przuchodnia_Medyczna_Inz.Models.Wizyta())
 </div>
 
 <script>
@@ -138,6 +164,20 @@
             type: 'Post',
         }).success(function (result) {
             $('#termin-add').modal('toggle');
+            $(document).ajaxStop(function () { location.reload(true); });
+        });
+    }
+
+    function DiagnozaAdd() {
+        var diagnoza = document.getElementById("Diagnoza").value;
+        var wizytaId = document.getElementById("Id").value;
+        var pracId = document.getElementById("OsobaID").value;
+
+        $.ajax({
+            url: '@Url.Action("Diagnoza", "Wizyta")',
+            data: { "diagnoza": diagnoza, "Id": wizytaId},
+            type: 'Post',
+        }).success(function (result) {
             $(document).ajaxStop(function () { location.reload(true); });
         });
     }

@@ -177,6 +177,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ActionMessage.cs" />
+    <Compile Include="Helpers\FullDescription.cs" />
+    <Compile Include="Helpers\PacjentActionMessage.cs" />
+    <Compile Include="Helpers\PracownikActionMessage.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Adres.cs" />
@@ -233,6 +237,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\easing.js" />
+    <Content Include="Scripts\infoCzynnosc.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -302,12 +307,13 @@
     <Content Include="Views\Placowka\_Edit.cshtml" />
     <Content Include="Views\Pracownik\Terminy.cshtml" />
     <Content Include="Views\Wizyta\_VisitList.cshtml" />
-    <Content Include="Views\Pracownik\_TerminCreate.cshtml" />
     <Content Include="Views\Pracownik\_Delete.cshtml" />
     <Content Include="Views\Pracownik\_Wizyty.cshtml" />
     <Content Include="Views\Wizyta\_NewDiagnoza.cshtml" />
     <Content Include="Views\Placowka\Index.cshtml" />
     <Content Include="Views\Pracownik\_NewDiagnoza.cshtml" />
+    <Content Include="Views\Wizyta\_Delete.cshtml" />
+    <Content Include="Views\Shared\_TerminCreate.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

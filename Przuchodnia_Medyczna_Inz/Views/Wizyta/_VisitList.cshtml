@@ -28,17 +28,17 @@
                 @Html.DisplayFor(modelItem => item.Pracownik.Placowka.Adres.FullAdres)
             </td>
             <td>
-                @Html.ActionLink("Rezerwuj", "Rezerwacja", new { id=item.WizytaID })
+                <a href="@Url.Action("Rezerwacja", new { id = item.WizytaID })" title="Rezerwuj wizytę">
+                    <i class="fa fa-calendar-plus-o" style="font-size:25px"></i>
+                </a>
             </td>
         </tr>
     }
-    </table>
-}
+    </table>}
 else
 {
     <div class="col-md-8 col-md-offset-4">
         <h2 class="head-table">Brak terminów dla podanych kryteriów</h2>
-    </div>
- 
+    </div> 
 }
 }

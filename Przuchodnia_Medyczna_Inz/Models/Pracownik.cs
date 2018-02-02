@@ -28,12 +28,13 @@ namespace Przuchodnia_Medyczna_Inz.Models
         public Nullable<DateTime> DataZwolnienia { get; set; }
         public int? SpecjalizacjaID { get; set; }
         public int StanowiskoID { get; set; }
+        public int PlacowkaID { get; set; }
+        
         public virtual ICollection<Wizyta> Wizyty { get; set; }
         [ForeignKey("StanowiskoID")]
-        public Stanowisko Stanowisko { get; set; }
+        public virtual Stanowisko Stanowiska { get; set; }
         [ForeignKey("SpecjalizacjaID")]
         public virtual Specjalizacja Specjalizacja { get; set; } //foreignkey Specjalizacji
-        public int PlacowkaID { get; set; }
         [ForeignKey("PlacowkaID")]
         public virtual PlacowkaMedyczna Placowka { get; set; }
     }

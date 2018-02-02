@@ -39,17 +39,25 @@
     }
 }
 <br />
-@if (TempData["Message"] != null)
+@if (ViewBag.Akcja != null)
 {
-    <div class="alert alert-success">
-        <strong>@TempData["Message"]</strong>
-    </div>
-}
-@if (TempData["Warn"] != null)
-{
-    <div class="alert alert-">
-        <strong>@TempData["Warn"]</strong>
-    </div>
+    if (ViewBag.Akcja == Przuchodnia_Medyczna_Inz.Helpers.PracownikActionMessage.Create ||
+        ViewBag.Akcja == Przuchodnia_Medyczna_Inz.Helpers.PracownikActionMessage.Delete ||
+        ViewBag.Akcja == Przuchodnia_Medyczna_Inz.Helpers.PracownikActionMessage.Edit)
+    {
+        <div class="alert alert-success">
+
+                <h4>@Przuchodnia_Medyczna_Inz.Helpers.FullDescription.GetDescription(@ViewBag.Akcja) <b>@ViewBag.info</b></h4>
+            </div>
+    }
+    if(ViewBag.Akcja == Przuchodnia_Medyczna_Inz.Helpers.PracownikActionMessage.Error)
+    {
+        <div class="alert alert-danger">
+            <br />
+            <h4>@Przuchodnia_Medyczna_Inz.Helpers.FullDescription.GetDescription(@ViewBag.Akcja)<b>@ViewBag.info</b></h4>
+            <br />
+        </div>    
+    }
 }
 <br />
 <div class="container">

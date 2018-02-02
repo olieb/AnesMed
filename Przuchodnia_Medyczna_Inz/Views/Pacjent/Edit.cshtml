@@ -82,8 +82,11 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Powrót", "Index")
+
+<div class="col-md-12">
+    <a href="@Url.Action("Index", "Pacjent")" title="Powrót">
+        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" style="font-size: 25px;"></span>
+    </a>
 </div>
 
 @section Scripts {

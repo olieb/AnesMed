@@ -57,8 +57,11 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Powrót", "Edit", "Pacjent", new { id = @ViewBag.OsobaID }, null)
+
+<div class="col-md-12">
+    <a href="@Url.Action("Edit", "Pacjent", new { id = @ViewBag.OsobaID })" title="Powrót">
+        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" style="font-size: 25px;"></span>
+    </a>
 </div>
 
 @section Scripts {

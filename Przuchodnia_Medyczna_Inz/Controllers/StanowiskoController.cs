@@ -11,6 +11,7 @@ using Przuchodnia_Medyczna_Inz.DAL;
 
 namespace Przuchodnia_Medyczna_Inz.Controllers
 {
+    
     public class StanowiskoController : Controller
     {
         private PrzychodniaContext db = new PrzychodniaContext();

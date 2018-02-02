@@ -1,5 +1,6 @@
 ﻿using PagedList;
 using Przuchodnia_Medyczna_Inz.DAL;
+using Przuchodnia_Medyczna_Inz.Helpers;
 using Przuchodnia_Medyczna_Inz.Models;
 using Przuchodnia_Medyczna_Inz.ViewModel;
 using System;
@@ -17,9 +18,8 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
     public class PacjentController : Controller
     {
         private PrzychodniaContext db = new PrzychodniaContext();
-
         // GET: /Pacjent/
-        public ActionResult Index(string imieNazwisko, string pesel, int page = 1)
+        public ActionResult Index(string imieNazwisko, string pesel, int page = 1, PacjentActionMessage akcja = PacjentActionMessage.Empty, string info = null)
         {
             var pacjenci= new AdresyOsobVM();
 
@@ -35,6 +35,12 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                 pacjenci.Pacjenci = pacjenci.Pacjenci.Where(p => p.Pesel.ToString().Contains(pesel)).ToList();
             }
 
+            if (akcja != PacjentActionMessage.Empty)
+            {
+                ViewBag.info = info;
+                ViewBag.Akcja = akcja;
+            }
+
             int pageSize = 10;
             int pageNumber = 1;
 
@@ -42,7 +48,6 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
 
             return View(model);
         }
-
         // GET: /Pacjent/Details/5
         public ActionResult Wizyty(string id)
         {
@@ -59,7 +64,6 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             }
             return View(pacjent);
         }
-
         // GET: /Pacjent/Create
         public ActionResult Create()
         {
@@ -74,7 +78,6 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(AdresyOsobVM model)
         {
-
             if (ModelState.IsValid)
             {
                 try
@@ -96,29 +99,17 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
 
                     pacjent.Adres = adres;
 
-                    TempData["Message"] = "Dodano pacjenta " + pacjent.ImieNazwisko + " do listy pacjentów AnesMed.";
-
                     db.Osoba.Add(pacjent);
                     db.SaveChanges();
+                    return RedirectToAction("Index", new { akcja = PacjentActionMessage.Create, info = pacjent.ImieNazwisko });
                 }
-                catch (DbEntityValidationException dbEx)
+                catch (Exception ex)
                 {
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
-                    {
-                        foreach (var validationError in validationErrors.ValidationErrors)
-                        {
-                            Trace.TraceInformation("Property: {0} Error: {1}",
-                                    validationError.PropertyName,
-                                    validationError.ErrorMessage);
-                        }
-                    }
+                    return RedirectToAction("Index", new { akcja = PacjentActionMessage.Error, info = ex.ToString() });
                 }
-
-                return RedirectToAction("Index");
             }
             return View(model);
         }
-
         // GET: /Pacjent/Edit/5
         public ActionResult Edit(string id)
         {
@@ -147,10 +138,16 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(pacjent).State = EntityState.Modified;
-                db.SaveChanges();
-                TempData["Message"] = "Edycja 'danych osobowych' pacjenta " + pacjent.ImieNazwisko + " zakończona powodzeniem.";
-                return RedirectToAction("Index");
+                try
+                {
+                    db.Entry(pacjent).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index", new { akcja = PacjentActionMessage.Edit, info = pacjent.ImieNazwisko });
+                }
+                catch(Exception ex)
+                {
+                    return RedirectToAction("Index", new { akcja = PacjentActionMessage.Error, info = ex.ToString() });
+                }
             }
 
             return View(pacjent);

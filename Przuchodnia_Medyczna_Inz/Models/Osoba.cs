@@ -11,13 +11,20 @@ namespace Przuchodnia_Medyczna_Inz.Models
     {
         [Key, Required]
         public string OsobaID { get; set; }
-        public int AdresID { get; set; }
+        [Required]
+        [StringLength(15)]
+        [RegularExpression("^[A-Z][a-z]{2,}$", ErrorMessage = "Imie nie może zawierać liczb")]
         public string Imie { get; set; }
+        [Required]
+        [StringLength(15)]
         public string Nazwisko { get; set; }
+        [DataType(DataType.PhoneNumber)]
+        [DisplayFormat(DataFormatString = "{0:###-###-####}", ApplyFormatInEditMode = true)]
+        [RegularExpression("^[0-9]+-?[0-9]+-?[0-9]+-?[0-9]+-?[0-9]*$", ErrorMessage="Numer telefonu jest nie poprawny")]
         public string Telefon { get; set; }
         [Required]
+        [RegularExpression("^[0-9]{11}$", ErrorMessage = "PESEL musi się skladać z 11 liczb np. 87041309234")]
         public long Pesel { get; set; }
-        [ForeignKey("AdresID")]
         public virtual Adres Adres { get; set; }
         public string ImieNazwisko
         {

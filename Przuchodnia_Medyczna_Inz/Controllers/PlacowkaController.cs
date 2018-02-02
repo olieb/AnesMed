@@ -73,7 +73,8 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(placowka);
+            TempData["error"] = "Wystapił nie oczekiwany błąd. Edycja nie powiodła sie.";
+            return RedirectToAction("Index");
         }
 
         // GET: /Placowka/Delete/5

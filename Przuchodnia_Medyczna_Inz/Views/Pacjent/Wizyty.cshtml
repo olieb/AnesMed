@@ -92,7 +92,9 @@
                                 @Html.DisplayFor(modelItem => item.Uwagi)
                             </td>
                             <td>
-                                @Html.ActionLink("Anuluj", "Delete", "Wizyta", new { id = item.WizytaID }, null)
+                                <a href="@Url.Action("Delete", "Wizyta", new { id = item.WizytaID, pacjentId = item.PacjentID })" data-toggle="modal" data-target="#wizyta-delete" title="Anuluj wizytę">
+                                    <i class="fa fa-calendar-times-o" style="font-size:25px"></i>
+                                </a>
                             </td>
                         </tr>
                     }
@@ -101,7 +103,19 @@
             </div>
         </div>
     </div>
-<p>
-   
-    @Html.ActionLink("Powrót", "Index")
-</p>
+<div class="col-md-12">
+    <a href="@Url.Action("Index", "Pacjent")" title="Powrót">
+        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" style="font-size: 25px;"></span>
+    </a>
+</div>
+<div id="wizyta-delete" class="modal fade hidden-print" tabindex="-1" role="dialog">
+</div>
+<script type="text/javascript">
+
+    var emptyModalContent = function () {
+        $('#wizyta-delete').removeData('bs.modal').find('.modal-content').empty();
+    };
+    $('#wizyta-delete').on('hidden.bs.modal', function () {
+        emptyModalContent();
+    });
+</script>

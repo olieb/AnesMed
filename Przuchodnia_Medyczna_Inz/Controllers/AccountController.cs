@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Przuchodnia_Medyczna_Inz.Models;
 using Przuchodnia_Medyczna_Inz.DAL;
+using Przuchodnia_Medyczna_Inz.Helpers;
 
 namespace Przuchodnia_Medyczna_Inz.Controllers
 {
@@ -63,15 +64,6 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         }
 
         //
-        // GET: /Account/ProfilPacjenta
-        [AllowAnonymous]
-        public ActionResult ProfilPacjenta(string returnUrl)
-        {
-            ViewBag.ReturnUrl = returnUrl;
-            return View();
-        }
-
-        //
         // POST: /Account/ProfilPacjenta
         [HttpPost]
         [AllowAnonymous]
@@ -113,6 +105,9 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
               PrzychodniaContext db = new PrzychodniaContext();
+
+               var currentUser = User.Identity.GetUserId();
+              
               
                 var user = new ApplicationUser() { UserName = model.UserName };
 
@@ -146,8 +141,12 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
 
                 if (result.Succeeded)
                 {
+                    ViewBag.Id = currentUser;
                     result = UserManager.AddToRole(user.Id, "Pacjent");
-                    await SignInAsync(user, isPersistent: false);
+                    if (currentUser == null)
+                    {
+                        await SignInAsync(user, isPersistent: false);
+                    }
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -202,14 +201,25 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                 db.Osoba.Add(pracownik);
 
                 db.SaveChanges();
-
+                ViewBag.Id = user.Id;
                 if (result.Succeeded)
                 {
-                    result = UserManager.AddToRole(user.Id, "Pracownik");
                     var stanowisko = db.Stanowisko.Where(x => x.StanowiskoID == stanowiskoId).First();
                     ViewBag.StanowiskoNazwa = stanowisko.Nazwa;
+                    if(stanowisko.Nazwa.Equals("Lekarz"))
+                    {
+                        result = UserManager.AddToRole(user.Id, "Lekarz");
+                    }
+                    if (stanowisko.Nazwa.Equals("Administrator"))
+                    {
+                        result = UserManager.AddToRole(user.Id, "Administrator");
+                    }
+                    if (stanowisko.Nazwa.Equals("Recepcjonista"))
+                    {
+                        result = UserManager.AddToRole(user.Id, "Recepcja");
+                    }
                     //await SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Pracownik", new { stanowisko = @ViewBag.StanowiskoNazwa });
+                    return RedirectToAction("Index", "Pracownik", new { stanowisko = @ViewBag.StanowiskoNazwa, akcja = PracownikActionMessage.Create, info = pracownik.ImieNazwisko });
                 }
                 else
                 {
@@ -217,7 +227,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                 }
             }
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return RedirectToAction("Index", "Pracownik", new { stanowisko = @ViewBag.StanowiskoNazwa, akcja = PracownikActionMessage.Error });
         }
         //
         // POST: /Account/Disassociate
@@ -238,6 +248,15 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             return RedirectToAction("Manage", new { Message = message });
         }
 
+        // GET: /Account/ProfilPacjenta
+        [AllowAnonymous]
+        public ActionResult ProfilPacjenta(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
+        }
+
+       
         //
         // GET: /Account/Manage
         public ActionResult Manage(ManageMessageId? message)

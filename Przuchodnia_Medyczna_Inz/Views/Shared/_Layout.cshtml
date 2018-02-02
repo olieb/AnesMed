@@ -14,6 +14,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/navi")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/Scripts/infoCzynnosc.js")
     <!-- Include Date Range Picker -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
@@ -37,7 +38,7 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right" style="position:relative">
-                        @if (Request.IsAuthenticated && HttpContext.Current.User.IsInRole("Pacjent")) { 
+                        @if (Request.IsAuthenticated && HttpContext.Current.User.IsInRole("Pacjent")|| HttpContext.Current.User.IsInRole("Administrator")) { 
                             @*<li>
                                 <a href="@Url.Action("Home", "PacjentHome", new{ @class="scroll"})">
                                     <span class="glyphicon glyphicon-home icn_pos hm" aria-hidden="true"></span><br>
@@ -52,7 +53,7 @@
                             </li>
                            
                         }
-                        @if (Request.IsAuthenticated && HttpContext.Current.User.IsInRole("Recepcja"))
+                        @if (Request.IsAuthenticated && !(HttpContext.Current.User.IsInRole("Pacjent")))
                         {
                             <li>
                                 <a href="@Url.Action("Index", "Pacjent", new { @class = "scroll" })">
@@ -61,6 +62,8 @@
                                 </a>
                             </li>                            
                         }
+                        @if (!Request.IsAuthenticated) 
+                        { 
                         <!---->
                         <li>
                             <a href="#features" class="scroll">
@@ -75,8 +78,9 @@
                                 Lekarze
                             </a>
                         </li>
-                        @*@if (Request.IsAuthenticated && HttpContext.Current.User.IsInRole("Admin"))
-                        {*@
+                        }
+                        @if (Request.IsAuthenticated && HttpContext.Current.User.IsInRole("Administrator"))
+                        {
                             <li>
                                 <div class="dropdown" style="margin-top: 2px">
                                     <a href="#doc" class="dropbtn">
@@ -92,7 +96,8 @@
                                         @Html.ActionLink("Administratorzy", "Index", "Pracownik",new { stanowisko = "Administrator" }, null)
                                     </div>
                                 </div>
-                            </li>  
+                            </li> 
+                       
                         <li>
                             <div class="dropdown" style="margin-top: 2px">
                                 <a href="#doc" class="dropbtn">
@@ -105,14 +110,43 @@
                                     @Html.ActionLink("Placówki", "Index", "Placowka")
                                 </div>
                             </div>
-                        </li>                                 
-                        @*}*@
+                        </li>
+                                                        
+                        }
+                       @if (Request.IsAuthenticated && (HttpContext.Current.User.IsInRole("Lekarz") || HttpContext.Current.User.IsInRole("Recepcja")))
+                        {
+                        <li>
+                            <div class="dropdown" style="margin-top: 2px">
+                                <a href="#doc" class="dropbtn">
+                                    <span class="glyphicon glyphicon-paperclip icn_pos" aria-hidden="true"></span><br>
+                                    Zarzadzanie
+                                </a>
+                                <div class="dropdown-content">
+                                    @Html.ActionLink("Specjalizacje", "Index", "Specjalizacja")
+                                    @Html.ActionLink("Stanowiska", "Index", "Stanowisko")
+                                    @Html.ActionLink("Placówki", "Index", "Placowka")
+                                </div>
+                            </div>
+                        </li>
+                        }       
+                        @if (Request.IsAuthenticated && (HttpContext.Current.User.IsInRole("Lekarz")))
+                        {
+                             <li>
+                                <a href="@Url.Action("MojeWizyty", "Pracownik", new{ @class="scroll"})">
+                                    <span class="glyphicon glyphicon-calendar icn_pos hm" aria-hidden="true"></span><br>
+                                    Moje Wizyty
+                                </a>
+                            </li>
+                        }
+                        @if (Request.IsAuthenticated && HttpContext.Current.User.IsInRole("Pacjent")|| !(Request.IsAuthenticated))
+                        {
                         <li>
                             <a href="#contact" class="scroll">
                                 <span class="glyphicon glyphicon-envelope icn_pos" aria-hidden="true"></span><br>
                                 Kontakt
                             </a>
                         </li>
+                        }
                         @Html.Partial("_LoginPartial")                      
                        
                     </ul>

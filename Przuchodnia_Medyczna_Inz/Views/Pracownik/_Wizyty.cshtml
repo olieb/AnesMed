@@ -3,13 +3,17 @@
 @if(Model != null){
 <div class="col-md-10 col-md-offset-1">
     <br />
-    <h4 class="sub-title"> Twoje umówione wizyty:</h4>
+    <h4 class="sub-title">Umówione wizyty:</h4>
     <br />
     <div class="wrapper">
         <table class="table termin-table" id="terminy">
             <tr>
                 <th>Data</th>
                 <th>Godzina</th>
+                @if(Request.IsAuthenticated && User.IsInRole("Administrator"))
+                {
+                 <th>Lekarz</th>
+                }
                 <th>Pacjent</th>
                 <th>Pesel</th>
                 <th>Uwagi</th>
@@ -26,32 +30,35 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Godzina)
                     </td>
+                    @if (Request.IsAuthenticated && User.IsInRole("Administrator"))
+                    {
+                     <td>
+                        @Html.DisplayFor(modelItem => item.Pracownik.ImieNazwisko)
+                    </td>
+                    }
                     <td>
                         @Html.DisplayFor(modelItem => item.Pacjent.ImieNazwisko)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Pacjent.Pesel)
                     </td>
-                    @*<td>
-                            @Html.DisplayFor(modelItem => item.)
-                        </td>*@
                     <td>
                         @Html.DisplayFor(modelItem => item.Uwagi)
                     </td>
                     <td></td>
+                    @if(Request.IsAuthenticated && User.IsInRole("Lekarz")){
                     <td>                      
                         <a href="@Url.Action("Edit", "Wizyta", new { id = item.WizytaID })" data-toggle="modal" data-target="#diagnoza-add" title="Postaw diagnozę">
                             <i class="fa fa-heartbeat" style="font-size:24px"></i>
                         </a>
                     </td>
-                    @*<td>
-                        <a href="@Url.Action("Edit", "Wizyta", new { id = item.WizytaID })" data-toggle="modal" data-target="#diagnoza-add" title="Historia chorób pacjenta">
-                            <i class="fa fa-id-card" style="font-size:22px"></i>
-                        </a>
-                    </td>*@
+                    }
                 </tr>
             }
         </table>
     </div>
 </div>
 }
+<div id="diagnoza-add" class="modal fade hidden-print" tabindex="-1" role="dialog">
+    @Html.Partial("_NewDiagnoza", new Przuchodnia_Medyczna_Inz.Models.Wizyta())
+</div>

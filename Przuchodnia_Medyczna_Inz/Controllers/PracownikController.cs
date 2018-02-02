@@ -1,17 +1,18 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using PagedList;
+using Przuchodnia_Medyczna_Inz.DAL;
+using Przuchodnia_Medyczna_Inz.Helpers;
+using Przuchodnia_Medyczna_Inz.Models;
+using Przuchodnia_Medyczna_Inz.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using PagedList;
-using Przuchodnia_Medyczna_Inz.Models;
-using Przuchodnia_Medyczna_Inz.DAL;
-using Przuchodnia_Medyczna_Inz.ViewModel;
-using Microsoft.AspNet.Identity;
-using System.Threading.Tasks;
 using System.Web.Security;
 
 namespace Przuchodnia_Medyczna_Inz.Controllers
@@ -21,12 +22,12 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         private PrzychodniaContext db = new PrzychodniaContext();
 
         // GET: /Pracownik/Index
-        public ActionResult Index(string stanowisko, string imieNazwisko, int? specjalizacjaId, string pesel, int page = 1)
+        public ActionResult Index(string stanowisko, string imieNazwisko, int? specjalizacjaId, string pesel, int page = 1, PracownikActionMessage akcja = PracownikActionMessage.Empty, string info = null, string data = null)
         {
             List<Pracownik> pracownicy = db.Pracownik.ToList(); 
             if (!String.IsNullOrEmpty(stanowisko))
             {
-                pracownicy = db.Pracownik.Where(x => x.Stanowisko.Nazwa.Equals(stanowisko)).OrderBy(p => p.Nazwisko).ToList();
+                pracownicy = db.Pracownik.Where(x => x.Stanowiska.Nazwa.Equals(stanowisko)).OrderBy(p => p.Nazwisko).ToList();
             }
 
             if (!String.IsNullOrEmpty(imieNazwisko))
@@ -45,17 +46,23 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                 pracownicy = db.Pracownik.Where(s => s.Pesel == longPesel).ToList();
             }
 
+            if (akcja != PracownikActionMessage.Empty)
+            {
+                ViewBag.data = data;
+                ViewBag.info = info;
+                ViewBag.Akcja = akcja;
+            }
             ViewBag.SpecjalizacjaID = new SelectList(db.Specjalizacja, "SpecjalizacjaID", "Nazwa");
             ViewBag.StanowiskoNazwa = stanowisko;  
            
             int pageSize = 10;
             int pageNumber = 1;
             
-            PagedList<Pracownik> model = new PagedList<Pracownik>(pracownicy.OrderBy(x => x.Nazwisko), page, pageSize);
+            PagedList<Pracownik> model = new PagedList<Pracownik>(pracownicy.Where(x =>x.DataZwolnienia == null).OrderBy(x => x.Nazwisko), page, pageSize);
 
             return View(model);
         }
-
+        
         // GET: /Pracownik/Terminy/5
         public ActionResult Terminy(string id)
         {
@@ -74,7 +81,27 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             }
             return View(pracownik);
         }
+        
+        public ActionResult MojeWizyty(){
+           var userId = User.Identity.GetUserId();
+           var test = User.Identity.IsAuthenticated;
+           var test1 = User.IsInRole("Pracownik");
+            if (String.IsNullOrEmpty(userId))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
 
+           var pracownik = db.Pracownik.Find(userId);
+           ViewBag.StanowiskoNazwa = db.Stanowisko.Where(x => x.StanowiskoID == pracownik.StanowiskoID).FirstOrDefault().Nazwa;
+           ViewBag.LekarzID = userId;
+
+           if (pracownik == null)
+           {
+               return HttpNotFound();
+           }
+           return View("Terminy", pracownik);
+        }
+       
         // GET: /Pracownik/Create
         public ActionResult Create(string stanowisko)
         {
@@ -88,7 +115,6 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
 
             return View();
         }
-     
         // GET: /Pracownik/Edit/5
         public ActionResult Edit(string id)
         {
@@ -102,8 +128,9 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             {
                 return HttpNotFound();
             }
-
-            ViewBag.SpecjalizacjaID = new SelectList(db.Specjalizacja, "SpecjalizacjaID", "PracownikID", pracownik.SpecjalizacjaID);
+            ViewBag.StanowiskoNazwa = db.Stanowisko.Where(x => x.StanowiskoID == pracownik.StanowiskoID).FirstOrDefault().Nazwa;
+            ViewBag.StanowiskoID = new SelectList(db.Stanowisko, "StanowiskoID", "Nazwa");
+            ViewBag.SpecjalizacjaID = new SelectList(db.Specjalizacja, "SpecjalizacjaID", "Nazwa", pracownik.SpecjalizacjaID);
             return View(pracownik);
         }
 
@@ -112,21 +139,27 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="OsobaID,AdresID,Imie,Nazwisko,Telefon,DataZatrudnienia,Pensja,StanowiskoID,SpecjalizacjaID")] Pracownik pracownik)
+        public ActionResult Edit(Pracownik model, DateTime date, string stanowisko)
         {
+           
             if (ModelState.IsValid)
             {
-                db.Entry(pracownik).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    //model.StanowiskoID = stanId;
+                    model.DataZatrudnienia = date;
+                    db.Entry(model).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index", new { stanowisko = stanowisko, akcja = PracownikActionMessage.Edit, info = model.ImieNazwisko });
+                }
+                catch (Exception ex)
+                {
+                    
+                }
             }
-
-            //ViewBag.SpecjalizacjaID = new SelectList(db.Specjalizacja, "SpecjalizacjaID", "PracownikID", pracownik.SpecjalizacjaID);
-            //ViewBag.StanowiskoID = new SelectList(db.Stanowisko, "StanowiskoID", "PracownikID", pracownik.StanowiskoID);
-
-            return View(pracownik);
+           
+            return View(model);
         }
-
         // GET: /Pracownik/Delete/5
         public ActionResult Delete(string id, string stanowisko)
         {
@@ -142,23 +175,16 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             }
             return PartialView("_Delete", pracownik);
         }
-
         // POST: /Pracownik/Delete/5
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(string id, string stanowisko)
         {
             Pracownik pracownik = db.Pracownik.Find(id);
             var wizyty = db.Wizyta.Where(x => x.PracownikID.Equals(id)).ToList();
-            //if (wizyty.Count() > 0)
-            //{
-            //    TempData["Warn"] = "Nie można zwolnić tego lekarza. Ma zaplanowane wizyty.";
-            //}
-            //else{
-                 db.Osoba.Remove(pracownik);
-                 db.SaveChanges();
-            //}          
+            pracownik.DataZwolnienia = DateTime.Now;
+            db.SaveChanges();       
 
-            return RedirectToAction("Index", "Pracownik", new { stanowisko});
+            return RedirectToAction("Index", "Pracownik", new { stanowisko , akcja = PracownikActionMessage.Delete, info = pracownik.ImieNazwisko});
         }
         protected override void Dispose(bool disposing)
         {

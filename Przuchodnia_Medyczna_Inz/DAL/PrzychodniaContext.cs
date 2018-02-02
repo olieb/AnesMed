@@ -20,12 +20,12 @@ namespace Przuchodnia_Medyczna_Inz.DAL
         public DbSet<Osoba> Osoba { get; set; }
         public DbSet<Adres> Adres { get; set; }
         public DbSet<Wizyta> Wizyta { get; set; }
-        public DbSet<Stanowisko> Stanowisko { get; set; }
+        public DbSet<Models.Stanowisko> Stanowisko { get; set; }
         public DbSet<PacjentChorobaPrzewlekla> ChorobaPacjenta { get; set; }
         public DbSet<ChorobaPrzewlekla> ChorobaPrzewlekla { get; set; }
         public DbSet<Specjalizacja> Specjalizacja { get; set; }
         public DbSet<PlacowkaMedyczna> PlacowkaMedyczna { get; set; }
-        public DbSet<Pracownik> Pracownik { get; set; }
+        public DbSet<Models.Pracownik> Pracownik { get; set; }
         public DbSet<Pacjent> Pacjent { get; set; }
         //public DbSet<IdentityUser> User { get; set; }
 
@@ -42,7 +42,11 @@ namespace Przuchodnia_Medyczna_Inz.DAL
 
             modelBuilder.Entity<Pacjent>().ToTable("Pacjent");
             modelBuilder.Entity<Pracownik>().ToTable("Pracownik");
-            modelBuilder.Entity<IdentityUser>().ToTable("Users");//to change the name of table.
+            modelBuilder.Entity<IdentityUser>().ToTable("User");//to change the name of table.
+            modelBuilder.Entity<IdentityRole>().ToTable("Role");
+            modelBuilder.Entity<IdentityUserRole>().ToTable("RoleUser");
+            modelBuilder.Ignore<IdentityUserClaim>();
+            modelBuilder.Ignore<IdentityUserLogin>();
 
             modelBuilder.Entity<Adres>().HasKey(x => x.AdresID).Property(x => x.AdresID)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);

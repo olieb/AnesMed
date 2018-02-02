@@ -111,10 +111,10 @@
                 @Html.TextBoxFor(model => model.Pracownicy.Pracownik.DataZatrudnienia, new { @class = "form-control", @Value = @DateTime.Now.ToShortDateString() })
                 @Html.ValidationMessageFor(model => model.Pracownicy.Pracownik.DataZatrudnienia)
             </div>
-            @Html.LabelFor(model => model.Pracownicy.Pracownik.Stanowisko.StanowiskoID, "Stanowisko", new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Pracownicy.Pracownik.Stanowiska.StanowiskoID, "Stanowisko", new { @class = "control-label col-md-2" })
             <div class="col-md-2">
-                @Html.DropDownList("StanowiskoID", (SelectList)@ViewBag.StanowiskoID, new { @class = "form-control", @readonly = "readonly", @onsubmit = "SelectedStanowisko(this)" })
-                @Html.ValidationMessageFor(model => model.Pracownicy.Pracownik.Stanowisko.StanowiskoID)
+                @Html.DropDownList("StanowiskoID", (SelectList)@ViewBag.StanowiskoID, new { @class = "form-control", @readonly = "true", @onsubmit = "SelectedStanowisko(this)" })
+                @Html.ValidationMessageFor(model => model.Pracownicy.Pracownik.Stanowiska.StanowiskoID)
             </div>            
            @if(@ViewBag.StanowiskoNazwa.Equals("Lekarz")){               
                 @Html.LabelFor(model => model.Pracownicy.Pracownik.Specjalizacja.SpecjalizacjaID, "Specjalizacja", new { @class = "control-label col-md-2" })
@@ -143,9 +143,13 @@
         </div>
     </div>
 }
-<div>
-    @Html.ActionLink("Powrót", "Index", new { stanowisko = @ViewBag.StanowiskoNazwa })
+<div class="col-md-12">
+    <a href="@Url.Action("Index", "Pracownik", new { stanowisko = @ViewBag.StanowiskoNazwa })" title="Powrót">
+        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" style="font-size: 25px;"></span>
+    </a>
 </div>
+
+@* Javascript for the view *@
 
 <script type="text/javascript">
     function SelectedSpecjalization(e) {

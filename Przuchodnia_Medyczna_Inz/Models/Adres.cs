@@ -11,9 +11,14 @@ namespace Przuchodnia_Medyczna_Inz.Models
     {
         [Key, Required]
         public int AdresID { get; set; }
+        [Required]
+        [StringLength(25)]
         public string Miejscowosc { get; set; }
+        [StringLength(25)]
+        [Required]
         public string Ulica { get; set; }
         [Display(Name = "Budynek nr.")]
+        [RegularExpression(@"^[0-9\.\-\+]+$", ErrorMessage="Niepoprawny numer Budynku")]
         public int NrBudynku { get; set; }
         [Display(Name = "Lokal nr.")]
         public int? NrMieszkania { get; set; }

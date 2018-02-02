@@ -1,18 +1,42 @@
 ﻿@model IEnumerable<Przuchodnia_Medyczna_Inz.Models.Wizyta>
 
 @{
-    ViewBag.Title = "Dodaj wizyte";
+    ViewBag.Title = "Wizyty";
 }
 <br />
-@if (TempData["Success"] != null)
+
+
+
+@if (ViewBag.Akcja != null)
 {
-    <div class="alert alert-success">
-        <strong>@TempData["Success"]</strong>
-    </div>
+    if (ViewBag.Akcja == Przuchodnia_Medyczna_Inz.Helpers.ActionMessage.Created ||
+        ViewBag.Akcja == Przuchodnia_Medyczna_Inz.Helpers.ActionMessage.Edited || 
+        ViewBag.Akcja == Przuchodnia_Medyczna_Inz.Helpers.ActionMessage.Deleted)
+    {
+        <div class="alert alert-success">
+            <h4>@Przuchodnia_Medyczna_Inz.Helpers.FullDescription.GetDescription(@ViewBag.Akcja)<b>@ViewBag.info</b></h4>
+        </div>
+    }
+
+    if (ViewBag.Akcja == Przuchodnia_Medyczna_Inz.Helpers.ActionMessage.Error)
+    {
+        <div class="alert alert-danger">
+
+            <h4>@Przuchodnia_Medyczna_Inz.Helpers.FullDescription.GetDescription(@ViewBag.Akcja) <b>@ViewBag.info</b></h4>
+        </div>
+    }
 }
 <div class="container">
     <div class="row" style="margin-right: 20px;">
-        <div class="col-md-2 col-md-offset-10">
+@if (Request.IsAuthenticated && User.IsInRole("Administrator"))
+{
+        <div class="title col-md-7 col-md-offset-2"> Lista wszystkich zaplanowanych wizyt</div>
+}
+else
+{
+     <div class="title col-md-7 col-md-offset-2"> Lista twoich zaplanowanych wizyt</div>
+}
+        <div class="col-md-3">
             <a href="@Url.Action("Create", "Wizyta")" class="btn btn-success">
                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                 Umów wizytę lub badanie
@@ -65,7 +89,12 @@
             <th>Godzina</th>
             <th>Lekarz</th>
             <th>Specjalizacja</th>
-            <th>Adres</th>
+            <th>Adres Wizyty</th>
+            @if (Request.IsAuthenticated && User.IsInRole("Administrator"))
+            {
+                <th>Pacjent</th>
+                <th>Pacjent Pesel</th>
+            }
             <th></th>
         </tr>    
     @foreach (var item in Model) {
@@ -85,8 +114,19 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Pracownik.Placowka.Adres.FullAdres)
             </td>
+            @if (Request.IsAuthenticated && User.IsInRole("Administrator"))
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Pacjent.ImieNazwisko)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Pacjent.Pesel)
+                </td>
+            }
             <td>
-                @Html.ActionLink("Anuluj", "Delete", new { id=item.WizytaID })
+                <a href="@Url.Action("Delete", new { id = item.WizytaID })" data-toggle="modal" data-target="#wizyta-delete" title="Anuluj wizytę">
+                    <i class="fa fa-calendar-times-o" style="font-size:25px"></i>
+                </a>
             </td>
         </tr>    
     }
@@ -95,20 +135,29 @@
 else
 {
     <div class="col-md-8 col-md-offset-4">
-        <h3>Nie masz zarezerwowanych wizyt.</h3>
+        <h3 class ="head-table">Nie masz zarezerwowanych wizyt.</h3>
     </div>
 }
-@if (HttpContext.Current.User.IsInRole("Admin"))
+@if (HttpContext.Current.User.IsInRole("Administrator"))
 {
 <div id="termin-add" class="modal fade hidden-print" tabindex="-1" role="dialog">
     @Html.Partial("_TerminCreate", new Przuchodnia_Medyczna_Inz.Models.Wizyta())
 </div>
 }
+<div id="wizyta-delete" class="modal fade hidden-print" tabindex="-1" role="dialog">
+</div>
 <script type="text/javascript">
+
+    var emptyModalContent = function () {
+    $('#wizyta-delete').removeData('bs.modal').find('.modal-content').empty();
+    };
+    $('#wizyta-delete').on('hidden.bs.modal', function () {
+        emptyModalContent();
+    });
+
     $(function(){
         $('.input-group input[name="startDate"]').daterangepicker(
        {
-           startDate: moment().subtract(2, 'days'),
            locale: {
                format: 'DD/MM/YYYY',
            },
@@ -119,7 +168,6 @@ else
        })
         $('.input-group input[name="endDate"]').daterangepicker(
        {
-           endDate: moment().subtract(-7, 'days'),
            locale: {
                format: 'DD/MM/YYYY',
            },

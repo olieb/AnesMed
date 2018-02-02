@@ -11,6 +11,7 @@ namespace Przuchodnia_Medyczna_Inz.Models
     {
         [Required, Key]
         public int StanowiskoID { get; set; }
+        [Required]
         [StringLength(20, ErrorMessage = "Nazwa musi mieć dlugość, między {2} a {1} znaków.", MinimumLength = 5)]
         public string Nazwa { get; set; }
         public string Obowiazki { get; set; }

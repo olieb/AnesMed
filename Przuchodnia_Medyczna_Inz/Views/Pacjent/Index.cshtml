@@ -5,18 +5,40 @@
     ViewBag.Title = "Pacjenci";
 }
 <br />
-@if (TempData["succes-message"] != null)
+@if (ViewBag.Akcja != null)
 {
-    <div class="alert alert-success">
-        <strong>@TempData["succes-message"]</strong> 
-    </div>
+    if (ViewBag.Akcja == Przuchodnia_Medyczna_Inz.Helpers.PacjentActionMessage.Edit ||
+        ViewBag.Akcja == Przuchodnia_Medyczna_Inz.Helpers.PacjentActionMessage.Create)
+    {
+        <div class="alert alert-success">
+
+            <h4>@Przuchodnia_Medyczna_Inz.Helpers.FullDescription.GetDescription(@ViewBag.Akcja)<b>@ViewBag.info</b></h4>
+        </div>
+    }
+
+    if (ViewBag.Akcja == Przuchodnia_Medyczna_Inz.Helpers.PacjentActionMessage.Error)
+    {
+        <div class="alert alert-danger">
+          
+            <h4>@Przuchodnia_Medyczna_Inz.Helpers.FullDescription.GetDescription(@ViewBag.Akcja) <b>@ViewBag.info</b></h4>
+           
+        </div>
+    }
 }
-else if (TempData["failure-message"] != null)
-{
-    <div class="alert alert-danger">
-        <strong>@TempData["failure-message"]</strong> 
+@if(Request.IsAuthenticated && !(User.IsInRole("Lekarz"))){
+<div class="container">
+    <div class="row" style="margin-right: 20px;">
+        <div class="title col-md-6 col-md-offset-4"> Lista pacjentów</div>
+        <div class="col-md-2">
+            <a href="@Url.Action("Create", "Pacjent")" class="btn btn-success">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                Dodaj Pacjenta
+            </a>
+        </div>
     </div>
+</div>
 }
+<br />
 @using (Html.BeginForm()) { 
 <div class="container" style="background-color: #309BBE; color: white; border-radius: 15px; height: 120px;">
     <div class="row">
@@ -37,17 +59,7 @@ else if (TempData["failure-message"] != null)
     </div>
 </div>
 }
-<br />
-<div class="container">
-    <div class="row" style="margin-right: 20px;">
-        <div class="col-md-3 col-md-offset-10">
-            <a href="@Url.Action("Create", "Pacjent")" class="btn btn-success">
-                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                Dodaj Pacjenta
-            </a>
-        </div>
-    </div>
-</div>
+
 <br />
 <table class="table">
     <tr class="head-table">
@@ -80,13 +92,15 @@ else if (TempData["failure-message"] != null)
         <td>
             <a class="btn btn-xs btn-default buttons-xs" href="@Url.Action("Wizyty", new { id = item.OsobaID })" title="Wizyty pacjenta">
                 <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Wizyty
-            </a>    
+            </a>  
+            @if(Request.IsAuthenticated && !(User.IsInRole("Lekarz"))){  
             <a class="btn btn-xs btn-info buttons-xs" href="@Url.Action("Edit", new { id = item.OsobaID })" title="Edycja danych">
                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edutuj
             </a>
             <a href="@Url.Action("Delete", new { id = item.OsobaID })" data-toggle="modal" data-target="#pacjent-delete" title="Usuń">
                 <span class="glyphicon glyphicon-trash icon" aria-hidden="true"></span>
             </a>
+            }
         </td>
     </tr>
    }

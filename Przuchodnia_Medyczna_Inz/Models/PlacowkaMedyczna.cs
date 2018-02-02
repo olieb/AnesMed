@@ -17,8 +17,12 @@ namespace Przuchodnia_Medyczna_Inz.Models
         [Column(Order = 0)]
         public int PlacowkaMedycznaID { get; set; }
         [Required]
+        [StringLength(15)]
         public string Nazwa { get; set; }
+        [Required]
         [Display(Name = "Kom.")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression("^[0-9]+-?[0-9]+-?[0-9]+-?[0-9]+-?[0-9]*$", ErrorMessage = "Numer telefonu jest nie poprawny")]
         public string Komorka { get; set; }
         [Display(Name="Tel. ")]
         public string Telefon { get; set; }

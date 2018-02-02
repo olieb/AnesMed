@@ -3,7 +3,14 @@
 @{
     ViewBag.Title = "Placówki";
 }
-
+@if (TempData["error"] != null)
+{ 
+<div class="col-md-10 col-offset-1 alert-danger">
+    <br />
+    @TempData["error"]
+    <br />
+</div>
+}
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-4 title">
