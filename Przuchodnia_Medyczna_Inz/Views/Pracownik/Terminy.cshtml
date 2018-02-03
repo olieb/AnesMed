@@ -16,7 +16,7 @@
 @Html.HiddenFor(model => model.OsobaID)
 <div class="container">
     <div class="row">
-@if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
+@if (User.Identity.IsAuthenticated && User.IsInRole("Lekarz"))
 {
     <div class="col-md-2 col-md-offset-10">
         <a data-target="#termin-add" data-toggle="modal" class="btn btn-success">
@@ -99,6 +99,7 @@ else
                         }
                         <th>Uwagi</th>
                         <th></th>
+                        <th></th>
                     </tr>
                     @foreach (var item in Model.Wizyty.Where(x => x.PacjentID == null))
                     {
@@ -163,7 +164,7 @@ else
             data: { "data": data, "godzina": godzina, "uwagi": uwagi, "Id": idsd},
             type: 'Post',
         }).success(function (result) {
-            $('#termin-add').modal('toggle');
+           
             $(document).ajaxStop(function () { location.reload(true); });
         });
     }
