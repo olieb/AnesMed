@@ -13,14 +13,15 @@ namespace Przuchodnia_Medyczna_Inz.Models
         public string OsobaID { get; set; }
         [Required]
         [StringLength(15)]
-        [RegularExpression("^[A-Z][a-z]{2,}$", ErrorMessage = "Imie nie może zawierać liczb")]
+        [RegularExpression("^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]{2,}$", ErrorMessage = "Imie nie może zawierać liczb")]
         public string Imie { get; set; }
         [Required]
         [StringLength(15)]
+        [RegularExpression("^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]{2,}$", ErrorMessage = "Nazwisko nie może zawierać liczb")]
         public string Nazwisko { get; set; }
         [DataType(DataType.PhoneNumber)]
         [DisplayFormat(DataFormatString = "{0:###-###-####}", ApplyFormatInEditMode = true)]
-        [RegularExpression("^[0-9]+-?[0-9]+-?[0-9]+-?[0-9]+-?[0-9]*$", ErrorMessage="Numer telefonu jest nie poprawny")]
+        [RegularExpression("^[0-9]+-?[0-9]+-?[0-9]+-?[0-9]+-?[0-9]*$", ErrorMessage = "Numer telefonu jest nie poprawny")]
         public string Telefon { get; set; }
         [Required]
         [RegularExpression("^[0-9]{11}$", ErrorMessage = "PESEL musi się skladać z 11 liczb np. 87041309234")]
@@ -30,6 +31,6 @@ namespace Przuchodnia_Medyczna_Inz.Models
         {
             get { return Imie + ' ' + Nazwisko; }
         }
-       
+
     }
 }
