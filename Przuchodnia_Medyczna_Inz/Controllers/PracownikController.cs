@@ -140,8 +140,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Pracownik model, DateTime date, string stanowisko)
-        {
-           
+        {           
             if (ModelState.IsValid)
             {
                 try

@@ -198,12 +198,12 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                
                 var result = await UserManager.CreateAsync(user, model.Password);
 
-                db.Osoba.Add(pracownik);
-
-                db.SaveChanges();
+           
                 ViewBag.Id = user.Id;
                 if (result.Succeeded)
                 {
+                    db.Osoba.Add(pracownik);
+                    db.SaveChanges();
                     var stanowisko = db.Stanowisko.Where(x => x.StanowiskoID == stanowiskoId).First();
                     ViewBag.StanowiskoNazwa = stanowisko.Nazwa;
                     if(stanowisko.Nazwa.Equals("Lekarz"))
@@ -214,7 +214,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                     {
                         result = UserManager.AddToRole(user.Id, "Administrator");
                     }
-                    if (stanowisko.Nazwa.Equals("Recepcjonista"))
+                    if (stanowisko.Nazwa.Equals("Recepcja"))
                     {
                         result = UserManager.AddToRole(user.Id, "Recepcja");
                     }

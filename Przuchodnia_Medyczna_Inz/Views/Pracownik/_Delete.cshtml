@@ -11,7 +11,10 @@
             </div>
             <div class="modal-body">
                 <h4 class="sub-title">Czy napewno zwalniasz pracownika <b>@Html.DisplayFor(model => model.ImieNazwisko)</b>?</h4>
-                <p class="alert-warning">Ten lekarz ma ustalonych @Html.DisplayFor(model =>model.Wizyty.Count) terminów wizyt.</p>
+                @if(@ViewBag.StanowiskoNazwa != null && @ViewBag.StanowiskoNazwa.Equals("Lekarz"))
+                {
+                    <p class="alert-warning">Ten lekarz ma ustalonych @Html.DisplayFor(model =>model.Wizyty.Count) terminów wizyt.</p>
+                }
             </div>
 
             <div class="modal-footer">

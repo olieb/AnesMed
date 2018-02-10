@@ -39,12 +39,12 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
 
             if (!String.IsNullOrEmpty(startDate))
             {
-                start = DateTime.Parse(startDate);
+                start = DateTime.ParseExact(startDate, "dd/mm/yyyy", CultureInfo.InvariantCulture);
                 wizyty = wizyty.Where(x => x.Data >= start).ToList();
             }
             if (!String.IsNullOrEmpty(endDate))
             {
-                end = DateTime.Parse(endDate);
+                end = DateTime.ParseExact(endDate, "dd/mm/yyyy", CultureInfo.InvariantCulture);
                 wizyty = wizyty.Where(x => x.Data <= end).ToList();
             }            
             TempData["startDate"] = startDate;
@@ -109,8 +109,8 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         }
         public ActionResult VisitList(string id, string startDate, string endDate)
         {
-            var start = DateTime.Parse(startDate);
-            var end = DateTime.Parse(endDate);
+            var start = DateTime.ParseExact(startDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            var end = DateTime.ParseExact(endDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             var wizyty = db.Wizyta.Where(x => x.Data >= start && x.Data <= end && x.PracownikID.Equals(id) && x.Status == Status.Wolna).ToList();
 
             return PartialView("_VisitList", wizyty.ToList());

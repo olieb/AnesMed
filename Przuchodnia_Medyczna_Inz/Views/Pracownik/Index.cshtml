@@ -38,6 +38,12 @@
         </div>
     }
 }
+else
+{
+    <div class="col-md-offset-5">
+        <h2 class="title">Lista Wszystkich pracowników</h2>
+    </div>
+}
 <br />
 @if (ViewBag.Akcja != null)
 {
@@ -47,16 +53,16 @@
     {
         <div class="alert alert-success">
 
-                <h4>@Przuchodnia_Medyczna_Inz.Helpers.FullDescription.GetDescription(@ViewBag.Akcja) <b>@ViewBag.info</b></h4>
-            </div>
+            <h4>@Przuchodnia_Medyczna_Inz.Helpers.FullDescription.GetDescription(@ViewBag.Akcja) <b>@ViewBag.info</b></h4>
+        </div>
     }
-    if(ViewBag.Akcja == Przuchodnia_Medyczna_Inz.Helpers.PracownikActionMessage.Error)
+    if (ViewBag.Akcja == Przuchodnia_Medyczna_Inz.Helpers.PracownikActionMessage.Error)
     {
         <div class="alert alert-danger">
             <br />
             <h4>@Przuchodnia_Medyczna_Inz.Helpers.FullDescription.GetDescription(@ViewBag.Akcja)<b>@ViewBag.info</b></h4>
             <br />
-        </div>    
+        </div>
     }
 }
 <br />
@@ -84,12 +90,15 @@
                 <br />
                 <h4>Pesel: @Html.TextBox("Pesel", null, new { @class = "form-control", @placeholder = "Pesel" })</h4>
             </div>
-            @if (@ViewBag.StanowiskoNazwa.Equals("Lekarz"))
+            @if (@ViewBag.StanowiskoNazwa != null)
             {
-                <div class="col-md-3">
-                    <br />
-                    <h4>Specjalizacja: @Html.DropDownList("SpecjalizacjaID", (SelectList)@ViewBag.SpecjalizacjaID, "-------  Wybierz Specjalizacje ------", new { @class = "form-control" })</h4>
-                </div>
+                if (@ViewBag.StanowiskoNazwa.Equals("Lekarz"))
+                {
+                    <div class="col-md-3">
+                        <br />
+                        <h4>Specjalizacja: @Html.DropDownList("SpecjalizacjaID", (SelectList)@ViewBag.SpecjalizacjaID, "-------  Wybierz Specjalizacje ------", new { @class = "form-control" })</h4>
+                    </div>
+                }
             }
             <div class="col-md-offset-3" style="margin-top: 3.4%;">
                 <button class="btn btn-default" type="submit">
@@ -101,17 +110,21 @@
         </div>
     </div>
 }
-@if (Model.Count() >= 1)
+@if (Model.Any())
 {
     <table class="table">
         <tr class="head-table">
             <th>Imie Nazwisko</th>
             <th>Pesel</th>
             <th>Telefon</th>
-            @if (@ViewBag.StanowiskoNazwa.Equals("Lekarz"))
+            @if (@ViewBag.StanowiskoNazwa != null)
             {
-                <th>Specjalizacja</th>
+                if (@ViewBag.StanowiskoNazwa.Equals("Lekarz"))
+                {
+                    <th>Specjalizacja</th>
+                }
             }
+            <th>Stanowisko</th>
             <th>Adres</th>
             <th></th>
         </tr>
@@ -127,23 +140,36 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Telefon)
                 </td>
-                @if (@ViewBag.StanowiskoNazwa.Equals("Lekarz"))
+                @if (@ViewBag.StanowiskoNazwa != null)
+                {
+                    if (@ViewBag.StanowiskoNazwa.Equals("Lekarz"))
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Specjalizacja.Nazwa)
+                        </td>
+                    }
+                }
+                @if (item.Stanowiska != null)
                 {
                     <td>
-                        @Html.DisplayFor(modelItem => item.Specjalizacja.Nazwa)
+                        @Html.DisplayFor(modelItem => item.Stanowiska.Nazwa)
                     </td>
                 }
+
                 <td>
                     @Html.DisplayFor(modelItem => item.Adres.FullAdres)
 
                 </td>
                 <td>
-                    @if (@ViewBag.StanowiskoNazwa.Equals("Lekarz"))
+                    @if (@ViewBag.StanowiskoNazwa != null)
                     {
-                        <a href="@Url.Action("Terminy", new { id = item.OsobaID})" class="btn btn-xs btn-default buttons-xs" title="Terminy lekarza">
-                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Terminy
-                        </a>
+                        if (@ViewBag.StanowiskoNazwa.Equals("Lekarz"))
+                        {
+                            <a href="@Url.Action("Terminy", new { id = item.OsobaID})" class="btn btn-xs btn-default buttons-xs" title="Terminy lekarza">
+                                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Terminy
+                            </a>
 
+                        }
                     }
                     <a class="btn btn-xs btn-info buttons-xs" href="@Url.Action("Edit", new { id = item.OsobaID, stanowisko = @ViewBag.StanowiskoNazwa })" title="Edycja danych">
                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edytuj

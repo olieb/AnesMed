@@ -113,10 +113,10 @@
             </div>
             @Html.LabelFor(model => model.Pracownicy.Pracownik.Stanowiska.StanowiskoID, "Stanowisko", new { @class = "control-label col-md-2" })
             <div class="col-md-2">
-                @Html.DropDownList("StanowiskoID", (SelectList)@ViewBag.StanowiskoID, new { @class = "form-control", @readonly = "true", @onsubmit = "SelectedStanowisko(this)" })
+                @Html.DropDownList("StanowiskoID", (SelectList)@ViewBag.StanowiskoID, new { @class = "form-control", @onsubmit = "SelectedStanowisko(this)" })
                 @Html.ValidationMessageFor(model => model.Pracownicy.Pracownik.Stanowiska.StanowiskoID)
             </div>            
-           @if(@ViewBag.StanowiskoNazwa.Equals("Lekarz")){               
+           @if(@ViewBag.StanowiskoNazwa != null && @ViewBag.StanowiskoNazwa.Equals("Lekarz")){               
                 @Html.LabelFor(model => model.Pracownicy.Pracownik.Specjalizacja.SpecjalizacjaID, "Specjalizacja", new { @class = "control-label col-md-2" })
             <div class="col-md-2">
                 @Html.DropDownList("SpecjalizacjaID", (SelectList)@ViewBag.SpecjalizacjaID, String.Empty, new { @class = "form-control", @onchange="SelectedSpecjalization(this)"})
