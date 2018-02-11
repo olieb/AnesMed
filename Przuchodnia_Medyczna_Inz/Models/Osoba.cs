@@ -13,11 +13,11 @@ namespace Przuchodnia_Medyczna_Inz.Models
         public string OsobaID { get; set; }
         [Required]
         [StringLength(15)]
-        [RegularExpression("^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]{2,}$", ErrorMessage = "Imie nie może zawierać liczb")]
+        [RegularExpression("^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]{2,}$", ErrorMessage = "Podane imie jest niepoprawne. Sprawdź czy zaczyna sie z wielkiej litery lub nie zawiera liczb")]
         public string Imie { get; set; }
         [Required]
-        [StringLength(15)]
-        [RegularExpression("^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]{2,}$", ErrorMessage = "Nazwisko nie może zawierać liczb")]
+        [StringLength(25)]
+        [RegularExpression("^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]{2,}$", ErrorMessage = "Podane nazwisko jest niepoprawne. Sprawdź czy zaczyna sie z wielkiej litery lub nie zawiera liczb")]
         public string Nazwisko { get; set; }
         [DataType(DataType.PhoneNumber)]
         [DisplayFormat(DataFormatString = "{0:###-###-####}", ApplyFormatInEditMode = true)]
