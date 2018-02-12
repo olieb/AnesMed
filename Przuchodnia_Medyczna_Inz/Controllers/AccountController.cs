@@ -162,7 +162,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RegisterPracownik(RegisterPracownikViewModel model, int placowkaMedycznaId, int? specjalizacjaId, int stanowiskoId)
+        public async Task<ActionResult> RegisterPracownik(RegisterPracownikViewModel model, int? placowkaMedycznaId, int? specjalizacjaId, int? stanowiskoId)
         {
             PrzychodniaContext db = new PrzychodniaContext();
             var user = new ApplicationUser() { UserName = model.UserName };
@@ -193,8 +193,8 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
 
                 pracownik.Adres = address;
                 pracownik.SpecjalizacjaID = specjalizacjaId;
-                pracownik.StanowiskoID = stanowiskoId;
-                pracownik.PlacowkaID = placowkaMedycznaId;
+                pracownik.StanowiskoID = (int)stanowiskoId;
+                pracownik.PlacowkaID = (int)placowkaMedycznaId;
                
                 var result = await UserManager.CreateAsync(user, model.Password);
 

@@ -13,7 +13,7 @@
     </div>
 </div>
 <hr />
-@using (Html.BeginForm("RegisterPracownik", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("RegisterPracownik", "Account", FormMethod.Post, new { @class = "form-horizontal"}))
 {
     @Html.AntiForgeryToken()
     <div class="col-md-6">
@@ -150,7 +150,9 @@
 </div>
 
 @* Javascript for the view *@
-
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
 <script type="text/javascript">
     function SelectedSpecjalization(e) {
       $.ajax({

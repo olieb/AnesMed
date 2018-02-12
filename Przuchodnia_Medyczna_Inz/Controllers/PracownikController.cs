@@ -22,6 +22,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         private PrzychodniaContext db = new PrzychodniaContext();
 
         // GET: /Pracownik/Index
+        [Authorize(Roles = "Administrator")]
         public ActionResult Index(string stanowisko, string imieNazwisko, int? specjalizacjaId, string pesel, int page = 1, PracownikActionMessage akcja = PracownikActionMessage.Empty, string info = null, string data = null)
         {
             List<Pracownik> pracownicy = db.Pracownik.ToList(); 
@@ -64,6 +65,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         }
         
         // GET: /Pracownik/Terminy/5
+
         public ActionResult Terminy(string id)
         {
 

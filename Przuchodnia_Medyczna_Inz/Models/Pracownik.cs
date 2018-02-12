@@ -15,6 +15,7 @@ namespace Przuchodnia_Medyczna_Inz.Models
         }
 
         [DisplayFormat(DataFormatString = "{0:N}", ApplyFormatInEditMode = true)]
+        [Required]
         public double Pensja { get; set; }
         [Required]
         [DataType(DataType.DateTime)]

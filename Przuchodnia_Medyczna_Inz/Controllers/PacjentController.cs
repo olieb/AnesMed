@@ -19,36 +19,39 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
     {
         private PrzychodniaContext db = new PrzychodniaContext();
         // GET: /Pacjent/
+        [Authorize(Roles="Administrator, Recepcja")]
         public ActionResult Index(string imieNazwisko, string pesel, int page = 1, PacjentActionMessage akcja = PacjentActionMessage.Empty, string info = null)
         {
-            var pacjenci= new AdresyOsobVM();
+                    var pacjenci = new AdresyOsobVM();
 
-            pacjenci.Pacjenci = (from p in db.Pacjent select p).OrderBy(p => p.Nazwisko).ToList();
-            pacjenci.Adresy = from a in db.Adres select a;
+                    pacjenci.Pacjenci = (from p in db.Pacjent select p).OrderBy(p => p.Nazwisko).ToList();
+                    pacjenci.Adresy = from a in db.Adres select a;
 
-            if (!String.IsNullOrEmpty(imieNazwisko))
-            {
-                pacjenci.Pacjenci = pacjenci.Pacjenci.Where(s => s.ImieNazwisko.Contains(imieNazwisko)).ToList();
-            }
-            if (!String.IsNullOrEmpty(pesel))
-            {
-                pacjenci.Pacjenci = pacjenci.Pacjenci.Where(p => p.Pesel.ToString().Contains(pesel)).ToList();
-            }
+                    if (!String.IsNullOrEmpty(imieNazwisko))
+                    {
+                        pacjenci.Pacjenci = pacjenci.Pacjenci.Where(s => s.ImieNazwisko.Contains(imieNazwisko)).ToList();
+                    }
+                    if (!String.IsNullOrEmpty(pesel))
+                    {
+                        pacjenci.Pacjenci = pacjenci.Pacjenci.Where(p => p.Pesel.ToString().Contains(pesel)).ToList();
+                    }
 
-            if (akcja != PacjentActionMessage.Empty)
-            {
-                ViewBag.info = info;
-                ViewBag.Akcja = akcja;
-            }
+                    if (akcja != PacjentActionMessage.Empty)
+                    {
+                        ViewBag.info = info;
+                        ViewBag.Akcja = akcja;
+                    }
 
-            int pageSize = 10;
-            int pageNumber = 1;
+                    int pageSize = 10;
+                    int pageNumber = 1;
 
-            PagedList<Pacjent> model = new PagedList<Pacjent>(pacjenci.Pacjenci.OrderBy(x => x.Nazwisko), page, pageSize);
+                    PagedList<Pacjent> model = new PagedList<Pacjent>(pacjenci.Pacjenci.OrderBy(x => x.Nazwisko), page, pageSize);
 
-            return View(model);
+                    return View(model);
+
         }
         // GET: /Pacjent/Details/5
+         [Authorize(Roles = "Administrator, Recepcja")]
         public ActionResult Wizyty(string id)
         {
             if (String.IsNullOrWhiteSpace(id))
@@ -65,6 +68,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             return View(pacjent);
         }
         // GET: /Pacjent/Create
+        [Authorize(Roles = "Administrator, Recepcja")]
         public ActionResult Create()
         {
             ViewBag.AdresID = new SelectList(db.Adres, "AdresID", "Miejscowosc");
@@ -76,6 +80,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator, Recepcja")]
         public ActionResult Create(AdresyOsobVM model)
         {
             if (ModelState.IsValid)
@@ -111,6 +116,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             return View(model);
         }
         // GET: /Pacjent/Edit/5
+          [Authorize(Roles = "Administrator, Recepcja")]
         public ActionResult Edit(string id)
         {
             if (String.IsNullOrWhiteSpace(id))
@@ -134,6 +140,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator, Recepcja")]
         public ActionResult Edit([Bind(Include = "OsobaID,AdresID,Imie,Nazwisko,Telefon,Pesel,NIP")] Pacjent pacjent)
         {
             if (ModelState.IsValid)
@@ -154,6 +161,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         }
 
         // GET: /Pacjent/Delete/5
+          [Authorize(Roles = "Administrator, Recepcja")]
         public ActionResult Delete(string id)
         {
             if (String.IsNullOrWhiteSpace(id))
@@ -171,6 +179,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         // POST: /Pacjent/Delete/5
         [HttpPost, ActionName("_Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator, Recepcja")]
         public ActionResult DeleteConfirmed(string id)
         {
             Pacjent pacjent = db.Pacjent.Find(id);
