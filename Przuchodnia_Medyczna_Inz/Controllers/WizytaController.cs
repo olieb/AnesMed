@@ -22,6 +22,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         private PrzychodniaContext db = new PrzychodniaContext();
 
         // Post: /Wizyta/
+       [Authorize]
         public ActionResult Index(string startDate, string status, string endDate, string lekarz, ActionMessage akcja = ActionMessage.Empty, string info = null, string data = null)
         {
             List<Wizyta> wizyty;
@@ -69,6 +70,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
 
         //POST
         [HttpPost]
+        [Authorize(Roles = "Lekarz")]
         public ActionResult CreateTermin(DateTime data, DateTime godzina, string uwagi, string Id)
         {
             Wizyta wizyta = new Wizyta();
@@ -91,6 +93,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Lekarz")]
         public ActionResult Diagnoza(string diagnoza, string Id)
         {
             var wizytaId = Int32.Parse(Id);
@@ -116,6 +119,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             return View();
         }
 
+         [Authorize(Roles = "Recepcja, Pacjent")]
         public ActionResult Rezerwacja(int id)
         {
             var userId = User.Identity.GetUserId();
@@ -159,6 +163,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         }
         
         // GET: /Wizyta/Edit/5
+         [Authorize(Roles = "Lekarz")]
         public ActionResult Edit(int? id)
         {
             if (id == null)

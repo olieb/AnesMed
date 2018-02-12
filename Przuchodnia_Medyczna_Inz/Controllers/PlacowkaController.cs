@@ -11,6 +11,7 @@ using Przuchodnia_Medyczna_Inz.DAL;
 
 namespace Przuchodnia_Medyczna_Inz.Controllers
 {
+    [Authorize(Roles = "Administrator, Recepcja, Lekarz")]
     public class PlacowkaController : Controller
     {
         private PrzychodniaContext db = new PrzychodniaContext();

@@ -22,7 +22,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         private PrzychodniaContext db = new PrzychodniaContext();
 
         // GET: /Pracownik/Index
-        [Authorize(Roles = "Administrator")]
+        [Authorize]
         public ActionResult Index(string stanowisko, string imieNazwisko, int? specjalizacjaId, string pesel, int page = 1, PracownikActionMessage akcja = PracownikActionMessage.Empty, string info = null, string data = null)
         {
             List<Pracownik> pracownicy = db.Pracownik.ToList(); 
@@ -65,7 +65,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         }
         
         // GET: /Pracownik/Terminy/5
-
+       
         public ActionResult Terminy(string id)
         {
 
@@ -84,7 +84,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             }
             return View(pracownik);
         }
-        
+        [Authorize(Roles = "Lekarz")]
         public ActionResult MojeWizyty(){
            var userId = User.Identity.GetUserId();
            var test = User.Identity.IsAuthenticated;

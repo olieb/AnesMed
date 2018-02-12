@@ -11,6 +11,7 @@ using Przuchodnia_Medyczna_Inz.Models;
 
 namespace MAS_Przychodnia_Medyczna_ProjKoncowy.Controllers
 {
+    [Authorize]
     public class AdresController : Controller
     {
         private PrzychodniaContext db = new PrzychodniaContext();
