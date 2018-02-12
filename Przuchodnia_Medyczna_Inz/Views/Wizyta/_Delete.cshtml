@@ -7,18 +7,28 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h3 class="title" style="font-size: 25px;">Anuluj wizyte</h3>
+                <h3 class="title" style="font-size: 25px;">Wizyty</h3>
             </div>
             <div class="modal-body">
-                <h4 class="sub-title">Czy napewno chcesz anulować wizytę u doktora <b>@Html.DisplayFor(model => model.Pracownik.ImieNazwisko)</b>?</h4>
-                <br />
-                <p class="alert-warning">Wizyta zostanie zwolniona dla innych pacjentów.</p>
+                @if (Model.Status == Przuchodnia_Medyczna_Inz.Models.Status.Zaplanowana && Model.Data > DateTime.Today || Model.Status == Przuchodnia_Medyczna_Inz.Models.Status.Zaplanowana)
+                {
+                    <h4 class="sub-title">Czy napewno chcesz anulować wizytę u doktora <b>@Html.DisplayFor(model => model.Pracownik.ImieNazwisko)</b>?</h4>
+                        <br />
+                    <p class="alert-warning">Wizyta zostanie zwolniona dla innych pacjentów.</p>
+                }
+                else
+                {
+                     <h4 class="sub-title">Czy napewno chcesz usunąć tą wizytę z twojej listy wizyt?</h4>
+                        <br />
+                    <p class="alert-warning">Wizyta zostanie przeniesiona do archiwum.</p>
+                }
+                
             </div>
 
             <div class="modal-footer">
                 @using (Html.BeginForm())
                 {
-                    <input type="submit" value="Usuń" class="btn btn-danger" />
+                    <input type="submit" value="Zapisz zmiany" class="btn btn-danger" />
                     <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
                 }
             </div>

@@ -150,6 +150,9 @@ else
 <div id="termin-add" class="modal fade hidden-print" tabindex="-1" role="dialog">
     @Html.Partial("_TerminCreate", new Przuchodnia_Medyczna_Inz.Models.Wizyta())
 </div>
+<div id="diagnoza-add" class="modal fade hidden-print" tabindex="-1" role="dialog">
+    @Html.Partial("_NewDiagnoza", new Przuchodnia_Medyczna_Inz.Models.Wizyta())
+</div>
 
 <script>
     function TerminAdd() {
@@ -170,7 +173,7 @@ else
 
     function DiagnozaAdd() {
         var diagnoza = document.getElementById("Diagnoza").value;
-        var wizytaId = document.getElementById("Id").value;
+        var wizytaId = document.getElementById("WizytaID").value;
         var pracId = document.getElementById("OsobaID").value;
 
         $.ajax({

@@ -34,7 +34,7 @@
 }
 else
 {
-     <div class="title col-md-7 col-md-offset-2"> Lista twoich zaplanowanych wizyt</div>
+     <div class="title col-md-7 col-md-offset-2"> Lista twoich wizyt</div>
 }
         <div class="col-md-3">
             <a href="@Url.Action("Create", "Wizyta")" class="btn btn-success">
@@ -69,6 +69,13 @@ else
                     <input type="text" name="endDate" value="@TempData["endDate"]" class="form-control" />
                 </div>
             </div>
+            <div class="col-md-3">
+                <br />
+                <h4>Status wizyty</h4>
+                <div class="input-group">                    
+                   @Html.DropDownList("Status", new SelectList(Enum.GetValues(typeof(Przuchodnia_Medyczna_Inz.Models.Status))), "--Wybierz Status--", new { @class = "form-control", @onClick = "hideElem()" })
+                </div>
+            </div>
             <div class="col-md-offset-3">
                 <button style="margin-top: 4.3%;" class=" btn btn-default" type="submit">
                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -90,6 +97,10 @@ else
             <th>Lekarz</th>
             <th>Specjalizacja</th>
             <th>Adres Wizyty</th>
+            @if (Request.IsAuthenticated && User.IsInRole("Pacjent") || User.IsInRole("Lekarz"))
+            {
+            <th>Diagnoza</th>
+            }
             @if (Request.IsAuthenticated && User.IsInRole("Administrator"))
             {
                 <th>Pacjent</th>
@@ -114,6 +125,12 @@ else
             <td>
                 @Html.DisplayFor(modelItem => item.Pracownik.Placowka.Adres.FullAdres)
             </td>
+            <td>
+                @if (Request.IsAuthenticated && User.IsInRole("Pacjent") || User.IsInRole("Lekarz"))
+                {
+                      @Html.DisplayFor(modelItem => item.Diagnoza)
+                }
+            </td>
             @if (Request.IsAuthenticated && User.IsInRole("Administrator"))
             {
                 <td>
@@ -124,9 +141,18 @@ else
                 </td>
             }
             <td>
+                @if (item.Data < DateTime.Today || item.Status == Przuchodnia_Medyczna_Inz.Models.Status.Odbyta)
+                {
+                <a href="@Url.Action("Delete", new { id = item.WizytaID })" data-toggle="modal" data-target="#wizyta-delete" title="Usuń z listy">
+                    <i class="fa fa-remove" style="font-size:25px; color: red;"></i>
+                </a>
+                }
+                else
+                { 
                 <a href="@Url.Action("Delete", new { id = item.WizytaID })" data-toggle="modal" data-target="#wizyta-delete" title="Anuluj wizytę">
                     <i class="fa fa-calendar-times-o" style="font-size:25px"></i>
                 </a>
+                }
             </td>
         </tr>    
     }
@@ -147,7 +173,13 @@ else
 <div id="wizyta-delete" class="modal fade hidden-print" tabindex="-1" role="dialog">
 </div>
 <script type="text/javascript">
+    function hideElem() {
+            var stat = document.getElementById("Status");
+            stat[2].hidden = true;
+            stat[4].hidden = true;
+        }
 
+    
     var emptyModalContent = function () {
     $('#wizyta-delete').removeData('bs.modal').find('.modal-content').empty();
     };

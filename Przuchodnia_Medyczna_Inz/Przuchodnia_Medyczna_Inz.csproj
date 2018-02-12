@@ -180,6 +180,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ActionMessage.cs" />
+    <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\FullDescription.cs" />
     <Compile Include="Helpers\PacjentActionMessage.cs" />
     <Compile Include="Helpers\PracownikActionMessage.cs" />
@@ -313,9 +314,8 @@
     <Content Include="Views\Wizyta\_VisitList.cshtml" />
     <Content Include="Views\Pracownik\_Delete.cshtml" />
     <Content Include="Views\Pracownik\_Wizyty.cshtml" />
-    <Content Include="Views\Wizyta\_NewDiagnoza.cshtml" />
+    <Content Include="Views\Shared\_NewDiagnoza.cshtml" />
     <Content Include="Views\Placowka\Index.cshtml" />
-    <Content Include="Views\Pracownik\_NewDiagnoza.cshtml" />
     <Content Include="Views\Wizyta\_Delete.cshtml" />
     <Content Include="Views\Shared\_TerminCreate.cshtml" />
   </ItemGroup>

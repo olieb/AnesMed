@@ -11,8 +11,8 @@ namespace Przuchodnia_Medyczna_Inz.Models
     {
         [Display(Name = "Zaplanowana")]
         Zaplanowana = 1,
-        [Display(Name = "Anulowana")]
-        Anulowana = 2,
+        [Display(Name = "Archiwum")]
+        Archiwum = 2,
         [Display(Name = "Odbyta")]
         Odbyta = 3,
         [Display(Name = "Wolna")]

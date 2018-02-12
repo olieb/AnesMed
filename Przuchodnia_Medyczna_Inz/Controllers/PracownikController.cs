@@ -66,9 +66,10 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         // GET: /Pracownik/Terminy/5
         public ActionResult Terminy(string id)
         {
+
             if (String.IsNullOrEmpty(id))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("MojeWizyty");
             }
 
             Pracownik pracownik = db.Pracownik.Find(id);

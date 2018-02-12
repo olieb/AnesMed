@@ -22,12 +22,18 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         private PrzychodniaContext db = new PrzychodniaContext();
 
         // Post: /Wizyta/
-        public ActionResult Index(string startDate, string endDate, string lekarz, ActionMessage akcja = ActionMessage.Empty, string info = null, string data = null)
+        public ActionResult Index(string startDate, string status, string endDate, string lekarz, ActionMessage akcja = ActionMessage.Empty, string info = null, string data = null)
         {
             List<Wizyta> wizyty;
             var userId = User.Identity.GetUserId();
-            if(User.IsInRole("Pacjent")){
-                wizyty = db.Wizyta.Where(x => x.Pacjent.OsobaID.Equals(userId)).ToList();
+
+            if(User.IsInRole("Pacjent") && !String.IsNullOrEmpty(status)){
+                var stat = (Status)Enum.Parse(typeof(Status), status);
+                wizyty = db.Wizyta.Where(x => x.Pacjent.OsobaID.Equals(userId) && x.Status == stat).ToList();
+            }
+            else if (User.IsInRole("Pacjent"))
+            {
+                wizyty = db.Wizyta.Where(x => x.Pacjent.OsobaID.Equals(userId) && x.Status == Status.Zaplanowana).ToList();
             }
             else
             {
@@ -39,12 +45,12 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
 
             if (!String.IsNullOrEmpty(startDate))
             {
-                start = DateTime.ParseExact(startDate, "dd/mm/yyyy", CultureInfo.InvariantCulture);
+                start = DateTime.Parse(startDate);
                 wizyty = wizyty.Where(x => x.Data >= start).ToList();
             }
             if (!String.IsNullOrEmpty(endDate))
             {
-                end = DateTime.ParseExact(endDate, "dd/mm/yyyy", CultureInfo.InvariantCulture);
+                end = DateTime.Parse(endDate);
                 wizyty = wizyty.Where(x => x.Data <= end).ToList();
             }            
             TempData["startDate"] = startDate;
@@ -58,16 +64,9 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                 ViewBag.Akcja = akcja;
             }
 
-            return View(wizyty.ToList());
+            return View(wizyty);
         }
 
-       
-        //GET: /Wityta/CreateTermin
-        public ActionResult CreateTermin(string id)
-        {
-            //var lekarz = db.Pracownik.Where(x => x.OsobaID.Equals(id));
-            return View("_TerminCreate");
-        }
         //POST
         [HttpPost]
         public ActionResult CreateTermin(DateTime data, DateTime godzina, string uwagi, string Id)
@@ -90,22 +89,18 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                     return RedirectToAction("Terminy", "Pracownik", new { akcja = PracownikActionMessage.Error, info = ex.ToString()});
                 }
         }
+
         [HttpPost]
         public ActionResult Diagnoza(string diagnoza, string Id)
         {
-            Wizyta wizyta = db.Wizyta.Where(x => x.WizytaID == Int32.Parse(Id)).First();
-            try
-            {
+            var wizytaId = Int32.Parse(Id);
+            
+                Wizyta wizyta = db.Wizyta.Where(x => x.WizytaID == wizytaId).First();
+
                 wizyta.Status = Status.Odbyta;
                 wizyta.Diagnoza = diagnoza;
-                db.Wizyta.Add(wizyta);
                 db.SaveChanges();
-                return RedirectToAction("Terminy", "Pracownik", new { id = Id });
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction("Terminy", "Pracownik", new { akcja = PracownikActionMessage.Error, info = ex.ToString() });
-            }
+                return RedirectToAction("MojeWizyty", "Pracownik");
         }
         public ActionResult VisitList(string id, string startDate, string endDate)
         {
@@ -214,6 +209,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             {
                 return HttpNotFound();
             }
+
             return PartialView("_Delete", wizyta);
         }
 
@@ -223,13 +219,30 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         {
             try
             {
+                
                 Wizyta wizyta = db.Wizyta.Find(id);
-                wizyta.PacjentID = null;
-                wizyta.Status = Status.Wolna;
-                db.SaveChanges();
-                if (String.IsNullOrEmpty(pacjentId))
+
+                if (wizyta.Status == Status.Odbyta || wizyta.Data < DateTime.Today)
                 {
-                    return RedirectToAction("Index", new { akcja = ActionMessage.Deleted, info = wizyta.Pracownik.ImieNazwisko, data = wizyta.Data });
+                    wizyta.Status = Status.Archiwum;
+                    db.SaveChanges();
+
+                    if (String.IsNullOrEmpty(pacjentId))
+                    {
+                        return RedirectToAction("Index", new { akcja = "Wizyta została usunięta z twojej listy"});
+                    }
+
+                }
+                else
+                {
+                    wizyta.PacjentID = null;
+                    wizyta.Status = Status.Wolna;
+                    db.SaveChanges();
+
+                    if (String.IsNullOrEmpty(pacjentId))
+                    {
+                        return RedirectToAction("Index", new { akcja = ActionMessage.Deleted, info = wizyta.Pracownik.ImieNazwisko, data = wizyta.Data });
+                    }
                 }
                 return RedirectToAction("Wizyty", "Pacjent", new { id = pacjentId});
             }
