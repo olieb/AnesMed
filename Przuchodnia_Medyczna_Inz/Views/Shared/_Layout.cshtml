@@ -53,7 +53,7 @@
                             </li>
                            
                         }
-                        @if (Request.IsAuthenticated && !(HttpContext.Current.User.IsInRole("Pacjent")))
+                        @if (Request.IsAuthenticated && !(HttpContext.Current.User.IsInRole("Pacjent")) && !(HttpContext.Current.User.IsInRole("Lekarz")))
                         {
                             <li>
                                 <a href="@Url.Action("Index", "Pacjent", new { @class = "scroll" })">
