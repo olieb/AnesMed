@@ -18,7 +18,7 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">Pacjent</label>
                     <div class="col-md-5">
-                        @Html.TextBoxFor(model => model.Pacjent.ImieNazwisko, new { @class = "form-control"})
+                        @Html.TextBoxFor(model => model.Pacjent.ImieNazwisko, new { @class = "form-control", @readOnly = "true" })
                         @Html.ValidationMessageFor(model => model.Pacjent.ImieNazwisko)
                     </div>
                 </div>
@@ -26,7 +26,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Pacjent.Pesel, new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
-                        @Html.TextBoxFor(model => model.Pacjent.Pesel, new { @class = "form-control" })
+                        @Html.TextBoxFor(model => model.Pacjent.Pesel, new { @class = "form-control", @readOnly="true" })
                         @Html.ValidationMessageFor(model => model.Pacjent.Pesel)
                     </div>
                 </div>
