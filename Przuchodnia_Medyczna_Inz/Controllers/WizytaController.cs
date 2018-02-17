@@ -46,12 +46,12 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
 
             if (!String.IsNullOrEmpty(startDate))
             {
-                start = DateTime.Parse(startDate);
+                start = DateTime.ParseExact(startDate, "dd/MM/yyyy", CultureInfo.InvariantCulture); 
                 wizyty = wizyty.Where(x => x.Data >= start).ToList();
             }
             if (!String.IsNullOrEmpty(endDate))
             {
-                end = DateTime.Parse(endDate);
+                end = DateTime.ParseExact(endDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 wizyty = wizyty.Where(x => x.Data <= end).ToList();
             }            
             TempData["startDate"] = startDate;
