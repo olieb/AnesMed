@@ -73,21 +73,16 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         [Authorize(Roles = "Lekarz")]
         public ActionResult CreateTermin(DateTime data, DateTime godzina, string uwagi, string Id)
         {
+                Wizyta wizyta = new Wizyta();
                 try
                 {
-                    Wizyta czyWizytaJuzIstnieje = db.Wizyta
-                                                .Where(x => x.Data == data)
-                                                .Where(x => x.Godzina == godzina).First();
-                    if (czyWizytaJuzIstnieje == null) {
-                        Wizyta wizyta = new Wizyta();
+                        
                         wizyta.Status = Status.Wolna;
                         wizyta.PracownikID = Id;
                         wizyta.Data = data;
                         wizyta.Godzina = godzina;
                         wizyta.Uwagi = uwagi;
                         db.Wizyta.Add(wizyta);                    
-                        db.SaveChanges();
-                    }
                     
                     return RedirectToAction("Terminy", "Pracownik", new { id = Id });
                 }
