@@ -34,31 +34,24 @@
                 <dt>
                     <b>Imie Nazwisko</b>
                 </dt>
-
                 <dd>
                     @Html.DisplayFor(model => model.ImieNazwisko)
                 </dd>
-
                 <dt>
                     @Html.DisplayNameFor(model => model.Telefon)
                 </dt>
-
                 <dd>
                     @Html.DisplayFor(model => model.Telefon)
                 </dd>
-
                 <dt>
                     @Html.DisplayNameFor(model => model.Pesel)
                 </dt>
-
                 <dd>
                     @Html.DisplayFor(model => model.Pesel)
                 </dd>
-
                 <dt>
                     @Html.DisplayNameFor(model => model.Specjalizacja)
                 </dt>
-
                 <dd>
                     @Html.DisplayFor(model => model.Specjalizacja.Nazwa)
                 </dd>
@@ -100,7 +93,7 @@ else
                         <th>Uwagi</th>
                         <th></th>
                     </tr>
-                    @foreach (var item in Model.Wizyty.Where(x => x.PacjentID == null).OrderBy(Wizyty => Wizyty.Data))
+                    @foreach (var item in Model.Wizyty.Where(x => x.PacjentID == null))
                     {
                         <tr>
                             <td>
