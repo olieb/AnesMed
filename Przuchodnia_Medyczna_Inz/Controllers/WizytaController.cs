@@ -65,7 +65,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
                 ViewBag.Akcja = akcja;
             }
 
-            return View(wizyty);
+            return View(wizyty.OrderByDescending(x => x.Data));
         }
 
         //POST
@@ -74,21 +74,34 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
         public ActionResult CreateTermin(DateTime data, DateTime godzina, string uwagi, string Id)
         {
                 Wizyta wizyta = new Wizyta();
+
                 try
                 {
-                        
+                    Wizyta czyWizytaJuzIstnieje = db.Wizyta.Where(x => x.Data == data
+                                                               && x.Godzina.Hour == godzina.Hour
+                                                               && x.Godzina.Minute == x.Godzina.Minute
+                                                               && x.PracownikID.Equals(Id)).First();
+
+                    if (czyWizytaJuzIstnieje == null)
+                    {
                         wizyta.Status = Status.Wolna;
                         wizyta.PracownikID = Id;
                         wizyta.Data = data;
                         wizyta.Godzina = godzina;
                         wizyta.Uwagi = uwagi;
-                        db.Wizyta.Add(wizyta);                    
-                    
-                    return RedirectToAction("Terminy", "Pracownik", new { id = Id });
+                        db.Wizyta.Add(wizyta);
+
+                        db.SaveChanges();
+                        return RedirectToAction("Terminy", "Pracownik", new { id = Id });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Terminy", "Pracownik", new { id = Id, akcja = "Podany termin już istnieje. Podaj inny termin." });
+                    }
                 }
                 catch (Exception ex)
                 {
-                    return RedirectToAction("Terminy", "Pracownik", new { akcja = PracownikActionMessage.Error, info = ex.ToString()});
+                    return RedirectToAction("Terminy", "Pracownik", new { akcja = PracownikActionMessage.Error, info = ex.ToString() });
                 }
         }
 
@@ -111,7 +124,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             var end = DateTime.ParseExact(endDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             var wizyty = db.Wizyta.Where(x => x.Data >= start && x.Data <= end && x.PracownikID.Equals(id) && x.Status == Status.Wolna).ToList();
 
-            return PartialView("_VisitList", wizyty.ToList());
+            return PartialView("_VisitList", wizyty.OrderByDescending(x => x.Data).ToList());
         }
         // GET: /Wizyta/Create
         public ActionResult Create()

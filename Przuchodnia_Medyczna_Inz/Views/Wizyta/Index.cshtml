@@ -36,12 +36,14 @@ else
 {
      <div class="title col-md-7 col-md-offset-2"> Lista twoich wizyt</div>
 }
-        <div class="col-md-3">
+    @if (Request.IsAuthenticated && !User.IsInRole("Administrator")) { 
+           <div class="col-md-3">
             <a href="@Url.Action("Create", "Wizyta")" class="btn btn-success">
                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                 Umów wizytę lub badanie
             </a>
         </div>
+    }
     </div>
 </div>
 <br />

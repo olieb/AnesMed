@@ -64,9 +64,9 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             return View(model);
         }
         
-        // GET: /Pracownik/Terminy/5
+        // GET: /Pracownik/Terminy/id
        
-        public ActionResult Terminy(string id)
+        public ActionResult Terminy(string id , string akcja)
         {
 
             if (String.IsNullOrEmpty(id))
@@ -77,6 +77,7 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             Pracownik pracownik = db.Pracownik.Find(id);
             ViewBag.StanowiskoNazwa = db.Stanowisko.Where(x => x.StanowiskoID == pracownik.StanowiskoID).FirstOrDefault().Nazwa;
             ViewBag.LekarzID = id;
+            ViewBag.Akcja = akcja;
 
             if (pracownik == null)
             {
@@ -84,11 +85,14 @@ namespace Przuchodnia_Medyczna_Inz.Controllers
             }
             return View(pracownik);
         }
+
         [Authorize(Roles = "Lekarz")]
         public ActionResult MojeWizyty(){
+          
            var userId = User.Identity.GetUserId();
            var test = User.Identity.IsAuthenticated;
            var test1 = User.IsInRole("Pracownik");
+
             if (String.IsNullOrEmpty(userId))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

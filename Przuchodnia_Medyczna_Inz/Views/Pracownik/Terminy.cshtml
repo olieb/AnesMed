@@ -8,10 +8,18 @@
         background-color: rgba(163, 226, 254, 0.24);
     }
 </style>
+
 <div class="col-md-8 col-md-offset-4">
     <br />
     <h2 class="title">Terminy</h2>
 </div>
+
+@if(@ViewBag.Akcja != null)
+{
+<div class="alert alert-danger">
+    <h4>Podany termin już istnieje. Podaj inny termin.</h4>
+</div>
+}
 @Html.ValidationSummary(true)
 @Html.HiddenFor(model => model.OsobaID)
 <div class="container">

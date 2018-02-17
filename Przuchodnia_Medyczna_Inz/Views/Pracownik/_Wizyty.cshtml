@@ -48,11 +48,22 @@
                     </td>
                     <td></td>
                     @if(Request.IsAuthenticated && User.IsInRole("Lekarz")){
-                    <td>                      
-                        <a href="@Url.Action("Edit", "Wizyta", new { id = item.WizytaID })" data-toggle="modal" data-target="#diagnoza-add" title="Postaw diagnozę">
-                            <i class="fa fa-heartbeat" style="font-size:24px"></i>
-                        </a>
-                    </td>
+                        if (item.Data <= DateTime.Now)
+                        {     
+                            <td>                      
+                                <a href="@Url.Action("Edit", "Wizyta", new { id = item.WizytaID })" data-toggle="modal" data-target="#diagnoza-add" title="Postaw diagnozę">
+                                    <i class="fa fa-heartbeat" style="font-size:24px"></i>
+                                </a>
+                            </td>
+                        }
+                    else
+                    {
+                            <td>                      
+                                <a href="#" data-toggle="modal" title="Nie mozna jeszcze postawic diagnozy">
+                                    <i class="fa fa-heart-o" style="font-size:24px"></i>
+                                </a>
+                            </td>
+                    }
                     }
                 </tr>
             }
